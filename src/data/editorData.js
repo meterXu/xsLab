@@ -40,6 +40,13 @@ export default {
         {title: 'iframe', icon: 'chartsIcon/dom_iframe.png', type: 'dom', chart: 'iframe'},
         {title: '幻灯片', icon: 'chartsIcon/dom_slide.png', type: 'dom', chart: 'slide'}
       ]
+    },
+    {
+      title: '开发组件',
+      icon: 'dev',
+      sub: [
+        {title: '占位框', icon: 'chartsIcon/dev_placeholderBox.png', type: 'dev', chart: 'placeholderBox'}
+      ]
     }
   ]
 }
