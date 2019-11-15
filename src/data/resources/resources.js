@@ -17,6 +17,7 @@ import text from './dom/text'
 import iframe from './dom/iframe'
 import container from './dom/container'
 import slide from './dom/slide'
+import placeholderBox from './dev/placeholderBox'
 export default {
   initOptions: {
     eCharts: {
@@ -38,6 +39,9 @@ export default {
       iframe: iframe.resource,
       container: container.resource,
       slide: slide.resource
+    },
+    dev: {
+      placeholderBox: placeholderBox.resource
     }
   },
   configOptions: {
@@ -60,6 +64,9 @@ export default {
       iframe: iframe.option,
       container: container.option,
       slide: slide.option
+    },
+    dev: {
+      placeholderBox: placeholderBox.option
     }
   }
 }
