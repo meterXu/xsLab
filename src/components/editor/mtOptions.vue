@@ -15,7 +15,7 @@
           <Collapse simple>
             <Panel v-for="(panel,pi) in tab.con" :name="pi.toString()" :key="pi" >
               {{panel.name}}
-              <Form slot="content" label-position="left" :label-width="70">
+              <Form slot="content" label-position="left" :label-width="100">
                 <FormItem v-for="(fItem,fi) in panel.sub" :key="fi" :label="fItem.name">
                   <mtFormItem :fItem="fItem" :panel="panel" :opNode="opNode" @radioChange="radioChange" @showFullCode="showFullCode"></mtFormItem>
                 </FormItem>
@@ -290,7 +290,7 @@ export default {
     margin-left: 148px;
   }
   .titleCon_span{
-    margin-left:76px ;
+    margin-left:70px ;
   }
   .tableContainer{
     overflow: auto;

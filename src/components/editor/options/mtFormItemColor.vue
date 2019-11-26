@@ -1,6 +1,6 @@
 <template>
     <div>
-      <ColorPicker v-model="tempValue"  @on-change="onChange" :size="size"/>
+      <ColorPicker v-model="tempValue" alpha  @on-change="onChange" :size="size"/>
     </div>
 </template>
 
