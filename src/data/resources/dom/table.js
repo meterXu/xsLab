@@ -150,8 +150,7 @@ const table = {
           {key: 'color', name: '前景色', type: 'color'},
           {key: 'backgroundColor', name: '背景色', type: 'color'},
           {key: 'borderBottomColor', name: '下边框色', type: 'color'},
-          {key: 'borderRightColor', name: '右边框色', type: 'color'},
-          { key: '', type: 'div', style: { height: 240 } }
+          {key: 'borderRightColor', name: '右边框色', type: 'color'}
         ]
       }, {
         key: 'options/td',

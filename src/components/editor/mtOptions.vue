@@ -311,9 +311,9 @@ export default {
   /* 滚动条滑块 */
   ::-webkit-scrollbar-thumb {
     border-radius:0px;
-    background:#939393;
+    background:none;
   }
   ::-webkit-scrollbar-thumb:window-inactive {
-    background:#fd5f5f;
+    background:none;
   }
 </style>

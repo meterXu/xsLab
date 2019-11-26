@@ -69,7 +69,8 @@ const slide = {
           name: '分页',
           sub: [
             {key: 'normal', name: '正常', type: 'color'},
-            {key: 'active', name: '活动', type: 'color'}
+            {key: 'active', name: '活动', type: 'color'},
+            { key: '', type: 'div', style: { height: 200 } }
           ]
         }
       ]
