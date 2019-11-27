@@ -2,17 +2,17 @@
     <div id="mtDbSetting">
       <div id="setProp">
         <div id="setPropContent">
-          <Form ref="formValidate" :label-width="100" :model="config" :rules="ruleValidate">
+          <Form ref="formValidate" :label-width="100" :model="tmpConfig" :rules="ruleValidate">
             <FormItem label="后端地址" prop="baseUrl">
-              <Input v-model="config.baseUrl" placeholder="请输入后端地址..."/>
+              <Input v-model="tmpConfig.baseUrl" placeholder="请输入后端地址..."/>
             </FormItem>
             <FormItem label="编辑器主题" prop="editorTheme" style="text-align: left">
-              <RadioGroup v-model="config.editorTheme" type="button">
+              <RadioGroup v-model="tmpConfig.editorTheme" type="button">
                 <Radio  v-for="(item, id) in commonData.editorTheme" :label="item.value" :key="id"><span>{{item.text}}</span></Radio>
               </RadioGroup>
             </FormItem>
             <FormItem label="图表主题" prop="chartNodeTheme" style="text-align: left">
-              <RadioGroup v-model="config.chartNodeTheme" type="button">
+              <RadioGroup v-model="tmpConfig.chartNodeTheme" type="button">
                 <Radio v-for="(item, id) in commonData.theme" :label="item.value" :key="id"><span>{{item.text}}</span></Radio>
               </RadioGroup>
             </FormItem>
@@ -32,7 +32,12 @@ export default {
   data () {
     return {
       commonData: commonData,
-      config: this.$baseConfig,
+      tmpConfig: {
+        editorTheme: 'light',
+        chartNodeTheme: 'light',
+        baseUrl: null,
+        actionUrl: null
+      },
       ruleValidate: {
         baseUrl: [
           { required: true, message: '后端地址必填', trigger: 'blur' }
@@ -48,15 +53,23 @@ export default {
   },
   methods: {
     saveSetProp: function () {
-      this.$ajax.post(this.$baseConfig.baseUrl + this.$baseConfig.actionUrl.validateBaseUrl).then(c => {
-        if (c.data) {
-          localStorage[this.$baseConfig.localStorageKey] = JSON.stringify(this.$baseConfig)
-          this.$Message.success('保存成功！')
+      this.$refs.formValidate.validate(c => {
+        if (c) {
+          this.$ajax.post(this.tmpConfig.baseUrl + this.tmpConfig.actionUrl.validateBaseUrl).then(c => {
+            if (c.data) {
+              Object.assign(this.commonConfig, this.tmpConfig)
+              localStorage[this.commonConfig.localStorageKey] = JSON.stringify(this.commonConfig)
+              this.$Message.success('保存成功！')
+            }
+          }).catch(c => {
+            this.$Message.error('后台地址错误，请输入正确的后台地址！')
+          })
         }
-      }).catch(c => {
-        this.$Message.error('后台地址错误，请输入正确的后台地址！')
       })
     }
+  },
+  beforeMount () {
+    Object.assign(this.tmpConfig, this.commonConfig)
   }
 }
 </script>

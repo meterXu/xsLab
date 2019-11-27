@@ -19,7 +19,7 @@ export default {
   },
   methods: {
     getDataBaseList () {
-      this.$ajax.post(this.$baseConfig.baseUrl + this.$baseConfig.actionUrl.getDataBaseList).then(c => {
+      this.$ajax.post(this.commonConfig.baseUrl + this.commonConfig.actionUrl.getDataBaseList).then(c => {
         this.editorData.databaseList = c.data
       })
     }

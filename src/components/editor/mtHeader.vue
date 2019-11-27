@@ -148,7 +148,7 @@ export default {
       that.$Message.loading({
         content: '正在努力组装中，请稍等……'
       })
-      that.$ajax.post(that.$baseConfig.baseUrl + that.$baseConfig.actionUrl.DownloadCanvas, {
+      that.$ajax.post(that.commonConfig.baseUrl + that.commonConfig.actionUrl.DownloadCanvas, {
         canvasOid: this.$parent.mtCanvasOptions.id,
         type: type
       }).then(c => {
@@ -279,7 +279,6 @@ export default {
     color: #22579d;
     right: 8px;
     cursor: pointer;
-    top: 8px;
     &:hover{
       color: #2380cc;
     }

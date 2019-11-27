@@ -167,7 +167,7 @@ export default {
       let that = this
       this.$refs['formValidate'].validate((valid) => {
         if (valid) {
-          that.$ajax.post(that.$baseConfig.baseUrl + this.$baseConfig.actionUrl.SaveDataSource, that.activeDbProp).then(c => {
+          that.$ajax.post(that.commonConfig.baseUrl + this.commonConfig.actionUrl.SaveDataSource, that.activeDbProp).then(c => {
             if (c.data) {
               if (c.data.code) {
                 that.$Message.success('保存成功!')
@@ -200,7 +200,7 @@ export default {
         content: '确定删除这个数据源吗?',
         onOk: function () {
           if (that.activeDbProp.value) {
-            that.$ajax.post(that.$baseConfig.baseUrl + this.$baseConfig.actionUrl.DelDataSource, {
+            that.$ajax.post(that.commonConfig.baseUrl + this.commonConfig.actionUrl.DelDataSource, {
               oid: that.activeDbProp.value
             }).then(c => {
               if (c.data) {
