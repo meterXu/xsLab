@@ -2,6 +2,7 @@
     <div id="mtDbSetting">
       <div id="setProp">
         <div id="setPropContent">
+          <Alert show-icon type="warning">验证并保存后才生效</Alert>
           <Form ref="formValidate" :label-width="100" :model="tmpConfig" :rules="ruleValidate">
             <FormItem label="后端地址" prop="baseUrl">
               <Input v-model="tmpConfig.baseUrl" placeholder="请输入后端地址..."/>
@@ -92,7 +93,7 @@ export default {
   #setPropContent{
     width: 600px;
     margin:0 auto;
-    margin-top: 80px;
+    margin-top: 60px;
     margin-bottom: 40px;
   }
   .ivu-form-item{
