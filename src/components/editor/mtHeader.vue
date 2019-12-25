@@ -1,6 +1,7 @@
 <template>
     <header id="header">
       <div class="block_header">
+        <div class="logo"></div>
         <div class="title">XSLab</div>
       </div>
       <div class="mtCanvasInfo">
@@ -228,13 +229,25 @@ export default {
     width: 200px;
     height: 49px;
     line-height: 49px;
-    text-align: center;
     display: inline-block;
   }
+  .logo{
+    display: inline-block;
+    background: url("../../assets/logo.png") no-repeat center center;
+    background-size: contain;
+    width: 32px;
+    height: 100%;
+    float: left;
+    margin-left: 12px;
+  }
   .title{
+    height: 100%;
+    display: inline-block;
     font-size: 24px;
     font-weight: bold;
-    font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "\5FAE\8F6F\96C5\9ED1", Arial, sans-serif
+    font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "\5FAE\8F6F\96C5\9ED1", Arial, sans-serif;
+    float: left;
+    margin-left: 6px;
   }
   .mtCanvasTool,.mtEditorTool{
     display: inline-block;
