@@ -235,7 +235,7 @@ export default {
     display: inline-block;
     background: url("../../assets/logo.png") no-repeat center center;
     background-size: contain;
-    width: 32px;
+    width: 23px;
     height: 100%;
     float: left;
     margin-left: 12px;
