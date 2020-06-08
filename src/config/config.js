@@ -18,5 +18,5 @@ let config = {
 if (localStorage[config.localStorageKey]) {
   config = Object.assign(config, JSON.parse(localStorage[config.localStorageKey]))
 }
-config.baseUrl = config.baseUrl || 'http://192.168.12.105:11535'
+config.baseUrl = config.baseUrl || 'http://workcollect.isaacxu.com'
 export default config

@@ -30,6 +30,12 @@ export default {
         {title: '南丁格尔图', icon: 'chartsIcon/pie_rose.png', type: 'eCharts', chart: 'pieRose'}
       ]
     },
+    { title: '仪表盘',
+      icon: 'gauge',
+      sub: [
+        {title: '简单仪表盘', icon: 'chartsIcon/gauge_simple.png', type: 'eCharts', chart: 'gauge'}
+      ]
+    },
     { title: '经典素材',
       icon: 'basic',
       sub: [

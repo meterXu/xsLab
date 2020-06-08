@@ -18,6 +18,7 @@ import iframe from './dom/iframe'
 import container from './dom/container'
 import slide from './dom/slide'
 import placeholderBox from './dev/placeholderBox'
+import gauge from './eCharts/gauge'
 export default {
   initOptions: {
     eCharts: {
@@ -29,7 +30,8 @@ export default {
       pieRose: pieRose.resource,
       barLabelRotation: barLabelRotation.resource,
       lineBar: lineBar.resource,
-      lineMulti: lineMulti.resource
+      lineMulti: lineMulti.resource,
+      gauge: gauge.resource
     },
     dom: {
       canvas: canvas.resource,
@@ -54,7 +56,8 @@ export default {
       pieRose: pieRose.option,
       barLabelRotation: barLabelRotation.option,
       lineBar: lineBar.option,
-      lineMulti: lineMulti.option
+      lineMulti: lineMulti.option,
+      gauge: gauge.option
     },
     dom: {
       canvas: canvas.option,
