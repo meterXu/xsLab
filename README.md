@@ -1,5 +1,7 @@
 # xsLab
-> :bar_chart: 一个在线可视化图表编辑器、可在线绘制图表页面，也可导出json，自定义开发。
+> :bar_chart: 在线可视化图表编辑器。
+
+绘制图表、绑定数据源、在线预览、导出图表、自定义开发。
 
 [官网](https://xsclub.isaacxu.com/#/) | [Demo](http://dev.isaacxu.com/xslab/#/)
 
