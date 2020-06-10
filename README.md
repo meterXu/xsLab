@@ -1,7 +1,7 @@
 # xsLab
 > :bar_chart: 一个在线可视化图表编辑器、可在线绘制图表页面，也可导出json，自定义开发。
 
-[Demo](http://dev.isaacxu.com/xslab/#/) | [官网](https://xsclub.isaacxu.com/#/)
+[官网](https://xsclub.isaacxu.com/#/) | [Demo](http://dev.isaacxu.com/xslab/#/)
 
 ## 界面
 
@@ -31,7 +31,7 @@
 
 ``` bash
 # 克隆
-git clone 
+git clone https://github.com/meterXu/xsLab.git
 
 # 初始化
 npm install
