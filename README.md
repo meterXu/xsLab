@@ -1,7 +1,7 @@
 # xsLab
 > :bar_chart: 一个在线可视化图表编辑器
 
-[Demo](http://xsclub.isaacxu.com/xslab/#/)
+[Demo](http://dev.isaacxu.com/xslab/#/)
 
 ## 脚本命令
 
