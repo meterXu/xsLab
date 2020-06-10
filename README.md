@@ -50,12 +50,13 @@ npm run dev
 npm run build
 ```
 ## 用户手册
-
 [点我跳转](https://xsclub.isaacxu.com/#/xc_doc/0/body/1/0)
 
 ## 核心组件
 [vue-draw-xs](https://github.com/meterXu/vue-draw-xs)
 
 ## 开发手册
-
 [点我跳转](https://xsclub.isaacxu.com/#/xc_doc/1/body/1/0)
+
+## 后端
+[xsCollect](https://github.com/meterXu/xsCollect)
