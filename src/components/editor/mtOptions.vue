@@ -142,7 +142,7 @@ export default {
           } else {
             tableConfig.data = JSON.parse(d)
           }
-          if (tableConfig.data) {
+          if (tableConfig.data && tableConfig.data.length > 0) {
             // 获取数据列配置
             Object.keys(tableConfig.data[0]).forEach(p => {
               tableConfig.columns.push({

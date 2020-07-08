@@ -154,25 +154,26 @@ export default {
         method: 'get',
         responseType: 'blob'
       }).then(c => {
+        that.$Message.destroy()
         if (!c.data) {
-          that.$Message.destroy()
           that.$Message.warning('组装失败！')
-        }
-        that.isDisableDownload = false
-        that.isShowDownload = false
-        let blob = new Blob([c.data])
-        if (window.navigator.msSaveOrOpenBlob) {
-          navigator.msSaveBlob(blob, `${cavid}_${type}.zip`)
         } else {
-          let link = document.createElement('a')
-          let evt = document.createEvent('HTMLEvents')
-          evt.initEvent('click', false, false)
-          link.href = URL.createObjectURL(blob)
-          link.download = `${cavid}_${type}.zip`
-          link.style.display = 'none'
-          document.body.appendChild(link)
-          link.click()
-          window.URL.revokeObjectURL(link.href)
+          that.isDisableDownload = false
+          that.isShowDownload = false
+          let blob = new Blob([c.data])
+          if (window.navigator.msSaveOrOpenBlob) {
+            navigator.msSaveBlob(blob, `${cavid}_${type}.zip`)
+          } else {
+            let link = document.createElement('a')
+            let evt = document.createEvent('HTMLEvents')
+            evt.initEvent('click', false, false)
+            link.href = URL.createObjectURL(blob)
+            link.download = `${cavid}_${type}.zip`
+            link.style.display = 'none'
+            document.body.appendChild(link)
+            link.click()
+            window.URL.revokeObjectURL(link.href)
+          }
         }
       }).catch(c => {
         that.$Message.error(c.message)
