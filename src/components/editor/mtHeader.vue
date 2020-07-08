@@ -71,7 +71,6 @@
           </ul>
         </div>
       </Modal>
-      <a ref="download" style="display: none;"></a>
     </header>
 </template>
 
@@ -145,26 +144,36 @@ export default {
     },
     downCanvas (type) {
       let that = this
+      let cavid = this.$parent.mtCanvasOptions.id
       that.isDisableDownload = true
       that.$Message.loading({
         content: '正在努力组装中，请稍等……'
       })
-      that.$ajax.post(that.commonConfig.baseUrl + that.commonConfig.actionUrl.DownloadCanvas, {
-        canvasOid: this.$parent.mtCanvasOptions.id,
-        type: type
+      that.$ajax({
+        url: that.commonConfig.baseUrl + that.commonConfig.actionUrl.DownloadCanvas + `?canvasOid=${cavid}&type=${type}`,
+        method: 'get',
+        responseType: 'blob'
       }).then(c => {
-        if (c.data) {
-          that.downloadPath = c.data
-          that.$refs['download'].setAttribute('href', that.downloadPath)
-          that.$refs['download'].click()
-          that.$Message.destroy()
-          that.downloadPath = ''
-        } else {
+        if (!c.data) {
           that.$Message.destroy()
           that.$Message.warning('组装失败！')
         }
         that.isDisableDownload = false
         that.isShowDownload = false
+        let blob = new Blob([c.data])
+        if (window.navigator.msSaveOrOpenBlob) {
+          navigator.msSaveBlob(blob, `${cavid}_${type}.zip`)
+        } else {
+          let link = document.createElement('a')
+          let evt = document.createEvent('HTMLEvents')
+          evt.initEvent('click', false, false)
+          link.href = URL.createObjectURL(blob)
+          link.download = `${cavid}_${type}.zip`
+          link.style.display = 'none'
+          document.body.appendChild(link)
+          link.click()
+          window.URL.revokeObjectURL(link.href)
+        }
       }).catch(c => {
         that.$Message.error(c.message)
         that.isDisableDownload = false
