@@ -2,7 +2,7 @@
 
 > 可视化图表编辑器，包含绘制图表、绑定数据源、在线预览、导出图表、自定义开发等功能。
 
-[官网](https://xsclub.isaacxu.com/#/) | [Demo](https://xsclub.isaacxu.com/xslab/#/)
+[介绍](https://xsclub.isaacxu.com/#/) | [Demo](https://xsclub.isaacxu.com/xslab/#/)
 
 *也许你需要一个这样的图表工具:smirk:*
 
