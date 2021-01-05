@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@tweenjs/tween.js": "^17.4.0",
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "clipboard": "^2.0.4",
     "iview": "^3.5.3",
     "lodash": "^4.17.11",
