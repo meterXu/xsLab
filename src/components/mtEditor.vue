@@ -134,7 +134,7 @@ export default {
   },
   computed: {
     canvasUrl: function () {
-      return window.location.href + 'view/' + this.mtCanvasOptions.id
+      return `${window.location.origin}${window.location.pathname}#/view/${this.mtCanvasOptions.id}`
     },
     canvasName: function () {
       if (this.showCanvas) {

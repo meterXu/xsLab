@@ -9490,10 +9490,10 @@ vue-axios@^2.1.4:
   resolved "https://registry.yarnpkg.com/vue-axios/-/vue-axios-2.1.5.tgz#1af4bf1218ed71309c76afb38d0f683e312c24a7"
   integrity sha512-th5xVbInVoyIoe+qY+9GCflEVezxAvztD4xpFF39SRQYqpoKD2qkmX8yv08jJG9a2SgNOCjirjJGSwg/wTrbmA==
 
-vue-draw-xs@^1.1.7:
-  version "1.1.7"
-  resolved "https://registry.yarnpkg.com/vue-draw-xs/-/vue-draw-xs-1.1.7.tgz#8bfa86ce0cb94efe81b16b11ebdaa1076c9e9190"
-  integrity sha512-qqvMQprHOl3Zc9cPNEfXIv/4BTQ2V9SrL3q+2YmDFrgtRkq9Vjd9mIzskir0xXATZxEXtUhCdLbCD92F2D2D3Q==
+vue-draw-xs@^1.1.9:
+  version "1.1.9"
+  resolved "http://192.168.126.25:80/npm/vue-draw-xs/-/vue-draw-xs-1.1.9.tgz#a3d1ac78b98cbdb33889177d5a62f087095f3f96"
+  integrity sha512-2DVOCJkHMpCvBMNU2SDa9gtcOMy+VDXdD0BXOoaoHLd7s5t1gk+luFl1eeoCEPvB5GVKq0Ti2OZw0kFkBvRUqA==
   dependencies:
     "@tweenjs/tween.js" "^17.4.0"
     axios "^0.18.0"
