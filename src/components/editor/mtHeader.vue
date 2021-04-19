@@ -227,8 +227,8 @@ export default {
     width: 100%;
     height: 50px;
     line-height: 50px;
-    background: #f5f5f5;
-    border-bottom: 1px solid #ddd;
+    background: var(--header-bg-color);
+    border-bottom: 1px solid var(--header-border-color);
     top: 0;
     right: 0;
     left: 0;

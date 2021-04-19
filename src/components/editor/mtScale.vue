@@ -28,7 +28,7 @@ export default {
     left: 200px;
     bottom: 0;
     right: 0px;
-    background: url("../../assets/scaleBg.png") repeat repeat;
+    background: var(--scale-bg-img) repeat repeat;
     overflow: auto;
   }
   /* 设置滚动条的样式 */

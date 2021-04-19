@@ -52,8 +52,8 @@ export default {
     float: left;
     width: 200px;
     height: auto;
-    background: #f5f5f5;
-    border-right: 1px solid #ddd;
+    background: var(--menu-bg-color);
+    border-right: 1px solid var(--menu-border-color);
     box-shadow: 2px 0px 2px 0 rgba(0, 0, 0, 0.1);
     z-index: 2499;
   }
@@ -61,7 +61,11 @@ export default {
     text-align: left;
     height: 39px;
     line-height: 39px;
-    border-bottom: 1px solid #dddddd;
+    background: var(--menu-bg-color);
+    border-bottom: 1px solid var(--menu-border-color);
+  }
+  #menu .ivu-menu{
+    background: var(--menu-bg-color);
   }
   .titleCon{
     font-size: 16px;
