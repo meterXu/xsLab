@@ -3,17 +3,18 @@
     <template v-if="showOp">
     <div class="title">
       <div class="titleCon">
+        <span class="titleCon_span">参数配置</span>
         <ButtonGroup size="small">
           <Button v-if="this.opNode.config.data" type="primary" @click="testDataSource"><Icon type="md-checkmark" />测试</Button>
-          <Button type="primary" @click="saveDataSource"><Icon type="md-download" />保存</Button>
+<!--          <Button type="primary" @click="saveDataSource"><Icon type="md-download" />保存</Button>-->
         </ButtonGroup>
-        <span class="titleCon_span">参数配置</span></div>
+        </div>
     </div>
     <template>
-      <Tabs v-if="showOp">
+      <Tabs v-if="showOp" class="xslab-tabs">
         <TabPane v-for="(tab,ti) in activeOptions.config" :key="ti" :label="tab.type" :icon="tab.icon" :style="tabPaneStyle">
-          <Collapse simple>
-            <Panel v-for="(panel,pi) in tab.con" :name="pi.toString()" :key="pi" >
+          <Collapse simple class="xslab-collapse">
+            <Panel v-for="(panel,pi) in tab.con" :name="pi.toString()" :key="pi">
               {{panel.name}}
               <Form slot="content" label-position="left" :label-width="100">
                 <FormItem v-for="(fItem,fi) in panel.sub" :key="fi" :label="fItem.name">
@@ -257,8 +258,8 @@ export default {
     top: 50px;
     width: 280px;
     bottom: 0;
-    background: #f5f5f5;
-    border-left: 1px solid #ddd;
+    background: var(--options-bg-color,#f5f5f5);
+    border-left: 1px solid var(--options-border-color,#ddd);
     overflow:auto;
     z-index: 2499;
     box-shadow: -2px 0px 2px 0 rgba(0, 0, 0, 0.1);
@@ -267,7 +268,7 @@ export default {
     text-align: right;
     height: 39px;
     line-height: 39px;
-    border-bottom: 1px solid #dddddd;
+    border-bottom: 1px solid var(--collapse-item-border-color,#dddddd);
   }
   .titleCon{
     font-size: 16px;
@@ -275,6 +276,10 @@ export default {
     margin-right: 20px;
     color: #2c3e50;;
     font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "\5FAE\8F6F\96C5\9ED1", Arial, sans-serif;
+    text-align: left;
+  }
+  .xslab-tabs{
+    background: var(--tabs-bg-color);
   }
   .ivu-collapse {
     border-right: none;
@@ -289,8 +294,16 @@ export default {
   .mt_panel_title_control{
     margin-left: 148px;
   }
+  .xslab-collapse{
+    background: var(--collapse-bg-color);
+    border-color: var(--collapse-border-color);
+  }
+  .ivu-collapse>.ivu-collapse-item{
+    border-color: var(--collapse-item-border-color);
+  }
   .titleCon_span{
-    margin-left:70px ;
+    margin-left:20px ;
+    margin-right: 20px;
   }
   .tableContainer{
     overflow: auto;
@@ -316,4 +329,9 @@ export default {
   ::-webkit-scrollbar-thumb:window-inactive {
     background:none;
   }
+</style>
+<style>
+.xslab-collapse .ivu-collapse-content{
+  background: var(--collapse-bg-color);
+}
 </style>

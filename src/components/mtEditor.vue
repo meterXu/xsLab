@@ -9,7 +9,8 @@
               @getCanvasUrl="getCanvasUrl"
               @dbManager="dbManager"
               @downCanvas="downCanvas"
-              @dbSetting="dbSetting">
+              @dbSetting="dbSetting"
+              @saveDataSource="saveDataSource">
     </mtHeader>
     <mtMenu @dragStart="menuDragStart"></mtMenu>
     <mtScale ref="mtScale">
@@ -27,7 +28,7 @@
         </Xsc>
       </template>
     </mtScale>
-    <mtOptions v-if="opNode" :opNode="opNode" @saveOption="saveOption" @changeOption="changeOption"></mtOptions>
+    <mtOptions ref="mtOptions" v-if="opNode" :opNode="opNode" @saveOption="saveOption" @changeOption="changeOption"></mtOptions>
     <Modal :width="400"
            v-model="showAddCanvasModal"
            :mask-closable="false"
@@ -422,6 +423,9 @@ export default {
     },
     changeOption () {
       this.tmpCanvasState = 0
+    },
+    saveDataSource () {
+      this.$refs.mtOptions.saveDataSource()
     }
   },
   created () {

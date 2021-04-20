@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import commonData from '@/data/resources/commonData'
+import commonData from '../../data/resources/commonData'
 export default {
   name: 'mtSetting',
   data () {
@@ -50,6 +50,14 @@ export default {
           { required: true, message: '图表主题必选', trigger: 'blur' }
         ]
       }
+    }
+  },
+  watch:{
+    'tmpConfig.editorTheme':{
+      handler:function (nv){
+        document.getElementsByTagName('html')[0].setAttribute('data-theme', nv)
+      },
+      deep: true
     }
   },
   methods: {
@@ -79,7 +87,7 @@ export default {
   #mtDbSetting{
     width: 100%;
     height: 100%;
-    background: #d0d0d0;
+    background: var(--db-bg-color,#d0d0d0);
     text-align: center;
   }
   #setProp{
@@ -87,14 +95,12 @@ export default {
     min-height: 100px;
     margin-top: 100px;
     display: inline-block;
-    background: #fff;
+    background-color: var(--prop-bg-color,#fff);
     border-radius: 5px;
   }
   #setPropContent{
     width: 600px;
-    margin:0 auto;
-    margin-top: 60px;
-    margin-bottom: 40px;
+    margin: 60px auto 40px;
   }
   .ivu-form-item{
     margin-bottom: 20px !important;

@@ -7,6 +7,7 @@
 <script>
 import editorData from './data/editorData'
 import mtEditor from './components/mtEditor'
+import './assets/styles/ivu-dark.less'
 export default {
   name: 'App',
   components: {
@@ -30,9 +31,9 @@ export default {
       top: 80,
       duration: 3
     })
+  },
+  mounted () {
+     document.getElementsByTagName('html')[0].setAttribute('data-theme', this.commonConfig.editorTheme)
   }
 }
 </script>
-
-<style scoped>
-</style>

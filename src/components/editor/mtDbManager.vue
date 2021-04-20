@@ -228,7 +228,7 @@ export default {
   #mtDbManager{
     width: 100%;
     min-height: 100%;
-    background: #d0d0d0;
+    background: var(--db-bg-color,#d0d0d0);
     text-align: center;
   }
   #mtDbManager_ul{
@@ -270,13 +270,12 @@ export default {
     height: 500px;
     margin-top: 100px;
     display: inline-block;
-    background: #fff;
+    background: var(--prop-bg-color,#fff);
     border-radius: 5px;
   }
   #dbPropContent{
     width: 400px;
-    margin:0 auto;
-    margin-top: 80px;
+    margin: 80px auto 0;
   }
   .ivu-form-item{
     margin-bottom: 20px !important;

@@ -1,6 +1,1 @@
-/build/
-/config/
-/dist/
-/*.js
-.idea
-/test/unit/coverage/
+/src/

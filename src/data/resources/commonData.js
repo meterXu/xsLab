@@ -5,7 +5,8 @@ let commonData = {
     {text: 'oracle', value: '1'}
   ],
   editorTheme: [
-    {text: '明亮', value: 'light'}
+    {text: '明亮', value: 'light'},
+    {text: '暗黑', value: 'dark'}
   ],
   theme: [
     {text: 'normal', value: 'normal'},

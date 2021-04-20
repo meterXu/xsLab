@@ -7,7 +7,7 @@
       <div class="mtCanvasInfo">
         <div class="mtCanvasState">
           <Button v-if="canvasState===1" type="success" size="small" icon="md-done-all">{{canvasState | fmCanvasState}}</Button>
-          <Button v-else-if="canvasState===0" type="dashed" size="small" icon="ios-medical">{{canvasState | fmCanvasState}}</Button>
+          <Button v-else-if="canvasState===0" @click="saveDataSource" type="dashed" size="small" icon="ios-medical">{{canvasState | fmCanvasState}}</Button>
           <Button v-else-if="canvasState===-1" loading type="dashed" size="small">{{canvasState | fmCanvasState}}</Button>
         </div>
         <div class="mtCanvasName"><span>{{canvasName||'需要画布进行操作'}}</span></div>
@@ -34,12 +34,12 @@
                 title="管理数据源"
                 custom-icon="iconfont icon-database"
                 @click="dbManager"
-                :replace="true"></Button>
+                :replace="true" class="header-icon-btn"></Button>
         <Button size="small"
                 title="系统设置"
                 icon="ios-construct"
                 @click="dbSetting"
-                shape="circle"></Button>
+                shape="circle" class="header-icon-btn"></Button>
       </div>
       <Modal :width="800"
              v-model="isShowJson"
@@ -141,6 +141,9 @@ export default {
       } else {
         this.$Message.warning('请先打开一个画布！')
       }
+    },
+    saveDataSource () {
+      this.$emit('saveDataSource')
     },
     downCanvas (type) {
       let that = this
@@ -340,5 +343,8 @@ export default {
     font-size: 16px;
     height: 30px;
     line-height: 10px;
+  }
+  .header-icon-btn{
+    margin-left: 5px;
   }
 </style>
