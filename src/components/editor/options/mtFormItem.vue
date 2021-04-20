@@ -121,32 +121,32 @@
     <template v-else-if="fItem.type==='select'">
       <template v-if="panel.key===''">
         <Select size="small" v-model="opNode.config[fItem.key]">
-          <Option v-for="(item,i) in fItem.data" :key="i" :value="item.value" >{{item.text}}</Option>
+          <Option v-for="item in fItem.data" :key="item.text+item.value" :value="item.value" >{{item.text}}</Option>
         </Select>
       </template>
       <template v-else-if="panel.key.split('/').length===1">
         <Select size="small" v-model="opNode.config[panel.key][fItem.key]">
-          <Option v-for="(item,i) in fItem.data" :key="i" :value="item.value" >{{item.text}}</Option>
+          <Option v-for="item in fItem.data" :key="item.text+item.value" :value="item.value" >{{item.text}}</Option>
         </Select>
       </template>
       <template v-else-if="panel.key.split('/').length===2">
         <Select size="small" v-model="opNode.config[panel.key.split('/')[0]][panel.key.split('/')[1]][fItem.key]">
-          <Option v-for="(item,i) in fItem.data" :key="i" :value="item.value" >{{item.text}}</Option>
+          <Option v-for="item in fItem.data" :key="item.text+item.value" :value="item.value" >{{item.text}}</Option>
         </Select>
       </template>
       <template v-else-if="panel.key.split('/').length===3">
         <Select size="small" v-model="opNode.config[panel.key.split('/')[0]][panel.key.split('/')[1]][panel.key.split('/')[2]][fItem.key]">
-          <Option v-for="(item,i) in fItem.data" :key="i" :value="item.value" >{{item.text}}</Option>
+          <Option v-for="item in fItem.data" :key="item.text+item.value" :value="item.value" >{{item.text}}</Option>
         </Select>
       </template>
       <template v-else-if="panel.key.split('/').length===4">
         <Select size="small" v-model="opNode.config[panel.key.split('/')[0]][panel.key.split('/')[1]][panel.key.split('/')[2]][panel.key.split('/')[3]][fItem.key]">
-          <Option v-for="(item,i) in fItem.data" :key="i" :value="item.value" >{{item.text}}</Option>
+          <Option v-for="item in fItem.data" :key="item.text+item.value" :value="item.value" >{{item.text}}</Option>
         </Select>
       </template>
       <template v-else-if="panel.key.split('/').length===5">
         <Select size="small" v-model="opNode.config[panel.key.split('/')[0]][panel.key.split('/')[1]][panel.key.split('/')[2]][panel.key.split('/')[3]][panel.key.split('/')[4]][fItem.key]">
-          <Option v-for="(item,i) in fItem.data" :key="i" :value="item.value" >{{item.text}}</Option>
+          <Option v-for="item in fItem.data" :key="item.text+item.value" :value="item.value" >{{item.text}}</Option>
         </Select>
       </template>
     </template>
@@ -176,7 +176,7 @@
     <template v-else-if="fItem.type==='radio'">
       <template v-if="panel.key===''">
         <RadioGroup v-model="opNode.config[fItem.key]" @on-change="radioChange">
-          <Radio :label="item.id" v-for="item in fItem.data" :key="item.id">
+          <Radio :label="item.value" v-for="item in fItem.data" :key="item.value">
             <Icon :type="item.icon"></Icon>
             <span>{{item.text}}</span>
           </Radio>
@@ -184,7 +184,7 @@
       </template>
       <template v-if="panel.key.split('/').length===1">
         <RadioGroup v-model="opNode.config[panel.key][fItem.key]" @on-change="radioChange">
-          <Radio :label="item.id" v-for="item in fItem.data" :key="item.id">
+          <Radio :label="item.value" v-for="item in fItem.data" :key="item.value">
             <Icon :type="item.icon"></Icon>
             <span>{{item.text}}</span>
           </Radio>
@@ -192,7 +192,7 @@
       </template>
       <template v-if="panel.key.split('/').length===2">
         <RadioGroup v-model="opNode.config[panel.key.split('/')[0]][panel.key.split('/')[1]][fItem.key]" @on-change="radioChange">
-          <Radio :label="item.id" v-for="item in fItem.data" :key="item.id">
+          <Radio :label="item.value" v-for="item in fItem.data" :key="item.value">
             <Icon :type="item.icon"></Icon>
             <span>{{item.text}}</span>
           </Radio>
@@ -200,7 +200,7 @@
       </template>
       <template v-if="panel.key.split('/').length===3">
         <RadioGroup v-model="opNode.config[panel.key.split('/')[0]][panel.key.split('/')[1]][panel.key.split('/')[2]][fItem.key]" @on-change="radioChange">
-          <Radio :label="item.id" v-for="item in fItem.data" :key="item.id">
+          <Radio :label="item.value" v-for="item in fItem.data" :key="item.value">
             <Icon :type="item.icon"></Icon>
             <span>{{item.text}}</span>
           </Radio>
@@ -208,7 +208,7 @@
       </template>
       <template v-if="panel.key.split('/').length===4">
         <RadioGroup v-model="opNode.config[panel.key.split('/')[0]][panel.key.split('/')[1]][panel.key.split('/')[2]][panel.key.split('/')[3]][fItem.key]" @on-change="radioChange">
-          <Radio :label="item.id" v-for="item in fItem.data" :key="item.id">
+          <Radio :label="item.value" v-for="item in fItem.data" :key="item.value">
             <Icon :type="item.icon"></Icon>
             <span>{{item.text}}</span>
           </Radio>
@@ -216,7 +216,7 @@
       </template>
       <template v-if="panel.key.split('/').length===5">
         <RadioGroup v-model="opNode.config[panel.key.split('/')[0]][panel.key.split('/')[1]][panel.key.split('/')[2]][panel.key.split('/')[3]][panel.key.split('/')[4]][fItem.key]" @on-change="radioChange">
-          <Radio :label="item.id" v-for="item in fItem.data" :key="item.id">
+          <Radio :label="item.value" v-for="item in fItem.data" :key="item.value">
             <Icon :type="item.icon"></Icon>
             <span>{{item.text}}</span>
           </Radio>

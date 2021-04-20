@@ -295,11 +295,11 @@ export default {
     margin-left: 148px;
   }
   .xslab-collapse{
-    background: var(--collapse-bg-color);
-    border-color: var(--collapse-border-color);
+    background: var(--collapse-bg-color, #fff);
+    border-color: var(--collapse-border-color, #dcdee2);
   }
   .ivu-collapse>.ivu-collapse-item{
-    border-color: var(--collapse-item-border-color);
+    border-color: var(--collapse-item-border-color, #dcdee2);
   }
   .titleCon_span{
     margin-left:20px ;
