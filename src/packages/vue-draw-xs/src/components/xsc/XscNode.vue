@@ -231,10 +231,37 @@ export default {
             that.node.config.data.source.forEach((c, i) => {
               switch (c.type) {
                 case 3: { // api
+                  let config =Object.assign({ url:c.url, method:c.method,},c.method==='post'?{data:c.params||{}}:{})
+                  that.axios(config).then(res=>{
+                    if(res.status===200){
+                      if(c.proPath){
+                        let realData= res.data
+                        let pros = c.proPath.split('.')
+                        pros.forEach((p)=>{
+                          realData = realData[p]
+                        })
+                        resData[i] = realData
+                      }else{
+                        resData[i] = res.data
+                      }
+                      if (resolve) {
+                        resolve(resData)
+                      }
+                    }else {
+                      resolve(null)
+                    }
+                  }).catch(e=>{
+                    if (reject) {
+                      reject(e)
+                    }
+                  })
                   break
                 }
                 case 2: { // json
                   resData[i] = typeof (c.json) === 'string' ? JSON.parse(c.json || null) : c.json
+                  if (resolve) {
+                    resolve(resData)
+                  }
                   break
                 }
                 case 1: // sql
@@ -246,29 +273,29 @@ export default {
                   } else {
                     resData[i] = null
                   }
+                  getDbData(that, dbs, sqls).then(data => {
+                    if (data) {
+                      data.forEach((k, i) => {
+                        resData[dbDataIndex[i]] = JSON.parse(k) || null
+                      })
+                    } else {
+                      dbDataIndex.forEach(c => {
+                        resData[c] = null
+                      })
+                    }
+                    if (resolve) {
+                      resolve(resData)
+                    }
+                  }).catch(c => {
+                    dbDataIndex.forEach(c => {
+                      resData[c] = null
+                    })
+                    if (reject) {
+                      reject(c)
+                    }
+                  })
                   break
                 }
-              }
-            })
-            getDbData(that, dbs, sqls).then(data => {
-              if (data) {
-                data.forEach((k, i) => {
-                  resData[dbDataIndex[i]] = JSON.parse(k) || null
-                })
-              } else {
-                dbDataIndex.forEach(c => {
-                  resData[c] = null
-                })
-              }
-              if (resolve) {
-                resolve(resData)
-              }
-            }).catch(c => {
-              dbDataIndex.forEach(c => {
-                resData[c] = null
-              })
-              if (reject) {
-                reject(c)
               }
             })
           } else {

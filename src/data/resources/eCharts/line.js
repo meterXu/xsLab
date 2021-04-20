@@ -272,6 +272,7 @@ const line = {
               {key: 'url', name: '接口地址', type: 'textarea'},
               {key: 'method', name: '接口类型', type: 'select',data: commonData.method_type},
               {key: 'params', name: '接口参数', type: 'code', mode: 'application/json', rdTab: 2},
+              {key: 'proPath', name: '结果定位', type: 'textarea'},
               {key: 'x', name: 'x轴字段', type: 'text'},
               {key: 'y', name: 'y轴字段', type: 'text'},
               {key: 's', name: '指标名称', type: 'text'},

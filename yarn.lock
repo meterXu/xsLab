@@ -8705,19 +8705,6 @@ vue-axios@^2.1.4:
   resolved "https://registry.yarnpkg.com/vue-axios/-/vue-axios-2.1.5.tgz#1af4bf1218ed71309c76afb38d0f683e312c24a7"
   integrity sha512-th5xVbInVoyIoe+qY+9GCflEVezxAvztD4xpFF39SRQYqpoKD2qkmX8yv08jJG9a2SgNOCjirjJGSwg/wTrbmA==
 
-vue-draw-xs@^1.1.9:
-  version "1.1.9"
-  resolved "http://192.168.126.25:80/npm/vue-draw-xs/-/vue-draw-xs-1.1.9.tgz#a3d1ac78b98cbdb33889177d5a62f087095f3f96"
-  integrity sha512-2DVOCJkHMpCvBMNU2SDa9gtcOMy+VDXdD0BXOoaoHLd7s5t1gk+luFl1eeoCEPvB5GVKq0Ti2OZw0kFkBvRUqA==
-  dependencies:
-    "@tweenjs/tween.js" "^17.4.0"
-    axios "^0.18.0"
-    echarts "^4.5.0"
-    echarts-liquidfill "^2.0.4"
-    resize-detector "^0.1.9"
-    vue "^2.5.2"
-    vue-echarts "^4.0.1"
-
 vue-echarts@^4.0.1:
   version "4.0.4"
   resolved "https://registry.yarnpkg.com/vue-echarts/-/vue-echarts-4.0.4.tgz#25c2cc2379b6d8a20ef63ac8f5203df5d07098aa"
@@ -8793,11 +8780,6 @@ vue-template-es2015-compiler@^1.9.0:
   version "1.9.1"
   resolved "https://registry.yarnpkg.com/vue-template-es2015-compiler/-/vue-template-es2015-compiler-1.9.1.tgz#1ee3bc9a16ecbf5118be334bb15f9c46f82f5825"
   integrity sha512-4gDntzrifFnCEvyoO8PqyJDmguXgVPxKiIxrBKjIowvL9l+N66196+72XVYR8BBf1Uv1Fgt3bGevJ+sEmxfZzw==
-
-vue@^2.5.2:
-  version "2.6.10"
-  resolved "https://registry.yarnpkg.com/vue/-/vue-2.6.10.tgz#a72b1a42a4d82a721ea438d1b6bf55e66195c637"
-  integrity sha512-ImThpeNU9HbdZL3utgMCq0oiMzAkt1mcgy3/E6zWC/G6AaQoeuFdsl9nDhTDU3X1R6FK7nsIUuRACVcjI+A2GQ==
 
 vue@^2.6.12:
   version "2.6.12"
