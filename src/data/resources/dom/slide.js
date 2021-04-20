@@ -24,57 +24,60 @@ const slide = {
     }
   },
   option: {
-    config: [{
-      type: '基础',
-      con: [
-        {
-          key: 'box',
-          name: '大小及坐标',
-          sub: [
-            {key: 'width', name: '宽度', type: 'number'},
-            {key: 'height', name: '高度', type: 'number'},
-            {key: 'x', name: 'x', type: 'number'},
-            {key: 'y', name: 'y', type: 'number'}
-          ]
-        },
-        {
-          key: 'options',
-          name: '配置',
-          sub: [
-            {key: 'pagination', name: '分页', type: 'boolean'},
-            {key: 'speed', name: '速度', type: 'number', unit: 's'},
-            {key: 'autoplay', name: '播放时间', type: 'number', unit: 's'},
-            {key: 'slides', name: '内容', type: 'code', mode: 'text/javascript'},
-            { key: '', type: 'div', style: { height: 200 } }
-          ]
-        }
-      ]
-    },
-    {
-      type: '样式',
-      icon: 'md-brush',
-      con: [
-        {
-          key: '',
-          name: '全局',
-          sub: [
-            {key: 'theme',
-              name: '主题',
-              type: 'select',
-              data: commonData.theme}
-          ]
-        },
-        {
-          key: 'options/pageColor',
-          name: '分页',
-          sub: [
-            {key: 'normal', name: '正常', type: 'color'},
-            {key: 'active', name: '活动', type: 'color'},
-            { key: '', type: 'div', style: { height: 200 } }
-          ]
-        }
-      ]
-    }
+    config: [
+      {
+        type: '基础',
+        con: [
+          {
+            key: 'box',
+            name: '大小及坐标',
+            sub: [
+              {key: 'width', name: '宽度', type: 'number'},
+              {key: 'height', name: '高度', type: 'number'},
+              {key: 'x', name: 'x', type: 'number'},
+              {key: 'y', name: 'y', type: 'number'}
+            ]
+          },
+          {
+            key: 'options',
+            name: '配置',
+            sub: [
+              {key: 'pagination', name: '分页', type: 'boolean'},
+              {key: 'speed', name: '速度', type: 'number', unit: 's'},
+              {key: 'autoplay', name: '播放时间', type: 'number', unit: 's'},
+              {key: 'slides', name: '内容', type: 'code', mode: 'text/javascript'},
+              {key: '', type: 'div', style: {height: 200}}
+            ]
+          }
+        ]
+      },
+      {
+        type: '样式',
+        icon: 'md-brush',
+        con: [
+          {
+            key: '',
+            name: '全局',
+            sub: [
+              {
+                key: 'theme',
+                name: '主题',
+                type: 'select',
+                data: commonData.theme
+              }
+            ]
+          },
+          {
+            key: 'options/pageColor',
+            name: '分页',
+            sub: [
+              {key: 'normal', name: '正常', type: 'color'},
+              {key: 'active', name: '活动', type: 'color'},
+              {key: '', type: 'div', style: {height: 200}}
+            ]
+          }
+        ]
+      }
     ]
   }
 }

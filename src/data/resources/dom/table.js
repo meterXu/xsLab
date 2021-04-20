@@ -76,8 +76,10 @@ const table = {
     }
   },
   option: {
-    config: [{
+    config: [
+      {
       type: '基础',
+      icon: 'md-build',
       con: [
         {
           key: 'box',
@@ -124,7 +126,37 @@ const table = {
             { key: '', type: 'div', style: { height: 200 } }
           ]
         }]
-    }, {
+    },
+      {
+      type: '数据',
+      icon: 'md-pulse',
+      con: [{
+        key: 'data',
+        name: '全局配置',
+        sub: [
+          {key: 'loop', name: '轮询', type: 'boolean'},
+          {key: 'interval', name: '间隔', type: 'number', unit: 's'}
+        ]
+      },
+        {
+          key: 'data/source/0',
+          name: '数据',
+          sub: [
+            { key: 'type',
+              name: '来源',
+              type: 'radio',
+              data: [
+                { id: 1, icon: 'md-albums', text: '数据库' },
+                { id: 2, icon: 'md-code', text: '静态' },
+                { id: 3, icon: 'md-code', text: '接口' }]},
+            {key: 'db', name: '数据库', type: 'select', data: [], rdTab: 1},
+            {key: 'sql', name: 'SQL语句', type: 'code', mode: 'text/x-sql', rdTab: 1},
+            {key: 'json', name: 'JSON数据', type: 'code', mode: 'text/javascript', rdTab: 2},
+            { key: '', type: 'div', style: { height: 200 } }
+          ]
+        }]
+    },
+      {
       type: '样式',
       icon: 'md-brush',
       con: [{
@@ -161,33 +193,6 @@ const table = {
           {key: 'borderBottomColor', name: '下边框色', type: 'color'},
           {key: 'borderRightColor', name: '右边框色', type: 'color'},
           { key: '', type: 'div', style: { height: 240 } }
-        ]
-      }]
-    }, {
-      type: '数据',
-      icon: 'md-pulse',
-      con: [{
-        key: 'data',
-        name: '全局配置',
-        sub: [
-          {key: 'loop', name: '轮询', type: 'boolean'},
-          {key: 'interval', name: '间隔', type: 'number', unit: 's'}
-        ]
-      },
-      {
-        key: 'data/source/0',
-        name: '数据',
-        sub: [
-          { key: 'type',
-            name: '来源',
-            type: 'radio',
-            data: [
-              { id: 1, icon: 'md-albums', text: '数据库' },
-              { id: 2, icon: 'md-code', text: '静态' }]},
-          {key: 'db', name: '数据库', type: 'select', data: [], rdTab: 1},
-          {key: 'sql', name: 'SQL语句', type: 'code', mode: 'text/x-sql', rdTab: 1},
-          {key: 'json', name: 'JSON数据', type: 'code', mode: 'text/javascript', rdTab: 2},
-          { key: '', type: 'div', style: { height: 200 } }
         ]
       }]
     }]

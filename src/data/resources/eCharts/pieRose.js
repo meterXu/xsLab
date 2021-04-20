@@ -212,6 +212,37 @@ const pieRose = {
           }]
       },
       {
+        type: '数据',
+        icon: 'md-pulse',
+        con: [{
+          key: 'data',
+          name: '全局配置',
+          sub: [
+            {key: 'loop', name: '轮询', type: 'boolean'},
+            {key: 'interval', name: '间隔', type: 'number', unit: 's'}
+          ]
+        },
+          {
+            key: 'data/source/0',
+            name: '数据',
+            sub: [
+              { key: 'type',
+                name: '来源',
+                type: 'radio',
+                data: [
+                  { id: 1, icon: 'md-albums', text: '数据库' },
+                  { id: 2, icon: 'md-code', text: '静态' }]},
+              {key: 'db', name: '数据库', type: 'select', data: [], rdTab: 1},
+              {key: 'sql', name: 'SQL语句', type: 'code', mode: 'text/x-sql', rdTab: 1},
+              {key: 'json', name: 'JSON数据', type: 'code', mode: 'text/javascript', rdTab: 2},
+              {key: 'name', name: '名称字段', type: 'text'},
+              {key: 'value', name: '数值字段', type: 'text'},
+              {key: 's', name: '指标名称', type: 'text'},
+              { key: '', type: 'div', style: { height: 200 } }
+            ]
+          }]
+      },
+      {
         type: '样式',
         icon: 'md-brush',
         con: [
@@ -262,36 +293,6 @@ const pieRose = {
             ]
           }
         ]
-      }, {
-        type: '数据',
-        icon: 'md-pulse',
-        con: [{
-          key: 'data',
-          name: '全局配置',
-          sub: [
-            {key: 'loop', name: '轮询', type: 'boolean'},
-            {key: 'interval', name: '间隔', type: 'number', unit: 's'}
-          ]
-        },
-        {
-          key: 'data/source/0',
-          name: '数据',
-          sub: [
-            { key: 'type',
-              name: '来源',
-              type: 'radio',
-              data: [
-                { id: 1, icon: 'md-albums', text: '数据库' },
-                { id: 2, icon: 'md-code', text: '静态' }]},
-            {key: 'db', name: '数据库', type: 'select', data: [], rdTab: 1},
-            {key: 'sql', name: 'SQL语句', type: 'code', mode: 'text/x-sql', rdTab: 1},
-            {key: 'json', name: 'JSON数据', type: 'code', mode: 'text/javascript', rdTab: 2},
-            {key: 'name', name: '名称字段', type: 'text'},
-            {key: 'value', name: '数值字段', type: 'text'},
-            {key: 's', name: '指标名称', type: 'text'},
-            { key: '', type: 'div', style: { height: 200 } }
-          ]
-        }]
       }
     ]
   }

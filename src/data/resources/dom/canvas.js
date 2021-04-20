@@ -14,7 +14,8 @@ const canvas = {
     baseUrl: config.baseUrl
   },
   option: {
-    config: [{
+    config: [
+      {
       type: '画布配置',
       icon: 'md-color-palette',
       con: [
@@ -44,7 +45,8 @@ const canvas = {
           ]
         }
       ]
-    }, {
+    },
+      {
       type: '样式',
       icon: 'md-brush',
       con: [

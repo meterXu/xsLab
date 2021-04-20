@@ -16,7 +16,8 @@ const iframe = {
     }
   },
   option: {
-    config: [{
+    config: [
+      {
       type: '基础',
       con: [
         {
