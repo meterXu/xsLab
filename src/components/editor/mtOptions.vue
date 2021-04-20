@@ -6,7 +6,6 @@
         <span class="titleCon_span">参数配置</span>
         <ButtonGroup size="small">
           <Button v-if="this.opNode.config.data" type="primary" @click="testDataSource"><Icon type="md-checkmark" />测试</Button>
-<!--          <Button type="primary" @click="saveDataSource"><Icon type="md-download" />保存</Button>-->
         </ButtonGroup>
         </div>
     </div>

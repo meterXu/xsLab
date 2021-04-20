@@ -102,6 +102,10 @@ let commonData = {
   rose_type: [
     {text: '面积模式', value: 'area'},
     {text: '半径模式', value: 'radius'}
+  ],
+  method_type:[
+    {text: 'POST', value: 'post'},
+    {text: 'GET', value: 'get'}
   ]
 }
 export default commonData

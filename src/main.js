@@ -10,7 +10,7 @@ import './assets/styles/dark-color.css'
 import "./assets/styles/ivu-dark.less";
 import clipboard from 'clipboard'
 import VueQriously from 'vue-qriously'
-import Xsc from 'vue-draw-xs'
+import Xsc from './packages/vue-draw-xs/src/index'
 // Vue 全局配置
 Vue.use(iview, VueAxios, axios)
 Vue.use(VueQriously)
