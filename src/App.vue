@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import editorData from './data/editorData'
+import dbList from './data/resources/dbList'
 import mtEditor from './components/mtEditor'
 import './assets/styles/ivu-dark.less'
 import axios from 'axios'
@@ -17,13 +17,13 @@ export default {
   },
   data () {
     return {
-      editorData: editorData
+      dbList: dbList
     }
   },
   methods: {
     getDataBaseList () {
       this.$ajax.post(this.commonConfig.baseUrl + this.commonConfig.actionUrl.getDataBaseList).then(c => {
-        this.editorData.databaseList = c.data
+        this.dbList.data = c.data
       })
     }
   },

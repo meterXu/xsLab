@@ -1,6 +1,6 @@
 import resources from './resources/resources'
+import dbList from './resources/dbList'
 export default {
-  databaseList: [],
   resources: resources,
   activeNode: null,
   dragMenuNode: null,
