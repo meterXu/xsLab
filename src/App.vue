@@ -17,7 +17,7 @@ export default {
   methods: {
     getDataBaseList () {
       this.$ajax.post(this.commonConfig.baseUrl + this.commonConfig.actionUrl.getDataBaseList).then(c => {
-        this.dbList = c.data
+        this.$store.commit('setDbList',c.data)
       })
     }
   },

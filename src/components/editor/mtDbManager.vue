@@ -70,6 +70,7 @@
 <script>
 import editorData from '../../data/editorData'
 import commonData from '../../data/resources/commonData'
+import {mapGetters} from 'vuex'
 export default {
   name: 'mtDbManager',
   data () {
@@ -112,6 +113,9 @@ export default {
         ]
       }
     }
+  },
+  computed:{
+    ...mapGetters(['dbList'])
   },
   filters: {
     getIconByType: function (value) {
@@ -174,6 +178,7 @@ export default {
                 if (!that.activeDbProp.value) { // 新增
                   that.activeDbProp.value = c.data.oid
                   that.dbList.push(that.activeDbProp)
+                  that.$store.commit('setDbList',that.dbList)
                 }
                 that.isShowDbProp = false
               } else {
@@ -206,6 +211,7 @@ export default {
               if (c.data) {
                 that.$Message.success('删除成功!')
                 that.dbList.splice(that.activeDbIndex, 1)
+                that.$store.commit('setDbList',that.dbList)
                 that.isShowDbProp = false
               } else {
                 that.$Message.error('删除失败!')

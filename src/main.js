@@ -11,14 +11,16 @@ import "./assets/styles/ivu-dark.less";
 import clipboard from 'clipboard'
 import VueQriously from 'vue-qriously'
 import Xsc from './packages/vue-draw-xs/src/index'
+import store from './store'
+import vuex from 'vuex'
 // Vue 全局配置
 Vue.use(iview, VueAxios, axios)
+Vue.use(vuex)
 Vue.use(VueQriously)
 Vue.use(Xsc)
 Vue.mixin({
   data () {
     return {
-      dbList:[],
       commonConfig: baseConfig
     }
   }
@@ -28,5 +30,6 @@ Vue.prototype.$clipboard = clipboard
 // 启动应用
 new Vue({
   router,
+  store,
   render: h => h(App)
 }).$mount('#app')

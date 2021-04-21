@@ -1,5 +1,6 @@
 import commonData from '../commonData'
 import config from '../../../config/config'
+import sourceConf from '../sourceConf'
 
 const table = {
   resource: {
@@ -142,16 +143,7 @@ const table = {
           key: 'data/source/0',
           name: '数据',
           sub: [
-            { key: 'type',
-              name: '来源',
-              type: 'select',
-              data: [
-                { value: 1, icon: 'md-albums', text: '数据库' },
-                { value: 2, icon: 'md-code', text: '静态' },
-                { value: 3, icon: 'md-cloud', text: '接口' }]},
-            {key: 'db', name: '数据库', type: 'select', data: [], rdTab: 1},
-            {key: 'sql', name: 'SQL语句', type: 'code', mode: 'text/x-sql', rdTab: 1},
-            {key: 'json', name: 'JSON数据', type: 'code', mode: 'text/javascript', rdTab: 2},
+            ...sourceConf,
             { key: '', type: 'div', style: { height: 200 } }
           ]
         }]

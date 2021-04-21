@@ -58,6 +58,7 @@ import resources from '../../data/resources/resources'
 import mtFormItem from './options/mtFormItem'
 import editorData from '../../data/editorData'
 import MtFormItemCode from './options/mtFormItemCode'
+import {mapGetters} from 'vuex'
 export default {
   name: 'mtOptions',
   props: {
@@ -84,6 +85,7 @@ export default {
     }
   },
   computed: {
+    ...mapGetters(['dbList']),
     isShowFormItem () {
       return function (rdTab) {
         if (rdTab) {
@@ -101,6 +103,15 @@ export default {
       let activeOptions = null
       if (this.opNode) {
         activeOptions = this.optionsPath[this.opNode.type][this.opNode.chart]
+      }
+      let dbOptions = activeOptions.config.find(c=>c.type==='数据')
+      if (dbOptions) {
+        dbOptions['con'].forEach(c => {
+          let dbPro = c.sub.find(m => m.key === 'db')
+          if (dbPro && dbPro.hasOwnProperty('data')) {
+            dbPro.data = this.dbList
+          }
+        })
       }
       return activeOptions
     },
