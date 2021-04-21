@@ -1,7 +1,7 @@
 node_modules
 .idea/
 dist/
-public/config.json
+config.json
 package-lock.json
 yarn.lock
 yarn-error.log
