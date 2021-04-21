@@ -1,5 +1,3 @@
-import config from '../../../config/config'
-
 const iframe = {
   resource: {
     box: {
@@ -10,7 +8,7 @@ const iframe = {
       zIndex: 100
     },
     type: 'iframe',
-    theme: config.chartNodeTheme,
+    theme: 'default',
     options: {
       href: ''
     }

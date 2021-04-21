@@ -89,6 +89,7 @@ import mtDbManager from './editor/mtDbManager'
 import mtSetting from './editor/mtSetting'
 import mtContextMenu from './editor/mtContextMenu'
 import resources from '../data/resources/resources'
+import {mapGetters} from "vuex";
 export default {
   name: 'mtEditor',
   components: {
@@ -134,6 +135,7 @@ export default {
     }
   },
   computed: {
+    ...mapGetters(['commonConfig']),
     canvasUrl: function () {
       if(this.$route.query.hasOwnProperty('X-Access-Token')){
         return `${window.location.origin}${window.location.pathname}#/view/${this.mtCanvasOptions.id}?X-Access-Token=${this.$route.query['X-Access-Token']}`
@@ -167,7 +169,7 @@ export default {
         backgroundImage: null,
         backgroundSize: null,
         backgroundRepeat: null,
-        theme: this.commonConfig.chartNodeTheme,
+        theme: 'default',
         baseUrl: this.commonConfig.baseUrl
       }
       this.addCanvasOptions = mtCanvasOptionsCopy
@@ -188,7 +190,7 @@ export default {
             this.editorData.resources.initOptions[this.editorData.dragMenuNode.type][this.editorData.dragMenuNode.chart].box.width / 2 - 200 + scrollLeft
           cloneConfig.box.y = event.y -
             this.editorData.resources.initOptions[this.editorData.dragMenuNode.type][this.editorData.dragMenuNode.chart].box.height / 2 - 50 + scrollTop
-          cloneConfig.theme = this.commonConfig.chartNodeTheme
+          cloneConfig.theme = 'default'
           let addChart = {
             id: (new Date()).valueOf(),
             type: this.editorData.dragMenuNode.type,
@@ -214,7 +216,7 @@ export default {
     },
     saveOption () { // 保存配置数据
       this.tmpCanvasState = -1
-      this.$ajax.post(this.commonConfig.baseUrl + this.commonConfig.actionUrl.SaveCanvasData, {
+      this.$ajax.post(this.action.SaveCanvasData, {
         canvasOid: this.mtCanvasOptions.id,
         canvasName: this.mtCanvasOptions.name,
         canvasData: JSON.stringify(this.canvasData),
@@ -266,7 +268,7 @@ export default {
       this.cavTableLoading = true
       this.showCanvasUrlModal = false
       this.showAddCanvasModal = false
-      this.$ajax.post(this.commonConfig.baseUrl + this.commonConfig.actionUrl.GetCanvasList)
+      this.$ajax.post(this.action.GetCanvasList)
         .then(c => {
           this.cavTableLoading = false
           if (c.data) {
@@ -278,7 +280,7 @@ export default {
         })
     },
     cavRowClick (row, index) { // 点击行
-      this.$ajax.post(this.commonConfig.baseUrl + this.commonConfig.actionUrl.GetCanvasData, {
+      this.$ajax.post(this.action.GetCanvasData, {
         canvasOid: row.oid
       }).then(c => {
         if (c.data) {
@@ -314,7 +316,7 @@ export default {
           title: '删除确认',
           content: '确定删除这个打开的画布吗？',
           onOk: function () {
-            that.$ajax.post(that.commonConfig.baseUrl + this.commonConfig.actionUrl.DelCanvas, {
+            that.$ajax.post(this.action.DelCanvas, {
               canvasOid: that.mtCanvasOptions.id
             }).then(c => {
               if (c.data) {

@@ -1,6 +1,5 @@
 // 带标签的多柱状图
 import commonData from '../commonData'
-import config from '../../../config/config'
 import sourceConf from '../sourceConf'
 const labelOption = {
   show: true,
@@ -20,7 +19,7 @@ const barLabelRotation = {
       y: 0,
       zIndex: 100
     },
-    theme: config.chartNodeTheme,
+    theme: 'default',
     options: {
       title: {
         text: '多柱柱状图',

@@ -1,5 +1,3 @@
-import config from '../../../config/config'
-
 const img = {
   resource: {
     box: {
@@ -10,7 +8,7 @@ const img = {
       zIndex: 100
     },
     type: 'img',
-    theme: config.chartNodeTheme,
+    theme: 'default',
     options: {
       src: ''
     }

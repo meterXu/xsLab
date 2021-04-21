@@ -1,5 +1,4 @@
 import commonData from '../commonData'
-import config from '../../../config/config'
 
 const text = {
   resource: {
@@ -11,7 +10,7 @@ const text = {
       zIndex: 100
     },
     type: 'text',
-    theme: config.chartNodeTheme,
+    theme: 'default',
     options: {
       text: {
         fontFamily: '微软雅黑',

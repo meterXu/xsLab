@@ -1,5 +1,4 @@
 import commonData from '../commonData'
-import config from '../../../config/config'
 import sourceConf from '../sourceConf'
 const lineBar = {
   resource: {
@@ -10,7 +9,7 @@ const lineBar = {
       y: 0,
       zIndex: 100
     },
-    theme: config.chartNodeTheme,
+    theme: 'default',
     options: {
       title: {
         text: '折柱组合图',

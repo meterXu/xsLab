@@ -7,8 +7,7 @@
 <script>
 import mtEditor from './components/mtEditor'
 import './assets/styles/ivu-dark.less'
-import axios from 'axios'
-import config from './config/config'
+import {mapGetters} from "vuex";
 export default {
   name: 'App',
   components: {
@@ -16,20 +15,16 @@ export default {
   },
   methods: {
     getDataBaseList () {
-      this.$ajax.post(this.commonConfig.baseUrl + this.commonConfig.actionUrl.getDataBaseList).then(c => {
+      this.$ajax.post(this.action.getDataBaseList).then(c => {
         this.$store.commit('setDbList',c.data)
       })
     }
   },
+  computed:{
+    ...mapGetters(['commonConfig'])
+  },
   created () {
-    if(!config.baseUrl){
-      axios.get('./config.json').then(res=>{
-        config.baseUrl = res.data.baseUrl || 'http://localhost:11525'
-        this.getDataBaseList()
-      })
-    }else{
-       this.getDataBaseList()
-    }
+    this.getDataBaseList()
     this.$Message.config({
       top: 80,
       duration: 3

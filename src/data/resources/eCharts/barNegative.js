@@ -1,6 +1,5 @@
 // 正负条形图
 import commonData from '../commonData'
-import config from '../../../config/config'
 import sourceConf from '../sourceConf'
 const barNegative = {
   resource: {
@@ -11,7 +10,7 @@ const barNegative = {
       y: 0,
       zIndex: 100
     },
-    theme: config.chartNodeTheme,
+    theme: 'default',
     options: {
       title: {
         show: true,

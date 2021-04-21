@@ -1,5 +1,4 @@
 import commonData from '../commonData'
-import config from '../../../config/config'
 const canvas = {
   resource: {
     id: null,
@@ -10,8 +9,8 @@ const canvas = {
     backgroundImage: null,
     backgroundSize: null,
     backgroundRepeat: null,
-    theme: config.chartNodeTheme,
-    baseUrl: config.baseUrl
+    theme: 'default',
+    baseUrl: null
   },
   option: {
     config: [

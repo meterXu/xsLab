@@ -1,5 +1,4 @@
 import commonData from '../commonData'
-import config from '../../../config/config'
 const container = {
   resource: {
     box: {
@@ -10,7 +9,7 @@ const container = {
       zIndex: 100
     },
     type: 'container',
-    theme: config.chartNodeTheme,
+    theme: 'default',
     options: {
       background: {
         backgroundColor: null,

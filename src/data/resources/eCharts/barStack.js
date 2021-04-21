@@ -1,6 +1,5 @@
 // 堆叠柱状图
 import commonData from '../commonData'
-import config from '../../../config/config'
 import sourceConf from '../sourceConf'
 const barStack = {
   resource: {
@@ -11,7 +10,7 @@ const barStack = {
       y: 0,
       zIndex: 100
     },
-    theme: config.chartNodeTheme,
+    theme: 'default',
     options: {
       title: {
         text: '堆叠柱状图',

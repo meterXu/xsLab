@@ -1,4 +1,3 @@
-import config from '../../../config/config'
 import commonData from '../commonData'
 
 const slide = {
@@ -11,7 +10,7 @@ const slide = {
       zIndex: 100
     },
     type: 'slide',
-    theme: config.chartNodeTheme,
+    theme: 'default',
     options: {
       pagination: true,
       pageColor: {

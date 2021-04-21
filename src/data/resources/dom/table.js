@@ -1,11 +1,10 @@
 import commonData from '../commonData'
-import config from '../../../config/config'
 import sourceConf from '../sourceConf'
 
 const table = {
   resource: {
     type: 'table',
-    theme: config.chartNodeTheme,
+    theme: 'default',
     box: {
       width: 230,
       height: 160,

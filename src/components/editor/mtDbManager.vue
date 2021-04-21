@@ -171,7 +171,7 @@ export default {
       let that = this
       this.$refs['formValidate'].validate((valid) => {
         if (valid) {
-          that.$ajax.post(that.commonConfig.baseUrl + this.commonConfig.actionUrl.SaveDataSource, that.activeDbProp).then(c => {
+          that.$ajax.post(this.action.SaveDataSource, that.activeDbProp).then(c => {
             if (c.data) {
               if (c.data.code) {
                 that.$Message.success('保存成功!')
