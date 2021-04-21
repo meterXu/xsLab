@@ -18,7 +18,7 @@
               </RadioGroup>
             </FormItem>
             <FormItem style="text-align: left">
-              <Button type="success" @click="saveSetProp">验证&保存</Button>
+              <Button type="success" @click="saveSetProp">验证并保存</Button>
             </FormItem>
           </Form>
         </div>

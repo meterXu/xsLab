@@ -57,7 +57,7 @@
             <Input type="password" v-model="activeDbProp.password" placeholder="请输入密码..."/>
           </FormItem>
           <FormItem style="text-align: left">
-            <Button type="success" @click="saveDbProp">验证&保存</Button>
+            <Button type="success" @click="saveDbProp">验证并保存</Button>
             <Button v-if="activeDbProp.value" type="error" style="margin-left: 8px" @click="delDbProp">删除</Button>
             <Button type="info" style="margin-left: 8px" @click="setDbPropBack">返回</Button>
           </FormItem>

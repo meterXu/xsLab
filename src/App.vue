@@ -33,6 +33,8 @@ export default {
         config.baseUrl = res.data.baseUrl || 'http://localhost:11525'
         this.getDataBaseList()
       })
+    }else{
+      this.getDataBaseList()
     }
     this.$Message.config({
       top: 80,
