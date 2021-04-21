@@ -18,6 +18,7 @@ Vue.use(Xsc)
 Vue.mixin({
   data () {
     return {
+      dbList:[],
       commonConfig: baseConfig
     }
   }

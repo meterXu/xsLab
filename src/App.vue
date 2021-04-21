@@ -5,7 +5,6 @@
 </template>
 
 <script>
-import dbList from './data/resources/dbList'
 import mtEditor from './components/mtEditor'
 import './assets/styles/ivu-dark.less'
 import axios from 'axios'
@@ -15,15 +14,10 @@ export default {
   components: {
     mtEditor
   },
-  data () {
-    return {
-      dbList: dbList
-    }
-  },
   methods: {
     getDataBaseList () {
       this.$ajax.post(this.commonConfig.baseUrl + this.commonConfig.actionUrl.getDataBaseList).then(c => {
-        this.dbList.data = c.data
+        this.dbList = c.data
       })
     }
   },
@@ -34,7 +28,7 @@ export default {
         this.getDataBaseList()
       })
     }else{
-      this.getDataBaseList()
+       this.getDataBaseList()
     }
     this.$Message.config({
       top: 80,

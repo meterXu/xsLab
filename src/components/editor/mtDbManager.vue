@@ -1,7 +1,7 @@
 <template>
   <div id="mtDbManager">
     <ul id="mtDbManager_ul" v-if="!isShowDbProp">
-        <li v-for="(item, i) in dbList.data" :key="i" @click="showDbProp(i)">
+        <li v-for="(item, i) in dbList" :key="i" @click="showDbProp(i)">
           <Card :bordered="false">
             <p slot="title">{{item.type|getTitleByType}}</p>
             <div class="mt_db_content">
@@ -68,7 +68,6 @@
 </template>
 
 <script>
-import dbList from '../../data/resources/dbList'
 import editorData from '../../data/editorData'
 import commonData from '../../data/resources/commonData'
 export default {
@@ -77,7 +76,6 @@ export default {
     return {
       editorData: editorData,
       commonData: commonData,
-      dbList:dbList,
       isShowDbProp: false,
       activeDbProp: {
         value: null,
@@ -146,7 +144,7 @@ export default {
   methods: {
     showDbProp (index) {
       this.activeDbIndex = index
-      this.activeDbProp = this.dbList.data[index]
+      this.activeDbProp = this.dbList[index]
       this.isShowDbProp = true
     },
     addDbProp () {
@@ -175,7 +173,7 @@ export default {
                 that.$Message.success('保存成功!')
                 if (!that.activeDbProp.value) { // 新增
                   that.activeDbProp.value = c.data.oid
-                  that.dbList.data.push(that.activeDbProp)
+                  that.dbList.push(that.activeDbProp)
                 }
                 that.isShowDbProp = false
               } else {
@@ -207,7 +205,7 @@ export default {
             }).then(c => {
               if (c.data) {
                 that.$Message.success('删除成功!')
-                that.dbList.data.splice(that.activeDbIndex, 1)
+                that.dbList.splice(that.activeDbIndex, 1)
                 that.isShowDbProp = false
               } else {
                 that.$Message.error('删除失败!')

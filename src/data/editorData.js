@@ -1,5 +1,4 @@
 import resources from './resources/resources'
-import dbList from './resources/dbList'
 export default {
   resources: resources,
   activeNode: null,

@@ -259,7 +259,7 @@ const bar = { // 简单柱状图
             key: 'data/source/0',
             name: '数据1',
             sub: [
-              [...sourceConf],
+              ...sourceConf,
               {key: 'x', name: 'x轴字段', type: 'text'},
               {key: 'y', name: 'y轴字段', type: 'text'},
               {key: 's', name: '指标名称', type: 'text'},
