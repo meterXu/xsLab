@@ -8,6 +8,8 @@
 import editorData from './data/editorData'
 import mtEditor from './components/mtEditor'
 import './assets/styles/ivu-dark.less'
+import axios from 'axios'
+import config from './config/config'
 export default {
   name: 'App',
   components: {
@@ -26,7 +28,12 @@ export default {
     }
   },
   created () {
-    this.getDataBaseList()
+    if(!config.baseUrl){
+      axios.get('./config.json').then(res=>{
+        config.baseUrl = res.data.baseUrl || 'http://localhost:11525'
+        this.getDataBaseList()
+      })
+    }
     this.$Message.config({
       top: 80,
       duration: 3
