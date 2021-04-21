@@ -102,15 +102,6 @@ export default {
       if (this.opNode) {
         activeOptions = this.optionsPath[this.opNode.type][this.opNode.chart]
       }
-      let dbOptions = activeOptions.config.find(c=>c.type==='数据')
-      if (dbOptions) {
-        dbOptions['con'].forEach(c => {
-          let dbPro = c.sub.find(m => m.key === 'db')
-          if (dbPro && dbPro.hasOwnProperty('data')) {
-            dbPro.data = this.editorData.databaseList
-          }
-        })
-      }
       return activeOptions
     },
     showOp () {
