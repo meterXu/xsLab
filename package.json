@@ -20,7 +20,7 @@
     "iview": "^3.5.3",
     "less": "^3.12.2",
     "less-loader": "^7.1.0",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.19",
     "resize-detector": "^0.1.9",
     "vue": "^2.6.12",
     "vue-axios": "^2.1.4",
