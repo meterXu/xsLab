@@ -135,7 +135,12 @@ export default {
   },
   computed: {
     canvasUrl: function () {
-      return `${window.location.origin}${window.location.pathname}#/view/${this.mtCanvasOptions.id}`
+      if(this.$route.query.hasOwnProperty('X-Access-Token')){
+        return `${window.location.origin}${window.location.pathname}#/view/${this.mtCanvasOptions.id}?X-Access-Token=${this.$route.query['X-Access-Token']}`
+      }else{
+        return `${window.location.origin}${window.location.pathname}#/view/${this.mtCanvasOptions.id}`
+      }
+
     },
     canvasName: function () {
       if (this.showCanvas) {

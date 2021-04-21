@@ -1,6 +1,6 @@
 let config = {
-  editorTheme: 'light',
-  chartNodeTheme: 'light',
+  editorTheme: 'dark',
+  chartNodeTheme: 'darkblue',
   baseUrl: null,
   actionUrl: {
     getDataBaseList: '/GetDataBaseList',

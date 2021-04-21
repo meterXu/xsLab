@@ -231,7 +231,10 @@ export default {
             that.node.config.data.source.forEach((c, i) => {
               switch (c.type) {
                 case 3: { // api
-                  let config =Object.assign({ url:c.url, method:c.method,},c.method==='post'?{data:c.params||{}}:{})
+                  let config =Object.assign(
+                      { url:c.url, method:c.method },
+                      c.method==='post'?{data:c.params||{}}:{},
+                      that.$route.query.hasOwnProperty('X-Access-Token')?{headers:{ 'X-Access-Token':that.$route.query['X-Access-Token'] }}:{})
                   that.axios(config).then(res=>{
                     if(res.status===200){
                       if(c.proPath){
