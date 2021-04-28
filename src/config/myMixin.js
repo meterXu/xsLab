@@ -3,13 +3,13 @@ export default {
     return {
       action:{
         getDataBaseList: '/GetDataBaseList',
-        SaveCanvasData: '/SaveCanvasData',
-        GetCanvasList: '/GetCanvasList',
-        GetCanvasData: '/GetCanvasData',
-        DelCanvas: '/DelCanvas',
-        DownloadCanvas: '/DownloadCanvas',
-        SaveDataSource: '/SaveDataSource',
-        DelDataSource: '/DelDataSource',
+        saveCanvasData: '/SaveCanvasData',
+        getCanvasList: '/GetCanvasList',
+        getCanvasData: '/GetCanvasData',
+        delCanvas: '/DelCanvas',
+        downloadCanvas: '/DownloadCanvas',
+        saveDataSource: '/SaveDataSource',
+        delDataSource: '/DelDataSource',
         validateBaseUrl: '/validateBaseUrl'
       }
     }

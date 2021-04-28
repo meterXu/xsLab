@@ -216,7 +216,7 @@ export default {
     },
     saveOption () { // 保存配置数据
       this.tmpCanvasState = -1
-      this.$ajax.post(this.action.SaveCanvasData, {
+      this.$ajax.post(this.action.saveCanvasData, {
         canvasOid: this.mtCanvasOptions.id,
         canvasName: this.mtCanvasOptions.name,
         canvasData: JSON.stringify(this.canvasData),
@@ -268,7 +268,7 @@ export default {
       this.cavTableLoading = true
       this.showCanvasUrlModal = false
       this.showAddCanvasModal = false
-      this.$ajax.post(this.action.GetCanvasList)
+      this.$ajax.post(this.action.getCanvasList)
         .then(c => {
           this.cavTableLoading = false
           if (c.data) {
@@ -280,7 +280,7 @@ export default {
         })
     },
     cavRowClick (row, index) { // 点击行
-      this.$ajax.post(this.action.GetCanvasData, {
+      this.$ajax.post(this.action.getCanvasData, {
         canvasOid: row.oid
       }).then(c => {
         if (c.data) {

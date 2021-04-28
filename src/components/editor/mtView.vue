@@ -22,7 +22,7 @@ export default {
   mounted () {
     let that = this
     let id = this.$route.params.id
-    this.$ajax.post(this.config.baseUrl + this.config.actionUrl.GetCanvasData, {
+    this.$ajax.post(this.config.action.GetCanvasData, {
       canvasOid: id
     }).then(c => {
       if (c.data) {
