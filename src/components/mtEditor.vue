@@ -135,7 +135,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['commonConfig']),
+    ...mapGetters(['config']),
     canvasUrl: function () {
       if(this.$route.query.hasOwnProperty('X-Access-Token')){
         return `${window.location.origin}${window.location.pathname}#/view/${this.mtCanvasOptions.id}?X-Access-Token=${this.$route.query['X-Access-Token']}`
@@ -170,7 +170,7 @@ export default {
         backgroundSize: null,
         backgroundRepeat: null,
         theme: 'default',
-        baseUrl: this.commonConfig.baseUrl
+        baseUrl: this.config.baseUrl
       }
       this.addCanvasOptions = mtCanvasOptionsCopy
     },
@@ -286,7 +286,7 @@ export default {
         if (c.data) {
           let cavOptions = JSON.parse(c.data.cavOptions)
           let chartData = JSON.parse(c.data.cavData)
-          cavOptions.baseUrl = this.commonConfig.baseUrl
+          cavOptions.baseUrl = this.config.baseUrl
           this.mtCanvasOptions = cavOptions
           this.canvasData = chartData
           this.showCanvas = true

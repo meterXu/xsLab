@@ -24,9 +24,9 @@ Vue.prototype.$ajax =  createRequest()
 Vue.prototype.$clipboard=clipboard
 
 axios.get('./config.json').then(res=>{
-  if(!store.getters.commonConfig.baseUrl){
-    store.getters.commonConfig.baseUrl = res.data.baseUrl
-    store.commit('setCommonConfig',store.getters.commonConfig)
+  if(!store.getters.config.baseUrl){
+    store.getters.config.baseUrl = res.data.baseUrl
+    store.commit('setConfig',store.getters.config)
   }
   // 启动应用
   new Vue({

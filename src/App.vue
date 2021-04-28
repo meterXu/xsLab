@@ -21,7 +21,7 @@ export default {
     }
   },
   computed:{
-    ...mapGetters(['commonConfig'])
+    ...mapGetters(['config'])
   },
   created () {
     this.getDataBaseList()
@@ -31,7 +31,7 @@ export default {
     })
   },
   mounted () {
-     document.getElementsByTagName('html')[0].setAttribute('data-theme', this.commonConfig.editorTheme)
+     document.getElementsByTagName('html')[0].setAttribute('data-theme', this.config.editorTheme)
   }
 }
 </script>

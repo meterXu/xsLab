@@ -205,7 +205,7 @@ export default {
         content: '确定删除这个数据源吗?',
         onOk: function () {
           if (that.activeDbProp.value) {
-            that.$ajax.post(that.commonConfig.baseUrl + this.commonConfig.actionUrl.DelDataSource, {
+            that.$ajax.post(that.config.baseUrl + this.config.actionUrl.DelDataSource, {
               oid: that.activeDbProp.value
             }).then(c => {
               if (c.data) {

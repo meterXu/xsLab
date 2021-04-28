@@ -1,6 +1,6 @@
 const appState = {
     dbList:null,
-    commonConfig:{
+    config:{
         editorTheme: 'dark',
         baseUrl: null
     }
@@ -10,8 +10,8 @@ const mutations = {
     setDbList(state,data){
         state.dbList = data
     },
-    setCommonConfig(state,data){
-        state.commonConfig = data
+    setConfig(state,data){
+        state.config = data
         localStorage.setItem('xsLab_conf',JSON.stringify(data))
     }
 }
