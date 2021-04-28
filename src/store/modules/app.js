@@ -12,6 +12,7 @@ const mutations = {
     },
     setCommonConfig(state,data){
         state.commonConfig = data
+        localStorage.setItem('xsLab_conf',JSON.stringify(data))
     }
 }
 

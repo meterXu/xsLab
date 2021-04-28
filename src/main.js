@@ -20,12 +20,12 @@ Vue.use(vuex)
 Vue.use(VueQriously)
 Vue.use(Xsc)
 Vue.mixin(myMixin)
+Vue.prototype.$ajax =  createRequest()
 
 if(!store.getters.commonConfig.baseUrl){
   axios.get('./config.json').then(res=>{
     store.getters.commonConfig.baseUrl = res.data.baseUrl
     store.commit('setCommonConfig',store.getters.commonConfig)
-    Vue.prototype.$ajax =  createRequest()
     // 启动应用
     new Vue({
       router,
@@ -33,6 +33,13 @@ if(!store.getters.commonConfig.baseUrl){
       render: h => h(App)
     }).$mount('#app')
   })
+}else{
+  // 启动应用
+  new Vue({
+    router,
+    store,
+    render: h => h(App)
+  }).$mount('#app')
 }
 
 Vue.prototype.$clipboard = clipboard

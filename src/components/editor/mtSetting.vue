@@ -3,18 +3,13 @@
       <div id="setProp">
         <div id="setPropContent">
           <Alert show-icon type="warning">验证并保存后才生效</Alert>
-          <Form ref="formValidate" :label-width="100" :model="tmpConfig" :rules="ruleValidate">
+          <Form ref="formValidate" :label-width="100" :model="commonConfig" :rules="ruleValidate">
             <FormItem label="后端地址" prop="baseUrl">
-              <Input v-model="tmpConfig.baseUrl" placeholder="请输入后端地址..."/>
+              <Input v-model="commonConfig.baseUrl" placeholder="请输入后端地址..."/>
             </FormItem>
             <FormItem label="编辑器主题" prop="editorTheme" style="text-align: left">
-              <RadioGroup v-model="tmpConfig.editorTheme" type="button">
+              <RadioGroup v-model="commonConfig.editorTheme" type="button">
                 <Radio  v-for="(item, id) in commonData.editorTheme" :label="item.value" :key="id"><span>{{item.text}}</span></Radio>
-              </RadioGroup>
-            </FormItem>
-            <FormItem label="图表主题" prop="chartNodeTheme" style="text-align: left">
-              <RadioGroup v-model="tmpConfig.chartNodeTheme" type="button">
-                <Radio v-for="(item, id) in commonData.theme" :label="item.value" :key="id"><span>{{item.text}}</span></Radio>
               </RadioGroup>
             </FormItem>
             <FormItem style="text-align: left">
@@ -28,46 +23,44 @@
 
 <script>
 import commonData from '../../data/resources/commonData'
+import {mapGetters} from "vuex";
+import axios from "axios";
+import Vue from "vue";
+import createRequest from "@/config/api";
 export default {
   name: 'mtSetting',
   data () {
     return {
       commonData: commonData,
-      tmpConfig: {
-        editorTheme: 'light',
-        chartNodeTheme: 'light',
-        baseUrl: null,
-        actionUrl: null
-      },
       ruleValidate: {
         baseUrl: [
           { required: true, message: '后端地址必填', trigger: 'blur' }
         ],
         editorTheme: [
           { required: true, message: '编辑器主题必选', trigger: 'blur' }
-        ],
-        chartNodeTheme: [
-          { required: true, message: '图表主题必选', trigger: 'blur' }
         ]
       }
     }
   },
   watch:{
-    'tmpConfig.editorTheme':{
+    'commonConfig.editorTheme':{
       handler:function (nv){
         document.getElementsByTagName('html')[0].setAttribute('data-theme', nv)
       },
       deep: true
     }
   },
+  computed: {
+    ...mapGetters(["commonConfig"])
+  },
   methods: {
     saveSetProp: function () {
-      this.$refs.formValidate.validate(c => {
-        if (c) {
-          this.$ajax.post(this.tmpConfig.baseUrl + this.tmpConfig.actionUrl.validateBaseUrl).then(c => {
+      this.$refs.formValidate.validate(res => {
+        if (res) {
+          axios.post(this.commonConfig.baseUrl+this.action.validateBaseUrl).then(c => {
             if (c.data) {
-              Object.assign(this.commonConfig, this.tmpConfig)
-              localStorage[this.commonConfig.localStorageKey] = JSON.stringify(this.commonConfig)
+              this.$store.commit('setCommonConfig',this.commonConfig)
+              this.$ajax =  createRequest()
               this.$Message.success('保存成功！')
             }
           }).catch(c => {
@@ -76,9 +69,6 @@ export default {
         }
       })
     }
-  },
-  beforeMount () {
-    Object.assign(this.tmpConfig, this.commonConfig)
   }
 }
 </script>
