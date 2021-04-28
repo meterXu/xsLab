@@ -12,7 +12,7 @@
 
 ## 界面
 
-![黑色主题](https://img.xdo.icu//11qprpj.png)
+![黑色主题](https://user-images.githubusercontent.com/6405875/116405059-d1cb7c80-a861-11eb-8295-8741419887a0.png)
 
 1. 数据源配置
 
