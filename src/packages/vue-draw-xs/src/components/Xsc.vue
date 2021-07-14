@@ -46,7 +46,7 @@ export default {
     }
   },
   computed: {
-    themeStyle: function () {
+    themeStyle () {
       if (this.commonData.themeData) {
         return this.commonData.themeData[(this.options === undefined || this.options === null) ? 'light' : this.options.theme || 'light']
       } else {
@@ -222,7 +222,7 @@ export default {
   },
   updated () {
     this.$emit('updated', this.$el)
-  }
+  },
 }
 </script>
 

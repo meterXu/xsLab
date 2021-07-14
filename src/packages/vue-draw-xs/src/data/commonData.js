@@ -18,6 +18,7 @@ let commonData = {
   themeData: {
     darkblue,
     light,
+    default:normal,
     normal,
     dark,
     chalk,

@@ -153,7 +153,7 @@ export default {
         content: '正在努力组装中，请稍等……'
       })
       that.$ajax({
-        url: that.action.DownloadCanvas + `?canvasOid=${cavid}&type=${type}`,
+        url: that.action.downloadCanvas + `?canvasOid=${cavid}&type=${type}`,
         method: 'get',
         responseType: 'blob'
       }).then(c => {

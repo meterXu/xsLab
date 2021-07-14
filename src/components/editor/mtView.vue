@@ -3,7 +3,6 @@
 </template>
 
 <script>
-import {mapGetters} from "vuex";
 
 export default {
   name: 'mtView',
@@ -20,9 +19,6 @@ export default {
       outerPageStyle.backgroundImage = xscEl.style.backgroundImage
       outerPageStyle.backgroundSize = xscEl.style.backgroundSize
     }
-  },
-  computed: {
-    ...mapGetters(["config"])
   },
   mounted () {
     let that = this

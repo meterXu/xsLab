@@ -181,7 +181,6 @@ export default {
       this.editorData.dragMenuNode = node
     },
     drop () {
-      debugger
       if (!this.view) {
         if (this.editorData.dragMenuNode) {
           let scrollLeft = this.$refs.mtScale.$el.scrollLeft
@@ -317,7 +316,7 @@ export default {
           title: '删除确认',
           content: '确定删除这个打开的画布吗？',
           onOk: function () {
-            that.$ajax.post(this.action.DelCanvas, {
+            that.$ajax.post(this.action.delCanvas, {
               canvasOid: that.mtCanvasOptions.id
             }).then(c => {
               if (c.data) {
