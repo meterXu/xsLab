@@ -181,6 +181,7 @@ export default {
       this.editorData.dragMenuNode = node
     },
     drop () {
+      debugger
       if (!this.view) {
         if (this.editorData.dragMenuNode) {
           let scrollLeft = this.$refs.mtScale.$el.scrollLeft

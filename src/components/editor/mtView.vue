@@ -3,6 +3,8 @@
 </template>
 
 <script>
+import {mapGetters} from "vuex";
+
 export default {
   name: 'mtView',
   data () {
@@ -19,10 +21,13 @@ export default {
       outerPageStyle.backgroundSize = xscEl.style.backgroundSize
     }
   },
+  computed: {
+    ...mapGetters(["config"])
+  },
   mounted () {
     let that = this
     let id = this.$route.params.id
-    this.$ajax.post(this.config.action.GetCanvasData, {
+    this.$ajax.post(this.action.getCanvasData, {
       canvasOid: id
     }).then(c => {
       if (c.data) {

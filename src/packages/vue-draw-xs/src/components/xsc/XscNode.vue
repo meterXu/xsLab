@@ -231,10 +231,26 @@ export default {
             that.node.config.data.source.forEach((c, i) => {
               switch (c.type) {
                 case 3: { // api
+                  let apiConf= {}
+                  if(c.apiConf){
+                    apiConf = JSON.parse(c.apiConf)
+                  }
+                  if(that.$route.query.hasOwnProperty('X-Access-Token')){
+                    if(apiConf.hasOwnProperty('headers')){
+                      apiConf.headers['X-Access-Token'] = that.$route.query['X-Access-Token']
+                    }
+                   else{
+                      apiConf = Object.assign(apiConf,{
+                        headers:{
+                          'X-Access-Token': that.$route.query['X-Access-Token']
+                        }
+                      })
+                    }
+                  }
                   let config =Object.assign(
                       { url:c.url, method:c.method },
                       c.method==='post'?{data:c.params||{}}:{},
-                      that.$route.query.hasOwnProperty('X-Access-Token')?{headers:{ 'X-Access-Token':that.$route.query['X-Access-Token'] }}:{})
+                      apiConf)
                   that.axios(config).then(res=>{
                     if(res.status===200){
                       if(c.proPath){
@@ -243,11 +259,11 @@ export default {
                         pros.forEach((p)=>{
                           realData = realData[p]
                         })
-                        resData[i] = realData
+                        resData[i] = that.arraysToObjects(realData)
                       }else{
-                        resData[i] = res.data
+                        resData[i] = that.arraysToObjects(res.data)
                       }
-                      if (resolve) {
+                      if (resolve&&resData.length===that.node.config.data.source.length) {
                         resolve(resData)
                       }
                     }else {
@@ -262,7 +278,7 @@ export default {
                 }
                 case 2: { // json
                   resData[i] = typeof (c.json) === 'string' ? JSON.parse(c.json || null) : c.json
-                  if (resolve) {
+                  if (resolve&&resData.length===that.node.config.data.source.length) {
                     resolve(resData)
                   }
                   break
@@ -312,6 +328,17 @@ export default {
           }
         }
       })
+    },
+    arraysToObjects(data){
+      let _data = [...data]
+      _data = _data.map(c=>{
+        if(c instanceof Array){
+          return {...c}
+        }else {
+          return c
+        }
+      })
+      return _data
     },
     updateNodeData (data) {
       let errMsgs = null
