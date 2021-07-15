@@ -2,7 +2,7 @@
 
 > 可视化图表编辑器，包含绘制图表、绑定数据源、在线预览、导出图表、自定义开发等功能。
 
-[介绍](https://xsclub.isaacxu.com/#/) | [Demo](https://xsclub.isaacxu.com/xslab/#/)
+[介绍](https://app.isaacxu.com/xslab/portal/#/) | [Demo](https://app.isaacxu.com/xslab/editor/#/)
 
 *也许你需要一个这样的图表工具:smirk:*
 
@@ -52,13 +52,13 @@ npm run dev
 npm run build
 ```
 ## 用户手册
-[点我跳转](https://xsclub.isaacxu.com/#/xc_doc/0/body/1/0)
+[点我跳转](https://app.isaacxu.com/xslab/portal/#/xc_doc/0/body/1/0)
 
-## 核心组件
-[vue-draw-xs](https://github.com/meterXu/vue-draw-xs)
+## vue-draw-xs组件
+[vue-draw-xs](xslab-editor/src/packages/vue-draw-xs/README.md)
 
 ## 开发手册
-[点我跳转](https://xsclub.isaacxu.com/#/xc_doc/1/body/1/0)
+[点我跳转](https://app.isaacxu.com/xslab/portal/#/xc_doc/1/body/1/0)
 
 ## 后端
-[xsCollect](https://github.com/meterXu/xsCollect)
+[xsCollect](xslab-rearend/README.md)
