@@ -1,0 +1,31 @@
+{
+  "name": "vue-draw-xs",
+  "description": "Visual chart development component",
+  "version": "1.1.10",
+  "author": "meter <xuhonggang@hotmial.com>",
+  "license": "MIT",
+  "private": false,
+  "main": "index.js",
+  "scripts": {
+    "dev": "cross-env NODE_ENV=development webpack-dev-server --open --hot",
+    "build": "cross-env NODE_ENV=production webpack --progress --hide-modules",
+    "lint": "eslint --fix --ext .js,.vue src test/unit test/e2e/specs"
+  },
+  "dependencies": {
+    "echarts": "^4.5.0",
+    "echarts-liquidfill": "^2.0.4",
+    "resize-detector": "^0.1.9",
+    "axios": "^0.18.0",
+    "@tweenjs/tween.js": "^17.4.0",
+    "vue-echarts": "^4.0.1",
+    "vue": "^2.5.2"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 8"
+  ],
+  "devDependencies": {
+
+  }
+}

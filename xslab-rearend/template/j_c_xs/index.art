@@ -1,0 +1,26 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="node_modules/vue/dist/vue.min.js"></script>
+    <script src="node_modules/vue-draw-xs/dist/index.js"></script>
+</head>
+<body>
+    <div id="app">
+            <Xsc ref="xsc" :charts="charts" :options="options"></Xsc>
+    </div>
+
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                charts: {{@ charts }},
+                options: {{@ options }}
+            }
+        })
+    </script>
+</body>
+</html>

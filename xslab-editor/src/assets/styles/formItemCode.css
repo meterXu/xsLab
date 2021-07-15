@@ -1,0 +1,16 @@
+.CodeMirror{
+  height: 200px;
+}
+.CodeMirror-code {
+  font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+.CodeMirror-code{
+  height: 14px;
+  line-height: 20px;
+}
+.fullScreen .CodeMirror{
+  height: 400px;
+}
+.jsonPanel .CodeMirror{
+  height: 563px;
+}

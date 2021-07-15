@@ -1,0 +1,32 @@
+html[data-theme='dark']{
+  --header-bg-color:#161B22;
+  --header-border-color:#21262d;
+  --menu-bg-color:#161B22;
+  --menu-border-color:#21262d;
+  --scale-bg-img:url("../../assets/scaleBg-dark.png");
+  --options-bg-color:#161B22;
+  --options-border-color:#21262d;
+  --collapse-bg-color:#161B22;
+  --collapse-border-color:#21262d;
+  --collapse-item-border-color:#21262d;
+  --tabs-bg-color:#161B22;
+  --tabs-border-color:#21262d;
+  --db-bg-color:#0D1117;
+  --prop-bg-color:#161B22;
+  --input-bg-color:#21262d;
+  --input-border-color:#2c65a2;
+  --btn-bg-color:#21262d;
+  --btn-border-color:#161B22;
+  --select-item-hover-bg-color:#2d8cf0;
+  --select-item-hover-color:#fff;
+  --switch-after-bg-color:#161a1d;
+  --switch-checked-bg-color:#2d8cf0;
+  --modal-bg-color:#161B22;
+  --modal-border-color:#21262d;
+  --table-bg-color:#161B22;
+  --table-td-bg-color:#0D1117;
+  --table-border-color:#21262d;
+  --card-border-color:#21262d;
+  --radio-group-bg-color:#161B22;
+  --card-bg-color:#161B22;
+}

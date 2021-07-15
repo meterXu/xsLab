@@ -1,0 +1,35 @@
+.mt_chart{
+  width: 24px;
+  height: 24px;
+  background: url("../chart_icon.png") no-repeat;
+  background-size: 24px;
+
+}
+.mt_char_line{
+  background-position-x: -1px;
+  background-position-y: -1px;
+}
+.mt_char_bar{
+  background-position-x: -1px;
+  background-position-y: -25px;
+}
+.mt_char_pie{
+  background-position-x: -1px;
+  background-position-y: -97px;
+}
+.mt_char_basic{
+  background-position-x: -1px;
+  background-position-y: -529px;
+}
+.mt_char_text{
+  background-position-x: -1px;
+  background-position-y: -697px;
+}
+.mt_char_dev{
+  background-position-x: -1px;
+  background-position-y: -169px;
+}
+.mt_char_gauge{
+  background-position-x: -1px;
+  background-position-y: -217px;
+}

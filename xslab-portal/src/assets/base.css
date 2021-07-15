@@ -1,0 +1,12 @@
+@media screen and (max-width:600px){
+    .page{
+      left: 0.5rem !important;
+      right: 0.5rem !important;
+    }
+    @media screen and (max-width:600px){
+      img{
+         width: 100%;
+         max-width: fit-content;
+      }
+    }
+  }

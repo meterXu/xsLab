@@ -1,0 +1,30 @@
+{
+  "name": "xscollect",
+  "version": "1.0.2",
+  "description": "Chart editor backend",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:meterXu/xsCollect.git"
+  },
+  "author": "meter <xuhonggang@hotmail.com>",
+  "dependencies": {
+    "art-template": "^4.13.2",
+    "commander": "^3.0.1",
+    "compressing": "^1.5.1",
+    "koa": "^2.11.0",
+    "koa-body": "^4.1.1",
+    "koa-router": "^7.4.0",
+    "koa-send": "^5.0.0",
+    "koa2-cors": "^2.0.6",
+    "mssql": "^5.1.0",
+    "mysql": "^2.17.1",
+    "oracledb": "^5.0.0",
+    "safe-buffer": "^5.2.0",
+    "sqlite3": "^4.1.0"
+  }
+}
