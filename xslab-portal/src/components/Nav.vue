@@ -2,13 +2,13 @@
   <header>
     <b-navbar toggleable="lg" type="dark" :sticky="true" class="bg-xsclub">
       <b-navbar-brand :to="{name:'Index'}">
-        <b-img class="logo" :src="config.url.xsclublogo" alt="xsclub"></b-img> XSClub
+        <b-img class="logo" :src="config.url.xsclublogo" alt="xsLab"></b-img> XSLab
       </b-navbar-brand>
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav class="ml-auto">
           <b-nav-item :to="{name:'Index'}" :active="active('Index')">首页</b-nav-item>
-          <b-nav-item :to="{name:'XSLab'}" :active="active('XSLab')">XSLab</b-nav-item>
+          <b-nav-item :to="{name:'XSLab'}" :active="active('XSLab')">编辑器</b-nav-item>
           <b-nav-item
             :to="{name:'DocBody',params: { type:'0',id:'1',html:'0'}}"
             :active="active('DocBody','0')"
@@ -56,6 +56,6 @@ export default {
   vertical-align: text-bottom;
 }
 .bg-xsclub {
-  background: #282b3d;
+  background: #17a2b8;
 }
 </style>

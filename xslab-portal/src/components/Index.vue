@@ -7,12 +7,12 @@
           <img class="logo" :src="config.url.xsclublogo" alt="logo"/>
       </div>
       <div class="col-md-6 order-md-1 text-center text-md-left pr-md-5">
-        <h1 class="mb-3 bd-text-purple-bright">XSClub</h1>
+        <h1 class="mb-3 bd-text-purple-bright">XSLab</h1>
         <p class="lead">
           数据可视化解决方案
         </p>
         <p class="lead mb-4">
-          XSClub是一套数据可视化解决方案，该方案包含报表编辑器，报表展示页以及可编程的报表绘制组件，可满足您数据大屏展示，系统报表定制化开发，多业务场景下报表切换等需求。所见即所得的操作模式，让您快速成为一个优质报表内容提供者。
+          XSLab是一套数据可视化解决方案，该方案包含报表编辑器，报表展示页以及可编程的报表绘制组件，可满足您数据大屏展示，系统报表定制化开发，多业务场景下报表切换等需求。所见即所得的操作模式，让您快速成为一个优质报表内容提供者。
         </p>
         <div class="row mx-n2">
           <div class="col-md px-2">
@@ -30,7 +30,7 @@
     </main>
     <div class="masthead-followup row m-0 border border-white">
     <div class="col-12 col-md-12 p-3 p-md-5 bg-light border border-white">
-      <h3>架构</h3>
+      <h3>结构图</h3>
       <div class="mx-auto col-md-6 order-md-2">
         <img class="architecture" :src="config.url.architecture" alt="architecture">
       </div>
