@@ -16,7 +16,7 @@
         </p>
         <div class="row mx-n2">
           <div class="col-md px-2">
-            <b-link class="btn btn-lg btn-outline-primary w-100 mb-3" :to="{name:'DocBody', params:{type: '0',id: '1',html:'0'}}">现在开始</b-link>
+            <b-link class="btn btn-lg btn-outline-primary w-100 mb-3 xslab-btn" :to="{name:'DocBody', params:{type: '0',id: '1',html:'0'}}">现在开始</b-link>
           </div>
           <div class="col-md px-2"></div>
         </div>

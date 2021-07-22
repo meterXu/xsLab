@@ -11,7 +11,6 @@
 
 <script>
 import DocNav from './DocNav'
-import '../assets/base.css'
 export default {
   name: 'Doc',
   props: {

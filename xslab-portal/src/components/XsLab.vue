@@ -17,7 +17,7 @@
     <div>
       <b-jumbotron header="XSLab" lead="基于web的可视化图表编辑器">
         <p>免费在线试用</p>
-        <b-button variant="primary" :href="config.url.xslab" target="_blank">现在就去</b-button>
+        <b-button variant="primary" class="xslab-btn-filling" :href="config.url.xslab" target="_blank">现在就去</b-button>
       </b-jumbotron>
     </div>
     <Footer></Footer>

@@ -1,3 +1,20 @@
+.xslab-btn{
+  color:#17a2b8;
+  border-color: #17a2b8;
+}
+.xslab-btn:hover{
+  background: #17a2b8;
+  border-color: #17a2b8;
+}
+
+.xslab-btn-filling{
+  background: #17a2b8;
+  border-color: #17a2b8;
+}
+.xslab-btn-filling:hover{
+  background: #108395;
+  border-color: #108395;
+}
 @media screen and (max-width:600px){
     .page{
       left: 0.5rem !important;
