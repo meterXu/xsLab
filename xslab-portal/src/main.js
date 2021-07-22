@@ -14,7 +14,7 @@ Vue.config.productionTip = false
 Vue.use(VueAxios, axios)
 Vue.use(BootstrapVue)
 // Vue.prototype.$backUrl = 'http://localhost:8083/'
-Vue.prototype.$backUrl = 'https://app.isaacxu.com/route/doc/'
+Vue.prototype.$backUrl = 'https://app.isaacxu.com/xslab/doc/'
 /* eslint-disable no-new */
 Vue.mixin({
   data(){
