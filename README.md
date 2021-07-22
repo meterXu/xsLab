@@ -61,4 +61,4 @@ npm run build
 [点我跳转](https://app.isaacxu.com/xslab/portal/#/xc_doc/1/body/1/0)
 
 ## 后端
-[xsCollect](xslab-rearend/README.md)
+[xslab-rearend](xslab-rearend/README.md)
