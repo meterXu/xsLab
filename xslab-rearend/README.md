@@ -1,5 +1,5 @@
-# xsCollect
-Chart editor backend
+# xslab-rearend
+xsLab 后端程序
 
 # 版本要求
 node >= 12.16.1
