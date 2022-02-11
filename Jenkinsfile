@@ -23,7 +23,6 @@ pipeline {
                 steps {
                     script{
                         sh "cd ${rootPath} && npm install && npm run build"
-                        sh "cd ${rootPath_api} && npm install"
                     }
                 }
             }
@@ -54,64 +53,65 @@ pipeline {
                             sshCommand remote: remote,command: "rm -rf ${publishPath}"
                             sshCommand remote: remote,command: "mv ${putPath}/${appName}/dist ${publishPath}"
                             sshCommand remote: remote,command: "mv ${putPath}/${appName_api}/* ${publishPath_api} -f"
+                            sshCommand remote: remote,command: "cd ${publishPath_api} && npm install"
                          }
                     }
                 }
             }
     }
-//     post {
-//         success {
-//             script {
-//                     dingtalk(robot: robot,
-//                                 type: 'ACTION_CARD',
-//                                 at: [],
-//                                 atAll: false,
-//                                 title: "",
-//                                 text: [
-//                                 "<font color=#0089ff >${appName}项目部署</font>",
-//                                 "",
-//                                 "----",
-//                                 "",
-//                                 "* 任务：#${BUILD_NUMBER}",
-//                                 "* 项目：${appName}",
-//                                 "* 状态：<font color=#00EE00 >部署成功</font>",
-//                                 "* 持续时间：${currentBuild.durationString}".split("and counting")[0],
-//                                 "* 执行人：${currentBuild.buildCauses.shortDescription}",
-//                                 ],
-//                                 messageUrl: '',
-//                                 picUrl: '',
-//                                 singleTitle: '',
-//                                 btns: [],
-//                                 btnLayout: 'H',
-//                                 hideAvatar: false
-//                                 )
-//             }
-//         }
-//         failure {
-//             script {
-//                     dingtalk(robot: robot,
-//                                 type: 'ACTION_CARD',
-//                                 at: [],
-//                                 atAll: false,
-//                                 title: "",
-//                                 text: [
-//                                 "<font color=#0089ff >${appName}项目部署</font>",
-//                                 "",
-//                                 "----",
-//                                 "",
-//                                 "* 任务：#${BUILD_NUMBER}",
-//                                 "* 项目：${appName}",
-//                                 "* 状态：<font color=#EE0000 >部署失败</font>",
-//                                 "* 持续时间：${currentBuild.durationString}".split("and counting")[0],
-//                                 "* 执行人：${currentBuild.buildCauses.shortDescription}",
-//                                 ],
-//                                 messageUrl: '',
-//                                 picUrl: '',
-//                                 singleTitle: '',
-//                                 btnLayout: 'H',
-//                                 hideAvatar: false
-//                                 )
-//             }
-//         }
-//     }
+    post {
+        success {
+            script {
+                    dingtalk(robot: robot,
+                                type: 'ACTION_CARD',
+                                at: [],
+                                atAll: false,
+                                title: "",
+                                text: [
+                                "<font color=#0089ff >${appName}项目部署</font>",
+                                "",
+                                "----",
+                                "",
+                                "* 任务：#${BUILD_NUMBER}",
+                                "* 项目：${appName}",
+                                "* 状态：<font color=#00EE00 >部署成功</font>",
+                                "* 持续时间：${currentBuild.durationString}".split("and counting")[0],
+                                "* 执行人：${currentBuild.buildCauses.shortDescription}",
+                                ],
+                                messageUrl: '',
+                                picUrl: '',
+                                singleTitle: '',
+                                btns: [],
+                                btnLayout: 'H',
+                                hideAvatar: false
+                                )
+            }
+        }
+        failure {
+            script {
+                    dingtalk(robot: robot,
+                                type: 'ACTION_CARD',
+                                at: [],
+                                atAll: false,
+                                title: "",
+                                text: [
+                                "<font color=#0089ff >${appName}项目部署</font>",
+                                "",
+                                "----",
+                                "",
+                                "* 任务：#${BUILD_NUMBER}",
+                                "* 项目：${appName}",
+                                "* 状态：<font color=#EE0000 >部署失败</font>",
+                                "* 持续时间：${currentBuild.durationString}".split("and counting")[0],
+                                "* 执行人：${currentBuild.buildCauses.shortDescription}",
+                                ],
+                                messageUrl: '',
+                                picUrl: '',
+                                singleTitle: '',
+                                btnLayout: 'H',
+                                hideAvatar: false
+                                )
+            }
+        }
+    }
 }
