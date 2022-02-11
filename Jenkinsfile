@@ -39,6 +39,8 @@ pipeline {
                          stage ('备份') {
                             sshCommand remote: remote,command: "mkdir -p ${bakPath}/${appName}"
                             sshCommand remote: remote,command: "mkdir -p ${bakPath}/${appName_api}"
+                            sshCommand remote: remote,command: "mkdir -p ${publishPath}"
+                            sshCommand remote: remote,command: "mkdir -p ${publishPath_api}"
                             sshCommand remote: remote,command: "cp -r ${publishPath} ${bakPath}/${appName}/${BUILD_NUMBER}"
                             sshCommand remote: remote,command: "cp -r ${publishPath_api} ${bakPath}/${appName_api}/${BUILD_NUMBER}"
                          }
@@ -49,9 +51,9 @@ pipeline {
                             sshPut remote: remote,from: "${rootPath_api}",into:"${putPath}"
                          }
                          stage ('启动') {
-//                             sshCommand remote: remote,command: "rm -rf ${publishPath}"
-//                             sshCommand remote: remote,command: "mv ${putPath}/${appName}/dist ${publishPath}"
-//                             sshCommand remote: remote,command: "mv ${putPath}/${appName_api} ${publishPath_api} -f"
+                            sshCommand remote: remote,command: "rm -rf ${publishPath}"
+                            sshCommand remote: remote,command: "mv ${putPath}/${appName}/dist ${publishPath}"
+                            sshCommand remote: remote,command: "mv ${putPath}/${appName_api}/* ${publishPath_api} -f"
                          }
                     }
                 }
