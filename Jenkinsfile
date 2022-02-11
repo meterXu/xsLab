@@ -49,9 +49,9 @@ pipeline {
                             sshPut remote: remote,from: "${rootPath_api}",into:"${putPath}"
                          }
                          stage ('启动') {
-                            sshCommand remote: remote,command: "rm -rf ${publishPath}"
-                            sshCommand remote: remote,command: "mv ${putPath}/${appName}/dist ${publishPath}"
-                            sshCommand remote: remote,command: "mv ${putPath}/${appName_api} ${publishPath_api} -f"
+//                             sshCommand remote: remote,command: "rm -rf ${publishPath}"
+//                             sshCommand remote: remote,command: "mv ${putPath}/${appName}/dist ${publishPath}"
+//                             sshCommand remote: remote,command: "mv ${putPath}/${appName_api} ${publishPath_api} -f"
                          }
                     }
                 }
