@@ -4,11 +4,11 @@ def credentialsId = "c078ac92-89dd-4842-8292-5e348e68db08"
 def rootPath= "./xslab-editor"
 def rootPath_api= "./xslab-rearend"
 def appName = "xslab"
-def appName_api = "xsCollect"
+def appName_api = "xslab-rearend"
 def bakPath = "/home/jenkins_bak"
 def putPath = "/home/jenkins_put"
 def publishPath= "/usr/local/nginx/html/iplatform/xslab"
-def publishPath_api= "/etc/soft/xsCollect"
+def publishPath_api= "/etc/soft/xslab-rearend"
 def robot = "360ac2ce-efe5-4478-8703-7cd3bd463044"
 
 pipeline {
@@ -46,7 +46,7 @@ pipeline {
                             sshCommand remote: remote,command: "mkdir -p ${putPath}/${appName}"
                             sshCommand remote: remote,command: "mkdir -p ${putPath}/${appName_api}"
                             sshPut remote: remote,from: "${rootPath}/dist",into:"${putPath}/${appName}"
-                            sshPut remote: remote,from: "${rootPath_api}",into:"${putPath}/${appName_api}"
+                            sshPut remote: remote,from: "${rootPath_api}",into:"${putPath}"
                          }
                          stage ('启动') {
                             sshCommand remote: remote,command: "rm -rf ${publishPath}"
