@@ -53,7 +53,6 @@ pipeline {
                             sshCommand remote: remote,command: "rm -rf ${publishPath}"
                             sshCommand remote: remote,command: "mv ${putPath}/${appName}/dist ${publishPath}"
                             sshCommand remote: remote,command: "mv ${putPath}/${appName_api} ${publishPath_api} -f"
-                            sshCommand remote: remote,command: "cd ${publishPath_api} && npm install"
                          }
                     }
                 }
