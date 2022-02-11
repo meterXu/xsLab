@@ -38,6 +38,7 @@ pipeline {
                          remote.allowAnyHosts= true
                          stage ('备份') {
                             sshCommand remote: remote,command: "mkdir -p ${bakPath}/${appName}"
+                            sshCommand remote: remote,command: "mkdir -p ${bakPath}/${appName_api}"
                             sshCommand remote: remote,command: "cp -r ${publishPath} ${bakPath}/${appName}/${BUILD_NUMBER}"
                             sshCommand remote: remote,command: "cp -r ${publishPath_api} ${bakPath}/${appName_api}/${BUILD_NUMBER}"
                          }
