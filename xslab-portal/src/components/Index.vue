@@ -3,9 +3,9 @@
     <main class="bd-masthead" id="content" role="main">
       <div class="container">
     <div class="row align-items-center">
-      <div class="col-6 mx-auto col-md-6 order-md-2">
-          <img class="logo" :src="config.url.xsclublogo" alt="logo"/>
-      </div>
+<!--      <div class="col-6 mx-auto col-md-6 order-md-2">-->
+<!--          <img class="logo" :src="config.url.xsclublogo" alt="logo"/>-->
+<!--      </div>-->
       <div class="col-md-6 order-md-1 text-center text-md-left pr-md-5">
         <h1 class="mb-3 bd-text-purple-bright">XSLab</h1>
         <p class="lead">

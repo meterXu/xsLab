@@ -1,6 +1,7 @@
 export default {
     url:{
-        xsclublogo: "https://img.xdo.icu/favicon_logo_white.png",
+        logo: "./static/logo.png",
+        xsclublogo: "./static/logo.png",
         version:"https://img.shields.io/github/v/tag/meterxu/vue-draw-xs",
         architecture:"https://img.xdo.icu/architecture.png",
         vuedrawxs:"https://www.npmjs.com/package/vue-draw-xs",
