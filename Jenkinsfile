@@ -45,7 +45,6 @@ pipeline {
                          }
                          stage ('更新') {
                             sshCommand remote: remote,command: "mkdir -p ${putPath}/${appName}"
-                            sshCommand remote: remote,command: "mkdir -p ${putPath}/${appName_api}"
                             sshPut remote: remote,from: "${rootPath}/dist",into:"${putPath}/${appName}"
                             sshPut remote: remote,from: "${rootPath_api}",into:"${putPath}"
                          }
