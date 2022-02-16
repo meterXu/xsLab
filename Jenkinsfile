@@ -58,7 +58,7 @@ pipeline {
                     }
                 }
             }
-            stage('项目部署'){
+            stage('项目部署xxx'){
                 steps {
                     sh "echo 'xxx'"
                 }
