@@ -57,11 +57,6 @@ pipeline {
                     }
                 }
             }
-            stage('项目部署xxx'){
-                steps {
-                    sh "echo 'xxx'"
-                }
-            }
     }
 //     post {
 //         success {
