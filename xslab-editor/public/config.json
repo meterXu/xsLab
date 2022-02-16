@@ -1,3 +1,4 @@
 {
-  "baseUrl":"http://58.210.9.133/iplatform/xscollect"
+  "baseUrl":"http://58.210.9.133/iplatform/xscollect",
+  "editorTheme": "light"
 }

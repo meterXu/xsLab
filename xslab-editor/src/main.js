@@ -20,14 +20,11 @@ Vue.use(vuex)
 Vue.use(VueQr)
 Vue.use(Xsc)
 Vue.mixin(myMixin)
-Vue.prototype.$ajax =  createRequest()
 Vue.prototype.$clipboard=clipboard
 
 axios.get('./config.json').then(res=>{
-  if(!store.getters.config.baseUrl){
-    store.getters.config.baseUrl = res.data.baseUrl
-    store.commit('setConfig',store.getters.config)
-  }
+  store.commit('setConfig',res.data)
+  Vue.prototype.$ajax =  createRequest()
   // 启动应用
   new Vue({
     router,
