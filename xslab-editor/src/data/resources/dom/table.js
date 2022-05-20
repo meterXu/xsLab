@@ -36,11 +36,19 @@ const table = {
         "no-data-text":"暂无数据"
       },
       pagination:{
-        enable:false,
+        show:false,
         'show-total':false,
         'show-sizer':false,
         'show-elevator':false,
-        'simple':false,
+        simple:false,
+        pageNo:1,
+        pageSize:10,
+        pageSizeOpts:'10,20,30',
+        pageInfo:{
+          currentPage:0,
+          pageSize:0,
+          totalCount:0
+        }
       },
       th: {
         fontSize: 14,
@@ -82,7 +90,8 @@ const table = {
           json: '[{"编号":"1","英文":"apple","中文":"苹果"},\n' +
             '{"编号":"2","英文":"banana","中文":"香蕉"},\n' +
             '{"编号":"3","英文":"cherry","中文":"樱桃"},\n' +
-            '{"编号":"4","英文":"durian","中文":"榴莲"}]'}
+            '{"编号":"4","英文":"durian","中文":"榴莲"}]'
+        }
       ]
     }
   },
@@ -115,11 +124,14 @@ const table = {
           key: 'options/pagination',
           name: '分页',
           sub: [
-            {key: 'enable', name: '启用分页', type: 'boolean'},
+            {key: 'show', name: '显示分页', type: 'boolean'},
             {key: 'show-total', name: '显示总数', type: 'boolean'},
-            {key: 'show-sizer', name: '显示分页', type: 'boolean'},
+            {key: 'show-sizer', name: '显示每页条数', type: 'boolean'},
             {key: 'show-elevator', name: '显示电梯', type: 'boolean'},
             {key: 'simple', name: '简洁版', type: 'boolean'},
+            {key: 'pageSizeOpts', name: '条数列表', type: 'text'},
+            {key: 'pageNo', name: '默认页码', type: 'number',unit:'页'},
+            {key: 'pageSize', name: '默认条数', type: 'number',unit:'条'},
           ]
         }]
     },

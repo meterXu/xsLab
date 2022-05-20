@@ -1,6 +1,6 @@
 <template>
     <div class="xscdev">
-        <XscPlaceholderBox v-if="type==='placeholderBox'" :options="options" :view="view">
+        <XscPlaceholderBox v-if="type==='placeholderBox'" :id="id" :options="options" :view="view">
           <template v-slot:[options.key]>
              <slot :name="options.key"></slot>
           </template>
@@ -13,6 +13,7 @@ import XscPlaceholderBox from './dev/XscPlaceholderBox'
 export default {
   name: 'xscDev',
   props: {
+    id: Number,
     type: String,
     options: Object,
     view: Boolean

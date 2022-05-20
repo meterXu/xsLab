@@ -1,11 +1,11 @@
 <template>
   <div class='basedom'>
-    <XscTable v-if="type==='table'" :options="options" :themeData="themeData" :theme="theme"></XscTable>
-    <XscImg v-else-if="type==='img'" :options="options"></XscImg>
-    <XscText v-else-if="type==='text'" :options="options" :themeData="themeData" :theme="theme"></XscText>
-    <XscIframe v-else-if="type==='iframe'" :options="options" :themeData="themeData" :theme="theme" :view="this.view"></XscIframe>
-    <XscContainer v-else-if="type==='container'" :options="options" :themeData="themeData" :theme="theme"></XscContainer>
-    <XscSlide v-else-if="type==='slide'" :options="options" :themeData="themeData" :theme="theme"></XscSlide>
+    <XscTable v-if="type==='table'" :id="id" :options="options" :themeData="themeData" :theme="theme"></XscTable>
+    <XscImg v-else-if="type==='img'" :id="id" :options="options"></XscImg>
+    <XscText v-else-if="type==='text'" :id="id" :options="options" :themeData="themeData" :theme="theme"></XscText>
+    <XscIframe v-else-if="type==='iframe'" :id="id" :options="options" :themeData="themeData" :theme="theme" :view="this.view"></XscIframe>
+    <XscContainer v-else-if="type==='container'" :id="id" :options="options" :themeData="themeData" :theme="theme"></XscContainer>
+    <XscSlide v-else-if="type==='slide'" :id="id" :options="options" :themeData="themeData" :theme="theme"></XscSlide>
   </div>
 </template>
 
@@ -28,6 +28,7 @@ export default {
     XscSlide
   },
   props: {
+    id: Number,
     type: String,
     options: Object,
     theme: String,

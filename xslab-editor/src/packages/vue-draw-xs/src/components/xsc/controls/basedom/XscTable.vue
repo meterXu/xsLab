@@ -8,15 +8,18 @@
            :disabled-hover="options.primary['disabled-hover']"
            :no-data-text="options.primary['no-data-text']"
     ></Table>
-    <Page v-if="options.pagination.enable" size="small" class="paging"
-          :total="total"
-          :page-size="pageSize"
-          :current="current"
+    <Page v-if="options.pagination.show" size="small" class="paging"
+          :total="options.pagination.pageInfo.totalCount"
+          :page-size="options.pagination.pageInfo.pageSize"
+          :current="options.pagination.pageInfo.currentPage"
           :page-size-opts="pageSizeOpts"
           :show-total="options.pagination['show-total']"
           :show-sizer="options.pagination['show-sizer']"
           :show-elevator="options.pagination['show-elevator']"
-          :simple="options.pagination['simple']" />
+          :simple="options.pagination['simple']"
+          @on-change="pageChange"
+          @on-page-size-change="pageSizeChange"
+    />
   </div>
 </template>
 
@@ -25,6 +28,7 @@ import {Table,TableColumn,Button,Page} from 'iview'
 export default {
   name: 'XscTable',
   props: {
+    id:Number,
     options: Object,
     themeData: Object,
     theme: String
@@ -34,14 +38,6 @@ export default {
     Table,
     TableColumn,
     Page
-  },
-  data(){
-    return {
-      total:100,
-      pageSizeOpts:[10,20,30],
-      current:1,
-      pageSize:10
-    }
   },
   computed: {
     themeStyle () {
@@ -96,6 +92,22 @@ export default {
           key: c.field
         }
       })
+    },
+    pageSizeOpts(){
+      return this.options.pagination.pageSizeOpts.split(',').map(c=>{
+        return parseInt(c)
+      })
+    }
+  },
+  methods:{
+    pageChange(	page){
+      this.options.pagination.pageNo = page
+      this.$parent.$parent.$parent.update(this.id)
+    },
+    pageSizeChange(pageSize){
+      this.options.pagination.pageNo = 1
+      this.options.pagination.pageSize = pageSize
+      this.$parent.$parent.$parent.update(this.id)
     }
   }
 }

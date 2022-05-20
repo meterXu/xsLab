@@ -6,17 +6,21 @@
        @contextmenu="contextmenu"
        @keydown="keydown">
     <template>
-      <eCharts ref='echarts' :theme="node.config.theme"
+      <eCharts ref='echarts'
+               :id="node.id"
+               :theme="node.config.theme"
                :autoresize="autoresize"
                :options="temOptions"
                v-if="node.type==='eCharts'">
                </eCharts>
-      <XscDom :options="node.config.options"
-                  :theme="node.config.theme"
-                  :type="node.config.type"
-                  v-else-if="node.type==='dom'"
-                  :view="this.view"></XscDom>
-      <XscDev :options="node.config.options"
+      <XscDom
+          :id="node.id"
+          :options="node.config.options"
+          :theme="node.config.theme"
+          :type="node.config.type"
+          v-else-if="node.type==='dom'"
+          :view="this.view"></XscDom>
+      <XscDev :id="node.id" :options="node.config.options"
       :type="node.config.type"
       :view="this.view"
        v-else-if="node.type==='dev'">
@@ -247,12 +251,24 @@ export default {
                       })
                     }
                   }
+                  let params = c.params
+                  if(params){
+                    // set pageSize and pageNo
+                    params = params.replaceAll('$pageNo',that.node.config.options.pagination.pageNo)
+                    params = params.replaceAll('$pageSize',that.node.config.options.pagination.pageSize)
+                    if(c.method==='post'||c.method==='put'||c.method==='delete'){
+                      params = {data:JSON.parse(params)}
+                    }else{
+                      params = {params:JSON.parse(params)}
+                    }
+                  }else{
+                    params = {}
+                  }
                   let config =Object.assign(
-                      { url:c.url, method:c.method },
-                      c.method==='post'?{data:c.params||{}}:{},
-                      apiConf)
+                      { url:c.url, method:c.method }, params, apiConf)
                   that.axios(config).then(res=>{
                     if(res.status===200){
+                      that.node.config.options.pagination.pageInfo = res.data.value.pageInfo
                       if(c.proPath){
                         let realData= res.data
                         let pros = c.proPath.split('.')
