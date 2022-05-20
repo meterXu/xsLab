@@ -29,7 +29,18 @@ const table = {
         backgroundImg: '',
         borderWidth: 1,
         borderColor: null,
-        borderStyle: 'solid'
+        borderStyle: 'solid',
+        border:true,
+        stripe:false,
+        "disabled-hover":false,
+        "no-data-text":"暂无数据"
+      },
+      pagination:{
+        enable:false,
+        'show-total':false,
+        'show-sizer':false,
+        'show-elevator':false,
+        'simple':false,
       },
       th: {
         fontSize: 14,
@@ -58,10 +69,10 @@ const table = {
         borderBottomColor: null,
         borderRightStyle: 'dotted',
         borderRightColor: null
-      }
+      },
     },
     data: {
-      coordinate: 'table', // 饼图，无坐标系
+      coordinate: 'table', // 无坐标系
       loop: true,
       interval: 30,
       source: [
@@ -78,7 +89,7 @@ const table = {
   option: {
     config: [
       {
-      type: '基础',
+      type: '属性',
       icon: 'md-build',
       con: [
         {
@@ -94,36 +105,21 @@ const table = {
           key: 'options/primary',
           name: '表格',
           sub: [
-            {key: 'backgroundImg', name: '背景图', type: 'text'},
-            {key: 'borderWidth', name: '边框大小', type: 'number'},
-            {key: 'borderWidth', name: '边框类型', type: 'select', data: commonData.border}
+            {key: 'border', name: '纵向边框', type: 'boolean'},
+            {key: 'stripe', name: '间隔斑马纹', type: 'boolean'},
+            {key: 'disabled-hover', name: '禁用悬停时的高亮', type: 'boolean'},
+            {key: 'no-data-text', name: '数据为空时显示的提示内容', type: 'text'}
+
           ]
-        }, {
-          key: 'options/th',
-          name: '表头',
+        },{
+          key: 'options/pagination',
+          name: '分页',
           sub: [
-            {key: 'height', name: '高度', type: 'number'},
-            {key: 'fontFamily', name: '字体', type: 'text'},
-            {key: 'fontWeight', name: '字体粗细', type: 'select', data: commonData.fontWeight},
-            {key: 'fontSize', name: '字体大小', type: 'number'},
-            {key: 'borderRightWidth', name: '右边框大小', type: 'number'},
-            {key: 'borderRightStyle', name: '右边框类型', type: 'select', data: commonData.border},
-            {key: 'borderBottomWidth', name: '下边框大小', type: 'number'},
-            {key: 'borderBottomStyle', name: '下边框类型', type: 'select', data: commonData.border}
-          ]
-        }, {
-          key: 'options/td',
-          name: '表体',
-          sub: [
-            {key: 'height', name: '高度', type: 'number'},
-            {key: 'fontFamily', name: '字体', type: 'text'},
-            {key: 'fontWeight', name: '字体粗细', type: 'select', data: commonData.fontWeight},
-            {key: 'fontSize', name: '字体大小', type: 'number'},
-            {key: 'borderRightWidth', name: '右边框大小', type: 'number'},
-            {key: 'borderRightStyle', name: '右边框类型', type: 'select', data: commonData.border},
-            {key: 'borderBottomWidth', name: '下边框大小', type: 'number'},
-            {key: 'borderBottomStyle', name: '下边框类型', type: 'select', data: commonData.border},
-            { key: '', type: 'div', style: { height: 200 } }
+            {key: 'enable', name: '启用分页', type: 'boolean'},
+            {key: 'show-total', name: '显示总数', type: 'boolean'},
+            {key: 'show-sizer', name: '显示分页', type: 'boolean'},
+            {key: 'show-elevator', name: '显示电梯', type: 'boolean'},
+            {key: 'simple', name: '简洁版', type: 'boolean'},
           ]
         }]
     },
@@ -146,46 +142,6 @@ const table = {
             { key: '', type: 'div', style: { height: 200 } }
           ]
         }]
-    },
-      {
-      type: '样式',
-      icon: 'md-brush',
-      con: [{
-        key: '',
-        name: '全局',
-        sub: [
-          {key: 'theme',
-            name: '主题',
-            type: 'select',
-            data: commonData.theme}
-        ]
-      }, {
-        key: 'options/primary',
-        name: '表格',
-        sub: [
-          {key: 'background', name: '背景色', type: 'color'},
-          {key: 'borderColor', name: '边框色', type: 'color'}
-        ]
-      }, {
-        key: 'options/th',
-        name: '表头',
-        sub: [
-          {key: 'color', name: '前景色', type: 'color'},
-          {key: 'backgroundColor', name: '背景色', type: 'color'},
-          {key: 'borderBottomColor', name: '下边框色', type: 'color'},
-          {key: 'borderRightColor', name: '右边框色', type: 'color'}
-        ]
-      }, {
-        key: 'options/td',
-        name: '表体',
-        sub: [
-          {key: 'color', name: '前景色', type: 'color'},
-          {key: 'backgroundColor', name: '背景色', type: 'color'},
-          {key: 'borderBottomColor', name: '下边框色', type: 'color'},
-          {key: 'borderRightColor', name: '右边框色', type: 'color'},
-          { key: '', type: 'div', style: { height: 240 } }
-        ]
-      }]
     }]
   }
 

@@ -1,25 +1,47 @@
 <template>
-  <table class="d_table" :style="tableStyle">
-    <thead>
-    <tr>
-      <th :style="thStyle" v-for="(th,index) in options.column" :key='index'>{{th.title||""}}</th>
-    </tr>
-    </thead>
-    <tbody>
-      <tr v-for="(tr,index) in options.data" :key="index">
-        <td :style="tdStyle" v-for="(td,index) in options.column" :key="index">{{tr[td.field]||""}}</td>
-    </tr>
-    </tbody>
-  </table>
+  <div>
+    <Table size="small"
+           :border="options.primary.border"
+           :columns="columns"
+           :data="options.data"
+           :stripe="options.primary.stripe"
+           :disabled-hover="options.primary['disabled-hover']"
+           :no-data-text="options.primary['no-data-text']"
+    ></Table>
+    <Page v-if="options.pagination.enable" size="small" class="paging"
+          :total="total"
+          :page-size="pageSize"
+          :current="current"
+          :page-size-opts="pageSizeOpts"
+          :show-total="options.pagination['show-total']"
+          :show-sizer="options.pagination['show-sizer']"
+          :show-elevator="options.pagination['show-elevator']"
+          :simple="options.pagination['simple']" />
+  </div>
 </template>
 
 <script>
+import {Table,TableColumn,Button,Page} from 'iview'
 export default {
   name: 'XscTable',
   props: {
     options: Object,
     themeData: Object,
     theme: String
+  },
+  components:{
+    Button,
+    Table,
+    TableColumn,
+    Page
+  },
+  data(){
+    return {
+      total:100,
+      pageSizeOpts:[10,20,30],
+      current:1,
+      pageSize:10
+    }
   },
   computed: {
     themeStyle () {
@@ -66,6 +88,14 @@ export default {
         'border-right-style': this.options.td.borderRightStyle,
         'border-right-color': this.options.td.borderRightColor || this.themeStyle.table.td.borderRightColor
       }
+    },
+    columns(){
+      return this.options.column.map(c=>{
+        return {
+          title: c.title,
+          key: c.field
+        }
+      })
     }
   }
 }
@@ -82,5 +112,9 @@ export default {
   .d_table th, .d_table td {
     width: 50px;
     text-align: center;
+  }
+  .paging{
+    float:right;
+    margin-top:10px;
   }
 </style>

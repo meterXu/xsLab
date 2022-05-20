@@ -12,20 +12,19 @@
     "lint": "eslint --fix --ext .js,.vue src test/unit test/e2e/specs"
   },
   "dependencies": {
+    "@tweenjs/tween.js": "^17.4.0",
+    "axios": "^0.18.0",
     "echarts": "^4.5.0",
     "echarts-liquidfill": "^2.0.4",
+    "iview": "^3.5.3",
     "resize-detector": "^0.1.9",
-    "axios": "^0.18.0",
-    "@tweenjs/tween.js": "^17.4.0",
-    "vue-echarts": "^4.0.1",
-    "vue": "^2.5.2"
+    "vue": "^2.5.2",
+    "vue-echarts": "^4.0.1"
   },
   "browserslist": [
     "> 1%",
     "last 2 versions",
     "not ie <= 8"
   ],
-  "devDependencies": {
-
-  }
+  "devDependencies": {}
 }

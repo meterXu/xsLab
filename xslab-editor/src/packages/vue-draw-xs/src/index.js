@@ -1,10 +1,6 @@
-import Xsc from './components/index'
-const components = [Xsc]
-Xsc.install = Vue => Vue.component(Xsc.name, Xsc)
+import Xsc from './components/Xsc'
 const install = function (Vue, opts = {}) {
-  components.map(component => {
-    Vue.component(component.name, component)
-  })
+  Vue.component(Xsc.name, Xsc)
 }
 /* 支持使用标签的方式引入 */
 if (typeof window !== 'undefined' && window.Vue) {

@@ -17,6 +17,7 @@
   </div>
 </template>
 <script>
+import 'iview/dist/styles/iview.css'
 import XscNode from './xsc/XscNode'
 import commonData from '../data/commonData'
 export default {
