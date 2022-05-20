@@ -16,7 +16,7 @@
             <Panel v-for="(panel,pi) in tab.con" :name="pi.toString()" :key="pi">
               {{panel.name}}
               <Form slot="content" label-position="left" :label-width="100">
-                <FormItem v-for="(fItem,fi) in panel.sub" :key="fi" :label="fItem.name">
+                <FormItem v-for="(fItem,fi) in panel.sub"  v-show="xxx(fItem,panel)" :key="fi" :label="fItem.name">
                   <mtFormItem :fItem="fItem" :panel="panel" :opNode="opNode" @radioChange="radioChange" @showFullCode="showFullCode"></mtFormItem>
                 </FormItem>
               </Form>
@@ -131,6 +131,15 @@ export default {
     }
   },
   methods: {
+    xxx(fItem,panel){
+      if(fItem.rdTab){
+        let index = parseInt(panel.key.split('/')[panel.key.split('/').length-1])
+        return this.opNode.config.data.source[index].type == fItem.rdTab
+      }else{
+        return true
+      }
+
+    },
     testDataSource () { // 测试数据
       let that = this
       that.$parent.$refs.xsc.getData(that.$parent.$refs.xsc.activeNode.id).then(m => {
