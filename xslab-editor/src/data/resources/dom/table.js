@@ -1,4 +1,3 @@
-import commonData from '../commonData'
 import sourceConf from '../sourceConf'
 
 const table = {
@@ -44,11 +43,7 @@ const table = {
         pageNo:1,
         pageSize:10,
         pageSizeOpts:'10,20,30',
-        pageInfo:{
-          currentPage:0,
-          pageSize:0,
-          totalCount:0
-        }
+        total:1,
       },
       th: {
         fontSize: 14,
@@ -90,7 +85,9 @@ const table = {
           json: '[{"编号":"1","英文":"apple","中文":"苹果"},\n' +
             '{"编号":"2","英文":"banana","中文":"香蕉"},\n' +
             '{"编号":"3","英文":"cherry","中文":"樱桃"},\n' +
-            '{"编号":"4","英文":"durian","中文":"榴莲"}]'
+            '{"编号":"4","英文":"durian","中文":"榴莲"}]',
+          proPath:'',
+          totalPath:''
         }
       ]
     }
@@ -140,9 +137,9 @@ const table = {
       icon: 'md-pulse',
       con: [{
         key: 'data',
-        name: '全局配置',
+        name: '轮询',
         sub: [
-          {key: 'loop', name: '轮询', type: 'boolean'},
+          {key: 'loop', name: '启用', type: 'boolean'},
           {key: 'interval', name: '间隔', type: 'number', unit: 's'}
         ]
       },
@@ -151,6 +148,7 @@ const table = {
           name: '数据',
           sub: [
             ...sourceConf,
+            {key: 'totalPath', name: '数据总数定位', type: 'code',mode: 'text/javascript'},
             { key: '', type: 'div', style: { height: 200 } }
           ]
         }]

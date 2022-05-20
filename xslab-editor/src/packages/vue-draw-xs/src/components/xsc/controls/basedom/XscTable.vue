@@ -9,9 +9,9 @@
            :no-data-text="options.primary['no-data-text']"
     ></Table>
     <Page v-if="options.pagination.show" size="small" class="paging"
-          :total="options.pagination.pageInfo.totalCount"
-          :page-size="options.pagination.pageInfo.pageSize"
-          :current="options.pagination.pageInfo.currentPage"
+          :total="options.pagination.total"
+          :page-size="options.pagination.pageSize"
+          :current="options.pagination.pageNo"
           :page-size-opts="pageSizeOpts"
           :show-total="options.pagination['show-total']"
           :show-sizer="options.pagination['show-sizer']"

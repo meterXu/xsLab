@@ -1,14 +1,10 @@
 <template>
-  <div>
+  <div style="width: 100%;height: 100%">
     <div class="vue-codemirror-wrap" :class="{fullScreen:!full}">
-      <textarea></textarea>
-      <div v-if="copy" class="code-copy">
-        <span ref="codeCopy" id="codeCopy"
-              data-clipboard-action="copy"
-              :data-clipboard-text="value">点我复制</span>
-      </div>
+      <Input v-show="!full" type="textarea" v-model="value"></Input>
+      <textarea v-show="full" ref="codeMirror"></textarea>
     </div>
-    <div v-if="full" class="full-editor"  @click="showFullCode">
+    <div v-if="!full" class="full-editor"  @click="showFullCode">
       <i :size="20" class="ivu-icon ivu-icon-ios-create" title="全屏"></i>
       <span>编辑</span>
     </div>
@@ -16,9 +12,8 @@
 </template>
 
 <script>
-var CodeMirror = require('codemirror/lib/codemirror.js')
+const CodeMirror = require('codemirror/lib/codemirror.js')
 require('codemirror/lib/codemirror.css')
-require('codemirror/theme/material.css')
 require('../../../assets/styles/formItemCode.css')
 require('codemirror/mode/javascript/javascript.js')
 require('codemirror/mode/sql/sql.js')
@@ -39,7 +34,7 @@ export default {
       default: function () {
         return {
           mode: this.mode,
-          theme: 'material',
+          theme: 'default',
           lineNumbers: true,
           lineWrapping: true
         }
@@ -47,7 +42,7 @@ export default {
     },
     full: {
       type: Boolean,
-      default: true
+      default: false
     },
     copy: {
       type: Boolean,
@@ -65,57 +60,31 @@ export default {
   },
   methods: {
     showFullCode () {
-      this.$emit('showFullCode',
-        this.$attrs.field,
-        this.editor.getValue(),
-        this.$attrs.index,
-        this.$props.mode)
+      this.$emit('showFullCode', this.$attrs.field, this.value, this.$attrs.index,this.$props.mode)
+    },
+    initCodeMirror(){
+      if(this.$refs.codeMirror){
+        this.editor = CodeMirror.fromTextArea(this.$refs.codeMirror, this.options)
+        this.editor.setValue(this.value)
+      }
+    },
+    getValue(){
+      return this.editor.getValue()
     }
   },
   watch: {
-    'value': function (newVal, oldVal) {
-      var editorValue = this.editor.getValue()
-      if (newVal !== editorValue) {
-        this.skipNextChangeEvent = true
-        var scrollInfo = this.editor.getScrollInfo()
-        this.editor.setValue(newVal)
-        this.editor.scrollTo(scrollInfo.left, scrollInfo.top)
-      }
-    },
-    'options': function (newOptions, oldVal) {
-      if (typeof newOptions === 'object') {
-        for (var optionName in newOptions) {
-          if (newOptions.hasOwnProperty(optionName)) {
-            this.editor.setOption(optionName, newOptions[optionName])
-          }
+    full:{
+      handler(nv){
+        if(nv){
+          this.$nextTick(()=>{
+            this.initCodeMirror()
+          })
         }
-      }
+      },
+      immediate:true
     }
   },
   mounted: function () {
-    var _this = this
-    this.editor = CodeMirror.fromTextArea(this.$el.querySelector('textarea'), this.options)
-    this.editor.setValue(this.value || '')
-    this.editor.on('change', function (cm) {
-      if (_this.skipNextChangeEvent) {
-        _this.skipNextChangeEvent = false
-        return
-      }
-      if (_this.$emit) {
-        _this.$emit('change', cm.getValue())
-        _this.$emit('input', cm.getValue())
-        _this.$emit('update', cm.getValue())
-      }
-    })
-    if (_this.copy) {
-      let codeCopy = new _this.$clipboard(_this.$refs.codeCopy)
-      codeCopy.on('success', function () {
-        _this.$Message.success('复制成功！')
-      })
-      codeCopy.on('error', function () {
-        _this.$Message.error('复制失败，请手动复制！')
-      })
-    }
   },
   beforeDestroy: function () {
     if (this.editor) {

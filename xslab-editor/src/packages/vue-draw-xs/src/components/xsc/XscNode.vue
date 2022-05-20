@@ -268,7 +268,6 @@ export default {
                       { url:c.url, method:c.method }, params, apiConf)
                   that.axios(config).then(res=>{
                     if(res.status===200){
-                      that.node.config.options.pagination.pageInfo = res.data.value.pageInfo
                       if(c.proPath){
                         let realData= res.data
                         let pros = c.proPath.split('.')
@@ -278,6 +277,16 @@ export default {
                         resData[i] = that.arraysToObjects(realData)
                       }else{
                         resData[i] = that.arraysToObjects(res.data)
+                      }
+                      if(c.totalPath){
+                        let realTotal= res.data
+                        let pros = c.totalPath.split('.')
+                        pros.forEach((p)=>{
+                          realTotal = realTotal[p]
+                        })
+                        that.node.config.options.pagination.total = realTotal
+                      }else{
+                        that.node.config.options.pagination.total = resData[i].length
                       }
                       if (resolve&&resData.length===that.node.config.data.source.length) {
                         resolve(resData)

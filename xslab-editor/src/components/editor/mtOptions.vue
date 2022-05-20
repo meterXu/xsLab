@@ -37,9 +37,9 @@
         </Tabs>
       </div>
     </Modal>
-    <Modal :width="800"  v-model="showFullCodeModal" :title="codeProLabel" @on-ok="codeOk">
+    <Modal :width="800" v-model="showFullCodeModal" :title="codeProLabel" @on-ok="codeOk">
       <div class="tableContainer">
-        <mtFormItemCode v-if="showFullCodeModal" :full="false" v-model="codeProValue" :mode="codeProMode"></mtFormItemCode>
+        <mtFormItemCode ref="formCode" v-if="showFullCodeModal" :full="showFullCodeModal" v-model="codeProValue" :mode="codeProMode"></mtFormItemCode>
       </div>
     </Modal>
     </template>
@@ -235,9 +235,9 @@ export default {
     },
     codeOk () {
       if (Object.keys(this.opNode.config.options).indexOf(this.codeProField) > -1) {
-        this.opNode.config.options[this.codeProField] = this.codeProValue
+        this.opNode.config.options[this.codeProField] = this.$refs.formCode.getValue()
       } else {
-        this.opNode.config.data.source[this.codeProIndex][this.codeProField] = this.codeProValue
+        this.opNode.config.data.source[this.codeProIndex][this.codeProField] = this.$refs.formCode.getValue()
       }
       this.codeProValue = null
     }
@@ -309,6 +309,7 @@ export default {
   }
   .tableContainer{
     overflow: auto;
+    display: flex;
     height: 400px;
   }
   .ivu-modal-body{
