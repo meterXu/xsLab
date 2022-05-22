@@ -1,7 +1,8 @@
 <template>
   <div @drop="drop" @dragover="dragover" @click="canvasClick" :style="canvasStyle" :class="['mt_canvas', {mt_canvas_position:view}]">
     <template v-for="item in charts">
-      <XscNode :ref="item.id" :key="item.id"
+      <XscNode :ref="item.id"
+               :key="item.id"
                :node="item"
                :view="view"
                :class="[view?'mt_node_view':(item===activeNode ? 'mt_node_active': 'mt_node_base'),startDrag&&'dragging']"

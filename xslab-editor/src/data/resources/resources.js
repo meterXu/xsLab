@@ -20,7 +20,7 @@ import slide from './dom/slide'
 import placeholderBox from './dev/placeholderBox'
 import gauge from './eCharts/gauge'
 export default {
-  initOptions: {
+  initOptions: { // 初始化配置
     eCharts: {
       bar: bar.resource,
       barStack: barStack.resource,
@@ -46,7 +46,7 @@ export default {
       placeholderBox: placeholderBox.resource
     }
   },
-  configOptions: {
+  configOptions: {// 右侧配置
     eCharts: {
       bar: bar.option,
       barStack: barStack.option,

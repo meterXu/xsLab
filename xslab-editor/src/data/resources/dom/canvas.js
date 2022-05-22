@@ -3,6 +3,7 @@ const canvas = {
   resource: {
     id: null,
     name: null,
+    size: 0,
     width: 0,
     height: 0,
     backgroundColor: null,
@@ -30,7 +31,8 @@ const canvas = {
           name: '大小',
           sub: [
             {key: 'width', name: '宽度', type: 'number'},
-            {key: 'height', name: '高度', type: 'number'}
+            {key: 'height', name: '高度', type: 'number'},
+            {key: 'size', name: 'size', type: 'number'}
           ]
         },
         {

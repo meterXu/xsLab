@@ -34,15 +34,15 @@
            :mask-closable="false"
            title="添加画布"
            @on-ok="saveCanvas('formValidate')">
-      <Form ref="formValidate" :model="addCanvasOptions" :rules="ruleValidate" :label-width="80">
+      <Form ref="formValidate" :model="mtCanvasOptions" :rules="ruleValidate" :label-width="80">
         <FormItem label="名称" prop="name">
-          <Input v-model="addCanvasOptions.name" placeholder="输入画布名称"/>
+          <Input v-model="mtCanvasOptions.name" placeholder="输入画布名称"/>
         </FormItem>
         <FormItem label="宽度" prop="width">
-          <InputNumber :max="10000" :min="1"  v-model="addCanvasOptions.width" placeholder="输入画布宽度"/>
+          <InputNumber :max="10000" :min="1"  v-model="mtCanvasOptions.width" placeholder="输入画布宽度"/>
         </FormItem>
         <FormItem label="高度" prop="height">
-          <InputNumber :max="10000" :min="1"  v-model="addCanvasOptions.height" placeholder="输入画布高度"/>
+          <InputNumber :max="10000" :min="1"  v-model="mtCanvasOptions.height" placeholder="输入画布高度"/>
         </FormItem>
       </Form>
     </Modal>
@@ -90,6 +90,7 @@ import mtSetting from './editor/mtSetting'
 import mtContextMenu from './editor/mtContextMenu'
 import resources from '../data/resources/resources'
 import {mapGetters} from "vuex";
+import merge from 'deepmerge'
 export default {
   name: 'mtEditor',
   components: {
@@ -109,7 +110,6 @@ export default {
       editorData: editorData,
       resources: resources,
       mtCanvasOptions: resources.initOptions.dom.canvas,
-      addCanvasOptions: null,
       showCanvas: false,
       showDbManager: false,
       showAddCanvasModal: false,
@@ -160,20 +160,6 @@ export default {
     }
   },
   methods: {
-    resetAddCanvasOptions () {
-      let mtCanvasOptionsCopy = {
-        name: '新的画布',
-        width: 1280,
-        height: 720,
-        backgroundColor: null,
-        backgroundImage: null,
-        backgroundSize: null,
-        backgroundRepeat: null,
-        theme: 'default',
-        baseUrl: this.config.baseUrl
-      }
-      this.addCanvasOptions = mtCanvasOptionsCopy
-    },
     menuDragStart (node) {
       if (this.$refs.xsc) {
         this.$refs.xsc.activeNode = null
@@ -211,7 +197,13 @@ export default {
       this.showMenu = true
     },
     nodeActive () {
-      this.opNode = this.$refs.xsc.activeNode
+      let activeNode = this.$refs.xsc.activeNode
+      let xx = resources.initOptions[activeNode.type][activeNode.chart]
+      this.opNode = merge({
+        config:{
+          options:xx
+        }
+      },activeNode)
       this.showMenu = false
     },
     saveOption () { // 保存配置数据
@@ -238,17 +230,19 @@ export default {
     addCanvas () { // 模态界面-添加画布界面
       this.$Modal.remove()
       this.resetAddCanvasOptions()
-      this.addCanvasOptions.id = (new Date()).valueOf()
       this.showAddCanvasModal = true
       this.editorData.activeNode = null
       this.showCanvasUrlModal = false
       this.showOpenCanvasModal = false
     },
+    resetAddCanvasOptions(){
+      this.mtCanvasOptions = Object.assign({},resources.initOptions.dom.canvas)
+      this.mtCanvasOptions.id = new Date().valueOf()
+    },
     saveCanvas (name) { // 保存画布
       let that = this
       this.$refs[name].validate((valid) => {
         if (valid) { // 验证成功
-          that.mtCanvasOptions = that.addCanvasOptions
           that.showCanvas = true
           that.showDbManager = false
           that.showDbSetting = false
@@ -287,7 +281,7 @@ export default {
           let cavOptions = JSON.parse(c.data.cavOptions)
           let chartData = JSON.parse(c.data.cavData)
           cavOptions.baseUrl = this.config.baseUrl
-          this.mtCanvasOptions = cavOptions
+          this.mtCanvasOptions = Object.assign({},resources.initOptions.dom.canvas,cavOptions)
           this.canvasData = chartData
           this.showCanvas = true
           this.showDbManager = false
@@ -434,9 +428,6 @@ export default {
     saveDataSource () {
       this.$refs.mtOptions.saveDataSource()
     }
-  },
-  created () {
-    this.resetAddCanvasOptions()
   },
   mounted () {
     this.initCopyLink()
