@@ -11,6 +11,13 @@ const gauge = { // 简单仪表盘
     },
     theme: 'default',
     options: {
+      grid:{
+        show:false,
+        left: '10%',
+        right: '10%',
+        top: '60',
+        bottom: '60'
+      },
       title: {
         text: '简单仪表盘',
         subtext: '',
@@ -105,6 +112,17 @@ const gauge = { // 简单仪表盘
               {key: 'height', name: '高度', type: 'number'},
               {key: 'x', name: 'x', type: 'number'},
               {key: 'y', name: 'y', type: 'number'}
+            ]
+          },
+          {
+            key: 'options/grid',
+            name: '绘图网格',
+            sub: [
+              {key: 'show', name: '是否显示', type: 'boolean'},
+              {key: 'top', name: '顶部边距', type: 'text'},
+              {key: 'left', name: '左侧边距', type: 'text'},
+              {key: 'right', name: '右侧边距', type: 'text'},
+              {key: 'bottom', name: '底部边距', type: 'text'}
             ]
           },
           {

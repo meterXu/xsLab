@@ -11,6 +11,13 @@ const line = {
     },
     theme: 'default',
     options: {
+      grid:{
+        show:false,
+        left: '10%',
+        right: '10%',
+        top: '60',
+        bottom: '60'
+      },
       title: {
         text: '简单折线图',
         subtext: '',
@@ -43,7 +50,8 @@ const line = {
         show: true,
         axisLabel: {
           fontSize: 12,
-          interval: 'auto'
+          interval: 'auto',
+          rotate: 0
         },
         axisLine: {
           lineStyle: {}
@@ -130,6 +138,17 @@ const line = {
             ]
           },
           {
+            key: 'options/grid',
+            name: '绘图网格',
+            sub: [
+              {key: 'show', name: '是否显示', type: 'boolean'},
+              {key: 'top', name: '顶部边距', type: 'text'},
+              {key: 'left', name: '左侧边距', type: 'text'},
+              {key: 'right', name: '右侧边距', type: 'text'},
+              {key: 'bottom', name: '底部边距', type: 'text'}
+            ]
+          },
+          {
             key: 'options/title',
             name: '标题',
             sub: [
@@ -196,7 +215,8 @@ const line = {
             name: 'x轴标签',
             sub: [
               {key: 'fontSize', name: '大小', type: 'number'},
-              {key: 'interval', name: '刻度间隔', type: 'text'}
+              {key: 'interval', name: '刻度间隔', type: 'text'},
+              {key: 'rotate', name: '旋转角度', type: 'number',unit: '度'}
             ]
           },
           {

@@ -32,6 +32,7 @@
             <Table v-if="dataConfig.data"
                    height="360"
                    :columns="dataConfig.columns"
+                   :loading="loading"
                    :data="dataConfig.data"></Table>
           </TabPane>
         </Tabs>
@@ -75,6 +76,7 @@ export default {
       optionsPath: resources.configOptions,
       number: true,
       dataConfigs: [],
+      loading:true,
       showExecSqlModal: false,
       showFullCodeModal: false,
       codeProValue: null,
@@ -141,32 +143,39 @@ export default {
     },
     testDataSource () { // 测试数据
       let that = this
-      that.$parent.$refs.xsc.getData(that.$parent.$refs.xsc.activeNode.id).then(m => {
-        let tempConfig = []
-        m.data.forEach(d => {
-          let tableConfig = {
-            columns: [],
-            data: []
-          }
-          if (d instanceof Array) {
-            tableConfig.data = d
-          } else {
-            tableConfig.data = JSON.parse(d)
-          }
-          if (tableConfig.data && tableConfig.data.length > 0) {
-            // 获取数据列配置
-            Object.keys(tableConfig.data[0]).forEach(p => {
-              tableConfig.columns.push({
-                title: p,
-                key: p
+      that.showExecSqlModal = true
+      this.loading = true
+      that.$parent.$refs.xsc.getData(that.$parent.$refs.xsc.activeNode.id)
+      .then(m => {
+        try{
+          let tempConfig = []
+          m.data.forEach(d => {
+            let tableConfig = {
+              columns: [],
+              data: []
+            }
+            if (d instanceof Array) {
+              tableConfig.data = d
+            } else {
+              tableConfig.data = JSON.parse(d)
+            }
+            if (tableConfig.data && tableConfig.data.length > 0) {
+              // 获取数据列配置
+              Object.keys(tableConfig.data[0]).forEach(p => {
+                tableConfig.columns.push({
+                  title: p,
+                  key: p
+                })
               })
-            })
-          }
-          tempConfig.push(tableConfig)
-        })
-        that.dataConfigs = tempConfig
-        that.showExecSqlModal = true
-      }).catch(errDatas => {
+            }
+            tempConfig.push(tableConfig)
+          })
+          that.dataConfigs = tempConfig
+        }catch (e){
+          that.$Message.error(e.message)
+        }
+      })
+      .catch(errDatas => {
         let errMsgStr = ''
         if (errDatas instanceof Array) {
           errDatas.forEach(c => {
@@ -182,6 +191,8 @@ export default {
         if (errMsgStr) {
           that.$Message.error(errMsgStr)
         }
+      }).finally(()=>{
+        this.loading = false
       })
     },
     saveDataSource () {

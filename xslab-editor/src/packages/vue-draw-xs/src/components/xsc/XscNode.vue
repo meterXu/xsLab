@@ -80,8 +80,8 @@ function getDbData (that, dbs, sqls) {
   return new Promise((resolve, reject) => {
     if (dbs.length > 0 && sqls.length > 0) {
       that.axios.post(that.$parent.options.baseUrl + '/ExecSql', {
-        dbs: dbs.join('&'),
-        sqls: sqls.join('&')
+        dbs: dbs,
+        sqls: sqls
       }).then(c => {
         if (resolve) {
           resolve(c.data)
@@ -224,133 +224,105 @@ export default {
       })
     },
     getNodeData () {
-      let that = this
-      return new Promise(function (resolve, reject) {
-        try {
-          if (that.node.config.data) {
-            let dbDataIndex = []
-            let dbs = []
-            let sqls = []
-            let resData = []
-            that.node.config.data.source.forEach((c, i) => {
-              switch (c.type) {
-                case 3: { // api
-                  let apiConf= {}
-                  if(c.apiConf){
-                    apiConf = JSON.parse(c.apiConf)
-                  }
-                  if(that.$route.query.hasOwnProperty('X-Access-Token')){
-                    if(apiConf.hasOwnProperty('headers')){
-                      apiConf.headers['X-Access-Token'] = that.$route.query['X-Access-Token']
-                    }
-                   else{
-                      apiConf = Object.assign(apiConf,{
-                        headers:{
-                          'X-Access-Token': that.$route.query['X-Access-Token']
-                        }
-                      })
-                    }
-                  }
-                  let params = c.params
-                  if(params){
-                    // set pageSize and pageNo
-                    params = params.replaceAll('$pageNo',that.node.config.options.pagination.pageNo)
-                    params = params.replaceAll('$pageSize',that.node.config.options.pagination.pageSize)
-                    if(c.method==='post'||c.method==='put'||c.method==='delete'){
-                      params = {data:JSON.parse(params)}
-                    }else{
-                      params = {params:JSON.parse(params)}
-                    }
-                  }else{
-                    params = {}
-                  }
-                  let config =Object.assign(
-                      { url:c.url, method:c.method }, params, apiConf)
-                  that.axios(config).then(res=>{
-                    if(res.status===200){
-                      if(c.proPath){
-                        let realData= res.data
-                        let pros = c.proPath.split('.')
-                        pros.forEach((p)=>{
-                          realData = realData[p]
-                        })
-                        resData[i] = that.arraysToObjects(realData)
-                      }else{
-                        resData[i] = that.arraysToObjects(res.data)
-                      }
-                      if(c.totalPath){
-                        let realTotal= res.data
-                        let pros = c.totalPath.split('.')
-                        pros.forEach((p)=>{
-                          realTotal = realTotal[p]
-                        })
-                        that.node.config.options.pagination.total = realTotal
-                      }else{
-                        that.node.config.options.pagination.total = resData[i].length
-                      }
-                      if (resolve&&resData.length===that.node.config.data.source.length) {
-                        resolve(resData)
-                      }
-                    }else {
-                      resolve(null)
-                    }
-                  }).catch(e=>{
-                    if (reject) {
-                      reject(e)
-                    }
-                  })
-                  break
-                }
-                case 2: { // json
-                  resData[i] = typeof (c.json) === 'string' ? JSON.parse(c.json || null) : c.json
-                  if (resolve&&resData.length===that.node.config.data.source.length) {
-                    resolve(resData)
-                  }
-                  break
-                }
-                case 1: // sql
-                default : {
-                  dbs.push(c.db)
-                  sqls.push(c.sql.replace(/\n/g, ' '))
-                  if (c.sql && c.db) {
-                    dbDataIndex.push(i)
-                  } else {
-                    resData[i] = null
-                  }
-                  getDbData(that, dbs, sqls).then(data => {
-                    if (data) {
-                      data.forEach((k, i) => {
-                        resData[dbDataIndex[i]] = JSON.parse(k) || null
-                      })
-                    } else {
-                      dbDataIndex.forEach(c => {
-                        resData[c] = null
-                      })
-                    }
-                    if (resolve) {
-                      resolve(resData)
-                    }
-                  }).catch(c => {
-                    dbDataIndex.forEach(c => {
-                      resData[c] = null
-                    })
-                    if (reject) {
-                      reject(c)
-                    }
-                  })
-                  break
+      try {
+        let that = this
+        if (that.node.config.data) {
+          let dbDataIndex = []
+          let dbs = []
+          let sqls = []
+          let promiseArray=[]
+          that.node.config.data.source.forEach((c, i) => {
+            switch (c.type) {
+              case 3: { // api
+                promiseArray.push(that.getDataByApi(c,i))
+              }break;
+              case 2: { // json
+                promiseArray.push(that.getDataByJson(c,i))
+              }break;
+              case 1: // sql
+              default : {
+                promiseArray.push(that.getDataByDb(dbDataIndex,dbs,sqls,c,i))
+              }
+            }
+          })
+          return Promise.all(promiseArray)
+        } else {
+          return Promise.resolve(null)
+        }
+      }catch (e){
+        return Promise.reject(e)
+      }
+    },
+    getDataByApi(c){
+      return new Promise((resolve,reject)=>{
+        let apiConf = JSON.parse(c.apiConf||'{}')
+        let params = c.params||'{}'
+        if(this.node.config.options.hasOwnProperty('pagination')){
+          params = params.replaceAll('$pageNo',this.node.config.options.pagination.pageNo)
+          params = params.replaceAll('$pageSize',this.node.config.options.pagination.pageSize)
+          if(c.method==='post'||c.method==='put'||c.method==='delete'){
+            params = {data:JSON.parse(params)}
+          }else{
+            params = {params:JSON.parse(params)}
+          }
+        }
+        let config =Object.assign({ url:c.url, method:c.method }, params, apiConf)
+        this.axios(config).then(res=>{
+          try{
+            if(res.status===200){
+              if(c.proPath){
+                let tmpData= res.data
+                let pros = c.proPath.split('.')
+                pros.forEach((p)=>{
+                  tmpData = tmpData[p]
+                })
+                resolve(this.arraysToObjects(tmpData))
+              }else{
+                resolve(this.arraysToObjects(res.data))
+              }
+              if(c.totalPath){
+                let realTotal= res.data
+                let pros = c.totalPath.split('.')
+                pros.forEach((p)=>{
+                  realTotal = realTotal[p]
+                })
+                if(this.node.config.options.hasOwnProperty('pagination')){
+                  this.node.config.options.pagination.total = realTotal
                 }
               }
-            })
-          } else {
-            if (resolve) {
+            }else {
               resolve(null)
             }
+          }catch (e){
+            reject(e)
           }
-        } catch (e) {
+        }).catch(e=>{
           if (reject) {
             reject(e)
           }
+        })
+      })
+    },
+    getDataByDb(dbDataIndex,dbs,sqls,c){
+      return new Promise((resolve,reject)=>{
+        getDbData(this, c.db, c.sql.replace(/\n/g, ' ')).then(data => {
+          if (data) {
+            resolve(JSON.parse(data[0]))
+          } else {
+            resolve(null)
+          }
+        }).catch(e => {
+          reject(e)
+        })
+      })
+    },
+    getDataByJson(c){
+      return new Promise((resolve,reject)=>{
+        try {
+          let res = typeof (c.json) === 'string' ? JSON.parse(c.json || null) : c.json
+          resolve(res)
+        }catch (e){
+          reject(e)
         }
       })
     },
