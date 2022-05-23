@@ -117,7 +117,12 @@ const line = {
           s: '数值',
           xto: 'xAxis/data',
           yto: 'series/0/data',
-          sto: ['legend/data/0', 'series/0/name']}
+          sto: ['legend/data/0', 'series/0/name'],
+          url:'',
+          method:'',
+          params:'',
+          apiConf:'',
+          proPath:''}
       ]
     }
   },

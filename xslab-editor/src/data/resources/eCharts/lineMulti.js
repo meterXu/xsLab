@@ -155,7 +155,12 @@ const lineMulti = {
           s: '邮件营销',
           xto: 'xAxis/data',
           yto: 'series/0/data',
-          sto: ['legend/data/0', 'series/0/name']
+          sto: ['legend/data/0', 'series/0/name'],
+          url:'',
+          method:'',
+          params:'',
+          apiConf:'',
+          proPath:''
         },
         { type: 2,
           db: '',
@@ -172,7 +177,12 @@ const lineMulti = {
           s: '联盟广告',
           xto: 'xAxis/data',
           yto: 'series/1/data',
-          sto: ['legend/data/1', 'series/1/name']
+          sto: ['legend/data/1', 'series/1/name'],
+          url:'',
+          method:'',
+          params:'',
+          apiConf:'',
+          proPath:''
         },
         { type: 2,
           db: '',
@@ -189,7 +199,12 @@ const lineMulti = {
           s: '视频广告',
           xto: 'xAxis/data',
           yto: 'series/2/data',
-          sto: ['legend/data/2', 'series/2/name']
+          sto: ['legend/data/2', 'series/2/name'],
+          url:'',
+          method:'',
+          params:'',
+          apiConf:'',
+          proPath:''
         },
         { type: 2,
           db: '',
@@ -206,7 +221,12 @@ const lineMulti = {
           s: '直接访问',
           xto: 'xAxis/data',
           yto: 'series/3/data',
-          sto: ['legend/data/3', 'series/3/name']
+          sto: ['legend/data/3', 'series/3/name'],
+          url:'',
+          method:'',
+          params:'',
+          apiConf:'',
+          proPath:''
         }
       ]
     }

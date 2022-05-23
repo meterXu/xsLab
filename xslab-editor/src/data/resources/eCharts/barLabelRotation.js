@@ -133,10 +133,32 @@ const barLabelRotation = {
       loop: true,
       interval: 30,
       source: [
-        {type: 2, db: '', sql: '', json: '[{"year":"2012","value":320},\n{"year":"2013","value":332},\n{"year":"2014","value":301}]', x: 'year', y: 'value', s: 'Forest', xto: 'xAxis/data', yto: 'series/0/data', sto: ['legend/data/0', 'series/0/name']},
-        {type: 2, db: '', sql: '', json: '[{"year":"2012","value":220},\n{"year":"2013","value":182},\n{"year":"2014","value":191}]', x: 'year', y: 'value', s: 'Steppe', xto: 'xAxis/data', yto: 'series/1/data', sto: ['legend/data/1', 'series/1/name']},
-        {type: 2, db: '', sql: '', json: '[{"year":"2012","value":150},\n{"year":"2013","value":232},\n{"year":"2014","value":201}]', x: 'year', y: 'value', s: 'Desert', xto: 'xAxis/data', yto: 'series/2/data', sto: ['legend/data/2', 'series/2/name']},
-        {type: 2, db: '', sql: '', json: '[{"year":"2012","value":98},\n{"year":"2013","value":77},\n{"year":"2014","value":101}]', x: 'year', y: 'value', s: 'Wetland', xto: 'xAxis/data', yto: 'series/3/data', sto: ['legend/data/3', 'series/3/name']}
+        {
+          type: 2, db: '', sql: '', json: '[{"year":"2012","value":320},\n{"year":"2013","value":332},\n{"year":"2014","value":301}]', x: 'year', y: 'value', s: 'Forest', xto: 'xAxis/data', yto: 'series/0/data', sto: ['legend/data/0', 'series/0/name'],
+          url:'',
+          method:'',
+          params:'',
+          apiConf:'',
+          proPath:''
+        },
+        {type: 2, db: '', sql: '', json: '[{"year":"2012","value":220},\n{"year":"2013","value":182},\n{"year":"2014","value":191}]', x: 'year', y: 'value', s: 'Steppe', xto: 'xAxis/data', yto: 'series/1/data', sto: ['legend/data/1', 'series/1/name'],
+          url:'',
+          method:'',
+          params:'',
+          apiConf:'',
+          proPath:''},
+        {type: 2, db: '', sql: '', json: '[{"year":"2012","value":150},\n{"year":"2013","value":232},\n{"year":"2014","value":201}]', x: 'year', y: 'value', s: 'Desert', xto: 'xAxis/data', yto: 'series/2/data', sto: ['legend/data/2', 'series/2/name'],
+          url:'',
+          method:'',
+          params:'',
+          apiConf:'',
+          proPath:''},
+        {type: 2, db: '', sql: '', json: '[{"year":"2012","value":98},\n{"year":"2013","value":77},\n{"year":"2014","value":101}]', x: 'year', y: 'value', s: 'Wetland', xto: 'xAxis/data', yto: 'series/3/data', sto: ['legend/data/3', 'series/3/name'],
+          url:'',
+          method:'',
+          params:'',
+          apiConf:'',
+          proPath:''}
       ]
     }
   },

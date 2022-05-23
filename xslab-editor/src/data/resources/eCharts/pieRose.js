@@ -105,7 +105,12 @@ const pieRose = {
           name: 'name',
           value: 'value',
           s: '面积模式',
-          sto: ['series/name']}
+          sto: ['series/name'],
+          url:'',
+          method:'',
+          params:'',
+          apiConf:'',
+          proPath:''}
       ]
     }
   },

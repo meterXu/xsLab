@@ -199,15 +199,17 @@ export default {
     nodeActive () {
       let activeNode = this.$refs.xsc.activeNode
       let fromRes = resources.initOptions[activeNode.type][activeNode.chart]
-      let fromKeys = Object.keys(fromRes.options)
-      let toKeys = Object.keys(activeNode.config.options)
-      fromKeys.filter(c=>toKeys.indexOf(c)<0).forEach(c=>{
-        activeNode.config.options[c] = fromRes.options[c]
-      })
-      this.opNode = activeNode
+      this.opNode = this.mergeOptions(activeNode,fromRes.options)
       this.showMenu = false
     },
-
+    mergeOptions(activeNode, fromResOptions) {
+      let fromKeys = Object.keys(fromResOptions)
+      let toKeys = Object.keys(activeNode.config.options)
+      fromKeys.filter(c=>toKeys.indexOf(c)<0).forEach(c=>{
+        activeNode.config.options[c] = fromResOptions[c]
+      })
+      return activeNode
+    },
     saveOption () { // 保存配置数据
       this.tmpCanvasState = -1
       this.$ajax.post(this.action.saveCanvasData, {

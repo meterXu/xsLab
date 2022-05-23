@@ -139,7 +139,12 @@ const barNegative = {
           s: '收入',
           xto: 'series/0/data',
           yto: 'yAxis/data',
-          sto: ['legend/data/0', 'series/0/name']},
+          sto: ['legend/data/0', 'series/0/name'],
+          url:'',
+          method:'',
+          params:'',
+          apiConf:'',
+          proPath:''},
         {type: 2,
           db: '',
           sql: '',
@@ -155,7 +160,12 @@ const barNegative = {
           s: '支出',
           xto: 'series/1/data',
           yto: 'yAxis/data',
-          sto: ['legend/data/1', 'series/1/name']}
+          sto: ['legend/data/1', 'series/1/name'],
+          url:'',
+          method:'',
+          params:'',
+          apiConf:'',
+          proPath:''}
       ]
     }
   },

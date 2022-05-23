@@ -93,7 +93,12 @@ const pie = {
           name: 'name',
           value: 'value',
           s: '权重',
-          sto: ['series/name']}
+          sto: ['series/name'],
+          url:'',
+          method:'',
+          params:'',
+          apiConf:'',
+          proPath:''}
       ]
     }
   },

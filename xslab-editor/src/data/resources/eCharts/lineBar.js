@@ -155,7 +155,12 @@ const lineBar = {
           s: '水量',
           xto: 'xAxis/data',
           yto: 'series/0/data',
-          sto: ['legend/data/0', 'series/0/name']},
+          sto: ['legend/data/0', 'series/0/name'],
+          url:'',
+          method:'',
+          params:'',
+          apiConf:'',
+          proPath:''},
         { type: 2,
           db: '',
           sql: '',
@@ -171,7 +176,12 @@ const lineBar = {
           s: '温度',
           xto: 'xAxis/data',
           yto: 'series/1/data',
-          sto: ['legend/data/1', 'series/1/name']}
+          sto: ['legend/data/1', 'series/1/name'],
+          url:'',
+          method:'',
+          params:'',
+          apiConf:'',
+          proPath:''}
       ]
     }
   },

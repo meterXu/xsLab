@@ -94,7 +94,12 @@ const gauge = { // 简单仪表盘
           name: 'name',
           value: 'value',
           s: '业务指标',
-          sto: ['series/name']}
+          sto: ['series/name'],
+          url:'',
+          method:'',
+          params:'',
+          apiConf:'',
+          proPath:''}
       ]
     }
   },
