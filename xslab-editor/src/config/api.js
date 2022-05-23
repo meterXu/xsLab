@@ -3,7 +3,7 @@ import store from "../store";
 
 export default function (){
     let server = axios.create({
-        baseURL:store.getters.config.baseUrl
+        baseURL:store.getters.baseUrl
     })
     return server
 }

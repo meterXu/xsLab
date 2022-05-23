@@ -1,18 +1,20 @@
 const appState = {
     dbList:null,
-    config:{
-        editorTheme: 'dark',
-        baseUrl: null
-    }
+    baseUrl: null,
+    editorTheme: null,
 }
 
 const mutations = {
     setDbList(state,data){
         state.dbList = data
     },
-    setConfig(state,data){
-        state.config = data
-        localStorage.setItem('xsLab_conf',JSON.stringify(data))
+    setBaseUrl(state,data){
+        state.baseUrl = data
+        localStorage.setItem('xsLab_baseUrl',data)
+    },
+    setEditorTheme(state,data){
+        state.editorTheme = data
+        localStorage.setItem('xsLab_editorTheme',data)
     }
 }
 

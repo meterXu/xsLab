@@ -29,9 +29,6 @@ export default {
       top: 80,
       duration: 3
     })
-  },
-  mounted () {
-     document.getElementsByTagName('html')[0].setAttribute('data-theme', this.config.editorTheme)
   }
 }
 </script>

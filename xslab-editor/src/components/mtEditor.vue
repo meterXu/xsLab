@@ -135,7 +135,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['config']),
+    ...mapGetters(['baseUrl']),
     canvasUrl: function () {
       if(this.$route.query.hasOwnProperty('X-Access-Token')){
         return `${window.location.origin}${window.location.pathname}#/view/${this.mtCanvasOptions.id}?X-Access-Token=${this.$route.query['X-Access-Token']}`
@@ -282,7 +282,7 @@ export default {
         if (c.data) {
           let cavOptions = JSON.parse(c.data.cavOptions)
           let chartData = JSON.parse(c.data.cavData)
-          cavOptions.baseUrl = this.config.baseUrl
+          cavOptions.baseUrl = this.baseUrl
           this.mtCanvasOptions = Object.assign({},resources.initOptions.dom.canvas.options,cavOptions)
           this.canvasData = chartData
           this.showCanvas = true

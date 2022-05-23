@@ -3,9 +3,13 @@ const getters = {
         state.app.dbList = JSON.parse(localStorage.getItem('xsLab_dbs')||null)||state.app.dbList
         return state.app.dbList;
     },
-    config: state=>{
-        state.app.config = JSON.parse(localStorage.getItem('xsLab_conf')||null)||state.app.config
-        return state.app.config
+    baseUrl: state=>{
+        state.app.baseUrl = localStorage.getItem('xsLab_baseUrl')
+        return state.app.baseUrl
+    },
+    editorTheme: state=>{
+        state.app.editorTheme = localStorage.getItem('xsLab_editorTheme')
+        return state.app.editorTheme
     }
 }
 export default getters

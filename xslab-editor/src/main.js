@@ -23,7 +23,13 @@ Vue.mixin(myMixin)
 Vue.prototype.$clipboard=clipboard
 
 axios.get('./config.json').then(res=>{
-  store.commit('setConfig',res.data)
+  store.commit('setBaseUrl',res.data.baseUrl)
+  if(!store.getters.editorTheme){
+    store.commit('setEditorTheme',res.data.editorTheme)
+    document.getElementsByTagName('html')[0].setAttribute('data-theme', res.data.editorTheme)
+  }else{
+    document.getElementsByTagName('html')[0].setAttribute('data-theme', store.getters.editorTheme)
+  }
   Vue.prototype.$ajax =  createRequest()
   // 启动应用
   new Vue({

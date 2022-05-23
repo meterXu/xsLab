@@ -38,19 +38,20 @@ export default {
         editorTheme: [
           { required: true, message: '编辑器主题必选', trigger: 'blur' }
         ]
+      },
+      config:{
+        baseUrl:null,
+        editorTheme:null,
       }
     }
   },
   watch:{
     'config.editorTheme':{
       handler:function (nv){
-        document.getElementsByTagName('html')[0].setAttribute('data-theme', nv)
+        this.changeTheme(nv)
       },
-      deep: true
+      immediate: true
     }
-  },
-  computed: {
-    ...mapGetters(["config"])
   },
   methods: {
     saveSetProp: function () {
@@ -58,16 +59,24 @@ export default {
         if (res) {
           axios.post(this.config.baseUrl+this.action.validateBaseUrl).then(c => {
             if (c.data) {
-              this.$store.commit('setConfig',this.config)
+              this.$store.commit('setBaseUrl',this.config.baseUrl)
+              this.$store.commit('setEditorTheme',this.config.editorTheme)
               this.$ajax =  createRequest()
               this.$Message.success('保存成功！')
             }
           }).catch(c => {
-            this.$Message.error('后台地址错误，请输入正确的后台地址！')
+            this.$Message.error('后端地址错误，请确保正确的后端地址！')
           })
         }
       })
+    },
+    changeTheme(theme){
+      document.getElementsByTagName('html')[0].setAttribute('data-theme', theme)
     }
+  },
+  created() {
+    this.config.baseUrl = this.$store.getters.baseUrl
+    this.config.editorTheme = this.$store.getters.editorTheme
   }
 }
 </script>
