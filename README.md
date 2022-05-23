@@ -1,8 +1,11 @@
 # 可视化图表编辑器
-
 > 可视化图表编辑器，包含绘制图表、绑定数据源、在线预览、导出图表、自定义开发等功能。
 
-## 界面
+[在线DEMO](https://app.isaacxu.com/xslab/editor/#/) |
+[用户手册](https://app.isaacxu.com/xslab/portal/#/)
+
+
+## 系统界面
 
 ![黑色主题](https://user-images.githubusercontent.com/6405875/116405059-d1cb7c80-a861-11eb-8295-8741419887a0.png)
 
@@ -34,6 +37,3 @@
 2. 启动后端程序`xslab-rearend`
 3. 修改编辑器`xslab-editor`的配置文件`config.json`，其中的后端地址改为后端地址`http://x.x.x.x:11525`
 4. 访问系统`http://x.x.x.x/xslab-editor`
-
-## 后端
-[xslab-rearend](xslab-rearend/README.md)
