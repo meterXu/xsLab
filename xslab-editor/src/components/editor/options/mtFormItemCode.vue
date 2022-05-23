@@ -82,6 +82,9 @@ export default {
         }
       },
       immediate:true
+    },
+    value(nv){
+      this.$emit('update',nv)
     }
   },
   mounted: function () {

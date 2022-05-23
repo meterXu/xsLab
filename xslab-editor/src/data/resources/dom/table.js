@@ -86,6 +86,10 @@ const table = {
             '{"编号":"2","英文":"banana","中文":"香蕉"},\n' +
             '{"编号":"3","英文":"cherry","中文":"樱桃"},\n' +
             '{"编号":"4","英文":"durian","中文":"榴莲"}]',
+          url:'',
+          method:'',
+          params:'',
+          apiConf:'',
           proPath:'',
           totalPath:''
         }

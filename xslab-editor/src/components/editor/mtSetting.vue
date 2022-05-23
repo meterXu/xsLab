@@ -2,18 +2,17 @@
     <div id="mtDbSetting">
       <div id="setProp">
         <div id="setPropContent">
-          <Alert show-icon type="warning">验证并保存后才生效</Alert>
           <Form ref="formValidate" :label-width="100" :model="config" :rules="ruleValidate">
             <FormItem label="后端地址" prop="baseUrl">
-              <Input v-model="config.baseUrl" placeholder="请输入后端地址..."/>
+              <div style="text-align: left">{{config.baseUrl}}</div>
             </FormItem>
             <FormItem label="编辑器主题" prop="editorTheme" style="text-align: left">
               <RadioGroup v-model="config.editorTheme" type="button">
-                <Radio  v-for="(item, id) in commonData.editorTheme" :label="item.value" :key="id"><span>{{item.text}}</span></Radio>
+                <Radio readonly  v-for="(item, id) in commonData.editorTheme" :label="item.value" :key="id"><span>{{item.text}}</span></Radio>
               </RadioGroup>
             </FormItem>
             <FormItem style="text-align: left">
-              <Button type="success" @click="saveSetProp">验证并保存</Button>
+              <Button type="success" @click="saveSetProp">保存</Button>
             </FormItem>
           </Form>
         </div>

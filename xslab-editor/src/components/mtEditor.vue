@@ -198,14 +198,16 @@ export default {
     },
     nodeActive () {
       let activeNode = this.$refs.xsc.activeNode
-      let xx = resources.initOptions[activeNode.type][activeNode.chart]
-      this.opNode = merge({
-        config:{
-          options:xx
-        }
-      },activeNode)
+      let fromRes = resources.initOptions[activeNode.type][activeNode.chart]
+      let fromKeys = Object.keys(fromRes.options)
+      let toKeys = Object.keys(activeNode.config.options)
+      fromKeys.filter(c=>toKeys.indexOf(c)<0).forEach(c=>{
+        activeNode.config.options[c] = fromRes.options[c]
+      })
+      this.opNode = activeNode
       this.showMenu = false
     },
+
     saveOption () { // 保存配置数据
       this.tmpCanvasState = -1
       this.$ajax.post(this.action.saveCanvasData, {
@@ -236,7 +238,7 @@ export default {
       this.showOpenCanvasModal = false
     },
     resetAddCanvasOptions(){
-      this.mtCanvasOptions = Object.assign({},resources.initOptions.dom.canvas)
+      this.mtCanvasOptions = Object.assign({},resources.initOptions.dom.canvas.options)
       this.mtCanvasOptions.id = new Date().valueOf()
     },
     saveCanvas (name) { // 保存画布
@@ -281,7 +283,7 @@ export default {
           let cavOptions = JSON.parse(c.data.cavOptions)
           let chartData = JSON.parse(c.data.cavData)
           cavOptions.baseUrl = this.config.baseUrl
-          this.mtCanvasOptions = Object.assign({},resources.initOptions.dom.canvas,cavOptions)
+          this.mtCanvasOptions = Object.assign({},resources.initOptions.dom.canvas.options,cavOptions)
           this.canvasData = chartData
           this.showCanvas = true
           this.showDbManager = false

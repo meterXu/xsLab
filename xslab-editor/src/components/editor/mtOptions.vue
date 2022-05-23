@@ -27,7 +27,7 @@
     </template>
     <Modal :width="800"  v-model="showExecSqlModal" title="数据测试">
       <div class="tableContainer">
-        <Tabs value="数据1">
+        <Tabs value="数据1" style="width: 100%">
           <TabPane :label="'数据'+(index+1)" :name="'数据'+(index+1)" v-for="(dataConfig,index) in dataConfigs" :key="index">
             <Table v-if="dataConfig.data"
                    height="360"
@@ -138,7 +138,6 @@ export default {
       }else{
         return true
       }
-
     },
     testDataSource () { // 测试数据
       let that = this

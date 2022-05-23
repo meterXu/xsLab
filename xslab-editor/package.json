@@ -15,7 +15,6 @@
     "axios": ">=0.21.1",
     "clipboard": "^2.0.4",
     "codemirror": "^5.22.0",
-    "deepmerge": "^4.2.2",
     "echarts": "^4.5.0",
     "echarts-liquidfill": "^2.0.4",
     "iview": "^3.5.3",

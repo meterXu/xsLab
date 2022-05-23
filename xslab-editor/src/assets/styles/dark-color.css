@@ -1,4 +1,5 @@
 html[data-theme='dark']{
+  --text-color:#a5a5a5;
   --header-bg-color:#161B22;
   --header-border-color:#21262d;
   --menu-bg-color:#161B22;
