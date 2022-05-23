@@ -1,10 +1,10 @@
 <template>
-  <div tabindex="-1" :id="node.id" class="mt_node" :draggable="!view"
+  <div tabindex="-1" :id="node.id" class="mt_node"
        :style="nodeStyle"
        @click="nodeClick"
-       @dragstart="dragStart"
        @contextmenu="contextmenu"
-       @keydown="keydown">
+       @keydown="keydown"
+       @mousedown="mousedown">
     <template>
       <eCharts ref='echarts'
                :id="node.id"
@@ -30,6 +30,7 @@
        </XscDev>
       <div v-else>不支持的图表</div>
     </template>
+    <slot name="resize"></slot>
   </div>
 </template>
 
@@ -493,6 +494,9 @@ export default {
         }
       }
     },
+    mousedown(){
+      this.$emit('mousedown',this.node)
+    },
     setChartOption () {
       if (this.node.type === 'eCharts' && this.node.config.data.source) {
         let cloneNode = JSON.parse(JSON.stringify(this.node))
@@ -542,7 +546,7 @@ export default {
   }
   .mt_node{
     display: inline-block;
-    cursor: pointer;
+    cursor: move;
     position: absolute;
     outline: none;
   }

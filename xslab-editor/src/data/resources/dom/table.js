@@ -6,7 +6,7 @@ const table = {
     theme: 'default',
     box: {
       width: 230,
-      height: 160,
+      height: 193,
       x: 0,
       y: 0,
       zIndex: 100

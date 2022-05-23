@@ -7,11 +7,16 @@
                :view="view"
                :class="[view?'mt_node_view':(item===activeNode ? 'mt_node_active': 'mt_node_base'),startDrag&&'dragging']"
                @nodeClick="nodeClick"
-               @dragStart="dragStart"
-               @contextmenu="contextmenu">
+               @contextmenu="contextmenu"
+               @mousedown="itemMousedown">
                <template v-if="item.type==='dev'" v-slot:[item.config.options.key]>
                   <slot :name="item.config.options.key"></slot>
                </template>
+        <template v-slot:resize>
+          <div ref="resize" v-if="!view&&item===activeNode" class="node_resize" @mousedown="reSizeMousedown(item)">
+            <Icon type="md-resize" :size="14" color="#00BCD4"/>
+          </div>
+        </template>
       </XscNode>
     </template>
     <slot></slot>
@@ -75,6 +80,53 @@ export default {
     }
   },
   methods: {
+    itemMousedown(node){
+      if(!this.view){
+        event.stopPropagation()
+        let direction = 'drag';
+        let clickBox = event.currentTarget
+        this.nodeViewChange(clickBox,direction,node);
+      }
+    },
+    reSizeMousedown(node){
+      if(!this.view){
+        event.stopPropagation()
+        let direction = 'rightBottomCorner';
+        let clickBox = event.currentTarget.parentElement
+        this.nodeViewChange(clickBox,direction,node);
+      }
+    },
+    nodeViewChange(clickBox,direction,node){
+      this.activeNode = node
+      if(this.activeNode){
+        let dragNode = this.charts.find(c => c.id === this.activeNode.id)
+        let mouseDownX = event.pageX;
+        let mouseDownY = event.pageY;
+        let clickBoxLeft = clickBox.offsetLeft;
+        let clickBoxTop = clickBox.offsetTop;
+        let clickBoxWeight = clickBox.offsetWidth;
+        let clickBoxHeight = clickBox.offsetHeight;
+        document.onmousemove = function(e) {
+          e =e||event;
+          let xx = e.clientX;
+          let yy = e.clientY;
+          if (direction === 'rightBottomCorner'){
+            dragNode.config.box.width = clickBoxWeight +xx-mouseDownX
+            dragNode.config.box.height = clickBoxHeight +yy-mouseDownY
+          }else if(direction === "drag"){
+            dragNode.config.box.x = xx-mouseDownX+clickBoxLeft
+            dragNode.config.box.y = yy-mouseDownY+clickBoxTop
+          }
+        };
+        document.onmouseup = function() {
+          document.onmousemove = null;
+          document.onmouseup = null;
+        };
+      }
+      if (event.preventDefault){
+        event.preventDefault();
+      }
+    },
     drop () {
       if (!this.view) {
         event.preventDefault()
@@ -250,7 +302,20 @@ export default {
   }
   .mt_node_active{
     box-sizing: content-box;
-    border: 1px dashed #e61329;
+    border: 1px dashed #00BCD4;
+  }
+  .node_resize{
+    cursor: se-resize;
+    float: right;
+    width: 24px;
+    height: 24px;
+    transform: rotate(268deg);
+    border: 2px solid rgb(0,188,212);
+    border-radius: 12px;
+    margin-right: -21px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
   .dragging{
     opacity: 0;
