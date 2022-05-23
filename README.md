@@ -28,5 +28,12 @@
 
 ![导出画布](http://7u.isaacxu.com/%E5%AF%BC%E5%87%BA%E7%94%BB%E5%B8%83.png?imageView2/0/w/600)
 
+## 安装
+
+1. 下载release包
+2. 启动后端程序`xslab-rearend`
+3. 修改编辑器`xslab-editor`的配置文件`config.json`，其中的后端地址改为后端地址`http://x.x.x.x:11525`
+4. 访问系统`http://x.x.x.x/xslab-editor`
+
 ## 后端
 [xslab-rearend](xslab-rearend/README.md)
