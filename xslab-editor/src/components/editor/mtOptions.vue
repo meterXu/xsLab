@@ -5,7 +5,7 @@
       <div class="titleCon">
         <span class="titleCon_span">参数配置</span>
         <ButtonGroup size="small">
-          <Button v-if="this.opNode.config.data" type="primary" @click="testDataSource"><Icon type="md-checkmark" />测试</Button>
+          <Button v-if="this.opNode.config.data" @click="testDataSource" icon="ios-bug">调试数据</Button>
         </ButtonGroup>
         </div>
     </div>
@@ -25,7 +25,7 @@
         </TabPane>
       </Tabs>
     </template>
-    <Modal :width="800"  v-model="showExecSqlModal" title="数据测试">
+    <Modal :width="800"  v-model="showExecSqlModal" title="调试数据">
       <div class="tableContainer">
         <Tabs value="数据1" style="width: 100%">
           <TabPane :label="'数据'+(index+1)" :name="'数据'+(index+1)" v-for="(dataConfig,index) in dataConfigs" :key="index">

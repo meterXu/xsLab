@@ -13,9 +13,9 @@
                   <slot :name="item.config.options.key"></slot>
                </template>
         <template v-slot:resize>
-          <div ref="resize" v-if="!view&&item===activeNode" class="node_resize" @mousedown="reSizeMousedown(item)">
-            <Icon type="md-resize" :size="14" color="#00BCD4"/>
-          </div>
+          <span  @mousedown="reSizeMousedown(item)">
+            <Button ref="resize" v-if="!view&&item===activeNode" class="node_resize" shape="circle" icon="ios-resize"></Button>
+          </span>
         </template>
       </XscNode>
     </template>
@@ -26,10 +26,12 @@
 import 'iview/dist/styles/iview.css'
 import XscNode from './xsc/XscNode'
 import commonData from '../data/commonData'
+import {Button} from 'iview'
 export default {
   name: 'Xsc',
   components: {
-    XscNode
+    XscNode,
+    Button
   },
   props: {
     charts: {
@@ -302,7 +304,8 @@ export default {
   }
   .mt_node_active{
     box-sizing: content-box;
-    border: 1px dashed #00BCD4;
+    border: 1px dashed #2d8cf0;
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1)
   }
   .node_resize{
     cursor: se-resize;
@@ -310,12 +313,8 @@ export default {
     width: 24px;
     height: 24px;
     transform: rotate(268deg);
-    border: 2px solid rgb(0,188,212);
-    border-radius: 12px;
     margin-right: -21px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1)
   }
   .dragging{
     opacity: 0;

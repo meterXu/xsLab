@@ -55,7 +55,7 @@ export default {
     background: var(--menu-bg-color);
     border-right: 1px solid var(--menu-border-color);
     box-shadow: 2px 0px 2px 0 rgba(0, 0, 0, 0.1);
-    z-index: 2499;
+    z-index: 2;
   }
   .title{
     text-align: left;

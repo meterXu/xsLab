@@ -1,7 +1,7 @@
 {
   "name": "vue-draw-xs",
   "description": "Visual chart development component",
-  "version": "1.1.10",
+  "version": "1.1.11",
   "author": "meter <xuhonggang@hotmial.com>",
   "license": "MIT",
   "private": false,
@@ -26,5 +26,7 @@
     "last 2 versions",
     "not ie <= 8"
   ],
-  "devDependencies": {}
+  "devDependencies": {
+
+  }
 }

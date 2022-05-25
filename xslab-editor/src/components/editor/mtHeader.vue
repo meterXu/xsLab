@@ -3,23 +3,27 @@
       <div class="block_header">
         <div class="logo"></div>
         <div class="title">XSLab</div>
+        <Divider type="vertical" />
+        <div class="mtCanvasName"><span>{{canvasName||'需要画布进行操作'}}</span></div>
       </div>
       <div class="mtCanvasInfo">
         <div class="mtCanvasState">
-          <Button v-if="canvasState===1" type="success" size="small" icon="md-done-all">{{canvasState | fmCanvasState}}</Button>
-          <Button v-else-if="canvasState===0" @click="saveDataSource" type="dashed" size="small" icon="ios-medical">{{canvasState | fmCanvasState}}</Button>
-          <Button v-else-if="canvasState===-1" loading type="dashed" size="small">{{canvasState | fmCanvasState}}</Button>
+          <ButtonGroup>
+            <Button v-if="canvasState===1" type="success" size="small" icon="md-checkmark">{{canvasState | fmCanvasState}}</Button>
+            <Button v-else-if="canvasState===0" @click="saveDataSource" type="primary" size="small" icon="ios-medical">{{canvasState | fmCanvasState}}</Button>
+            <Button v-else-if="canvasState===-1" type="primary" loading size="small">{{canvasState | fmCanvasState}}</Button>
+            <Button v-if="canvasName" size="small" icon="md-refresh" @click="resetCanvas">重置</Button>
+          </ButtonGroup>
         </div>
-        <div class="mtCanvasName"><span>{{canvasName||'需要画布进行操作'}}</span></div>
       </div>
       <div class="mtCanvasTool">
         <ButtonGroup>
-          <Button title="打开画布" icon="ios-browsers" @click="openCanvas"></Button>
-          <Button title="添加画布" icon="md-add" @click="addCanvas"></Button>
-          <Button title="删除画布" icon="md-trash" @click="delCanvas"></Button>
-          <Button title="查看画布" icon="md-eye" @click="viewCanvas"></Button>
-          <Button title="获取链接" icon="ios-link" @click="getCanvasUrl"></Button>
-          <Button title="下载画布" icon="md-arrow-down" @click="openDownModal" :disabled="isDisableDownload"></Button>
+          <Button title="打开画布" icon="ios-browsers" @click="openCanvas">打开</Button>
+          <Button title="新增画布" icon="md-add" @click="addCanvas">新增</Button>
+          <Button title="删除画布" icon="md-trash" @click="delCanvas">删除</Button>
+          <Button title="查看画布" icon="md-eye" @click="viewCanvas">查看</Button>
+          <Button title="获取链接" icon="ios-link" @click="getCanvasUrl">分享</Button>
+          <Button title="下载画布" icon="md-arrow-down" @click="openDownModal" :disabled="isDisableDownload">下载</Button>
         </ButtonGroup>
       </div>
       <div class="mtEditorTool">
@@ -57,7 +61,7 @@
           </Tabs>
         </div>
       </Modal>
-      <Modal title="想把这个画布带走？" v-model="isShowDownload" :width="550" :footer-hide="true">
+      <Modal title="下载源码" v-model="isShowDownload" :width="550" :footer-hide="true">
         <div class="download-panel">
           <ul class="download-ul">
             <li @click="downCanvas(1)">
@@ -145,6 +149,9 @@ export default {
     saveDataSource () {
       this.$emit('saveDataSource')
     },
+    resetCanvas(){
+      this.$emit('resetCanvas')
+    },
     downCanvas (type) {
       let that = this
       let cavid = this.$parent.mtCanvasOptions.id
@@ -216,7 +223,7 @@ export default {
           return '已保存'
         }
         case 0: {
-          return '未保存'
+          return '保存'
         }
       }
     }
@@ -236,13 +243,15 @@ export default {
     right: 0;
     left: 0;
     box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.1);
-    z-index: 2500;
+    padding: 0 18px;
+    z-index: 2;
   }
   .block_header{
-    width: 200px;
     height: 49px;
     line-height: 49px;
-    display: inline-block;
+    display: inline-flex;
+    justify-content: left;
+    align-items: center;
   }
   .logo{
     display: inline-block;
@@ -250,8 +259,6 @@ export default {
     background-size: contain;
     width: 23px;
     height: 100%;
-    float: left;
-    margin-left: 12px;
   }
   .title{
     height: 100%;
@@ -259,7 +266,6 @@ export default {
     font-size: 24px;
     font-weight: bold;
     font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "\5FAE\8F6F\96C5\9ED1", Arial, sans-serif;
-    float: left;
     margin-left: 6px;
   }
   .mtCanvasTool,.mtEditorTool{
@@ -277,22 +283,18 @@ export default {
     height: 49px;
     line-height: 49px;
     float: right;
-    width: 280px;
     background: none;
+    margin-left: 18px;
   }
   .mtCanvasState,.mtCanvasName{
     display: inline-block;
     height: 49px;
-    float: left;
   }
   .mtCanvasState{
-    width: 113px;
     text-align: center;
   }
   .mtCanvasName{
-    width: 167px;
     text-align: center;
-    padding-right: 20px;
     font-size: 16px;
     white-space: nowrap;
     text-overflow: ellipsis;

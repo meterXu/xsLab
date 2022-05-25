@@ -8,9 +8,9 @@
               @viewCanvas="viewCanvas"
               @getCanvasUrl="getCanvasUrl"
               @dbManager="dbManager"
-              @downCanvas="downCanvas"
               @dbSetting="dbSetting"
-              @saveDataSource="saveDataSource">
+              @saveDataSource="saveDataSource"
+              @resetCanvas="resetCanvas">
     </mtHeader>
     <mtMenu @dragStart="menuDragStart"></mtMenu>
     <mtScale ref="mtScale">
@@ -32,17 +32,17 @@
     <Modal :width="400"
            v-model="showAddCanvasModal"
            :mask-closable="false"
-           title="添加画布"
+           title="新增画布"
            @on-ok="saveCanvas('formValidate')">
-      <Form ref="formValidate" :model="mtCanvasOptions" :rules="ruleValidate" :label-width="80">
+      <Form ref="formValidate" :model="addFrom" :rules="ruleValidate" :label-width="80">
         <FormItem label="名称" prop="name">
-          <Input v-model="mtCanvasOptions.name" placeholder="输入画布名称"/>
+          <Input v-model="addFrom.name" placeholder="输入画布名称"/>
         </FormItem>
         <FormItem label="宽度" prop="width">
-          <InputNumber :max="10000" :min="1"  v-model="mtCanvasOptions.width" placeholder="输入画布宽度"/>
+          <InputNumber :max="10000" :min="1"  v-model="addFrom.width" placeholder="输入画布宽度"/>
         </FormItem>
         <FormItem label="高度" prop="height">
-          <InputNumber :max="10000" :min="1"  v-model="mtCanvasOptions.height" placeholder="输入画布高度"/>
+          <InputNumber :max="10000" :min="1"  v-model="addFrom.height" placeholder="输入画布高度"/>
         </FormItem>
       </Form>
     </Modal>
@@ -109,7 +109,12 @@ export default {
       canvasData: [],
       editorData: editorData,
       resources: resources,
-      mtCanvasOptions: resources.initOptions.dom.canvas,
+      mtCanvasOptions: {},
+      addFrom:{
+        name:'新的画布',
+        width:1024,
+        height:768
+      },
       showCanvas: false,
       showDbManager: false,
       showAddCanvasModal: false,
@@ -233,15 +238,10 @@ export default {
     },
     addCanvas () { // 模态界面-添加画布界面
       this.$Modal.remove()
-      this.resetAddCanvasOptions()
       this.showAddCanvasModal = true
       this.editorData.activeNode = null
       this.showCanvasUrlModal = false
       this.showOpenCanvasModal = false
-    },
-    resetAddCanvasOptions(){
-      this.mtCanvasOptions = Object.assign({},resources.initOptions.dom.canvas.options)
-      this.mtCanvasOptions.id = new Date().valueOf()
     },
     saveCanvas (name) { // 保存画布
       let that = this
@@ -252,6 +252,7 @@ export default {
           that.showDbSetting = false
           that.canvasData = []
           that.opNode = null
+          that.mtCanvasOptions = Object.assign(resources.initOptions.dom.canvas.options,that.addFrom,{id:this.mtCanvasOptions.id = new Date().valueOf()})
           // 保存至数据库
           that.saveOption()
         } else { // 验证失败
@@ -403,9 +404,6 @@ export default {
       this.showAddCanvasModal = false
       this.opNode = null
     },
-    downCanvas () {
-
-    },
     getCanvasUrl () {
       this.$Modal.remove()
       if (this.mtCanvasOptions.id) {
@@ -431,6 +429,12 @@ export default {
     },
     saveDataSource () {
       this.$refs.mtOptions.saveDataSource()
+    },
+    resetCanvas(){
+      this.cavRowClick({
+        oid: this.mtCanvasOptions.id
+      })
+
     }
   },
   mounted () {
