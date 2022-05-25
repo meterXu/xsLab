@@ -5,7 +5,7 @@
                :key="item.id"
                :node="item"
                :view="view"
-               :class="[view?'mt_node_view':(item===activeNode ? 'mt_node_active': 'mt_node_base'),startDrag&&'dragging']"
+               :class="[view?'mt_node_view':(item===activeNode ? 'mt_node_active': 'mt_node_base'),'dragging']"
                @nodeClick="nodeClick"
                @contextmenu="contextmenu"
                @mousedown="itemMousedown">
@@ -305,7 +305,7 @@ export default {
   .mt_node_active{
     box-sizing: content-box;
     border: 1px dashed #2d8cf0;
-    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1)
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
   }
   .node_resize{
     cursor: se-resize;
@@ -317,6 +317,6 @@ export default {
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1)
   }
   .dragging{
-    opacity: 0;
+    cursor: move;
   }
 </style>

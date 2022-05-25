@@ -53,10 +53,10 @@
         <div class="jsonPanel">
           <Tabs value="画布">
             <TabPane label="options" name="画布">
-              <mtFormItemCode v-model="optionsStr" :mode="mode" :full="false" :copy="true"></mtFormItemCode>
+              <mtFormItemCode v-model="optionsStr" :mode="mode" :full="true" :copy="true"></mtFormItemCode>
             </TabPane>
             <TabPane label="charts" name="图表">
-              <mtFormItemCode v-model="chartsStr" :mode="mode" :full="false" :copy="true"></mtFormItemCode>
+              <mtFormItemCode v-model="chartsStr" :mode="mode" :full="true" :copy="true"></mtFormItemCode>
             </TabPane>
           </Tabs>
         </div>

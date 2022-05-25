@@ -282,7 +282,7 @@ export default {
     background: var(--options-bg-color,#f5f5f5);
     border-left: 1px solid var(--options-border-color,#ddd);
     overflow:auto;
-    z-index: 2499;
+    z-index: 2;
     box-shadow: -2px 0px 2px 0 rgba(0, 0, 0, 0.1);
   }
   .title{
