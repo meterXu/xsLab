@@ -34,7 +34,7 @@
 ## 安装
 
 1. 下载release包
-2. 启动后端程序`xslab-rearend`
+2. 启动后端程序`cd xslab-rearend && npm install && node index.js`
 3. 修改编辑器`xslab-editor`的配置文件`config.json`，其中`baseUrl`改为实际后端地址，比如：`http://x.x.x.x:11525`
 4. 访问系统，`http://x.x.x.x/xslab-editor`
 
