@@ -37,3 +37,9 @@
 2. 启动后端程序`xslab-rearend`
 3. 修改编辑器`xslab-editor`的配置文件`config.json`，其中`baseUrl`改为实际后端地址，比如：`http://x.x.x.x:11525`
 4. 访问系统，`http://x.x.x.x/xslab-editor`
+
+## 支持
+
+您的支持，是我前进的动力！
+
+![支持](http://server.isaacxu.com:3004/uploads/upload_81d93fc980eabba12f1c2465811f2d07.png)
