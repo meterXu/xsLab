@@ -1,8 +1,7 @@
 <template>
   <div style="width: 100%;height: 100%">
-    <div class="vue-codemirror-wrap" :class="{fullScreen:!full}">
-      <Input v-show="!full" type="textarea" v-model="value"></Input>
-      <textarea v-show="full" ref="codeMirror"></textarea>
+    <div class="vue-codemirror-wrap" v-show="full">
+      <textarea class="codeMirror-textarea" ref="codeMirror"></textarea>
     </div>
     <div v-if="!full" class="full-editor"  @click="showFullCode">
       <i :size="20" class="ivu-icon ivu-icon-ios-create" title="全屏"></i>
@@ -34,7 +33,7 @@ export default {
       default: function () {
         return {
           mode: this.mode,
-          theme: 'default',
+          theme: 'light',
           lineNumbers: true,
           lineWrapping: true
         }
@@ -63,9 +62,11 @@ export default {
       this.$emit('showFullCode', this.$attrs.field, this.value, this.$attrs.index,this.$props.mode)
     },
     initCodeMirror(){
-      if(this.$refs.codeMirror){
-        // this.editor = CodeMirror.fromTextArea(this.$refs.codeMirror, this.options)
-        // this.editor.setValue(this.value)
+      if(this.$refs.codeMirror&&this.value&&this.full){
+        if(!this.editor){
+          this.editor = CodeMirror.fromTextArea(this.$refs.codeMirror, this.options)
+        }
+        this.editor.setValue(this.value)
       }
     },
     getValue(){
@@ -80,11 +81,10 @@ export default {
             this.initCodeMirror()
           })
         }
-      },
-      immediate:true
+      }
     },
     value(nv){
-      this.$emit('update',nv)
+      this.initCodeMirror()
     }
   },
   mounted: function () {
@@ -97,13 +97,24 @@ export default {
 }
 </script>
 
+<style>
+.CodeMirror{
+  height: 563px !important;
+}
+</style>
 <style lang="less" scoped>
+.hiddenEditor{
+  display: none;
+}
+  .codeMirror-textarea{
+    display: none;
+  }
   .vue-codemirror-wrap{
     position: relative;
     height: 100%;
   }
   .full-editor{
-    text-align: right;
+    text-align: left;
     height: 24px;
     cursor: pointer;
   }

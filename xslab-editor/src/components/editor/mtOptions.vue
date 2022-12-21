@@ -5,7 +5,7 @@
       <div class="titleCon">
         <span class="titleCon_span">参数配置</span>
         <ButtonGroup size="small">
-          <Button v-if="this.opNode.config.data" @click="testDataSource" icon="ios-bug">调试数据</Button>
+          <Button v-if="this.opNode.config.data" @click="testOptionsConf" icon="ios-bug">调试数据</Button>
         </ButtonGroup>
         </div>
     </div>
@@ -25,7 +25,7 @@
         </TabPane>
       </Tabs>
     </template>
-    <Modal :width="800"  v-model="showExecSqlModal" title="调试数据">
+    <Modal :width="800"  v-model="showExecSqlModal" title="调试数据,如果成功则说明数据有效，可配置至图表">
       <div class="tableContainer">
         <Tabs value="数据1" style="width: 100%">
           <TabPane :label="'数据'+(index+1)" :name="'数据'+(index+1)" v-for="(dataConfig,index) in dataConfigs" :key="index">
@@ -40,7 +40,7 @@
     </Modal>
     <Modal :width="800" v-model="showFullCodeModal" :title="codeProLabel" @on-ok="codeOk">
       <div class="tableContainer">
-        <mtFormItemCode ref="formCode" v-if="showFullCodeModal" :full="showFullCodeModal" v-model="codeProValue" :mode="codeProMode"></mtFormItemCode>
+        <mtFormItemCode ref="formCode" v-show="showFullCodeModal" :full="showFullCodeModal" v-model="codeProValue" :mode="codeProMode"></mtFormItemCode>
       </div>
     </Modal>
     </template>
@@ -141,7 +141,7 @@ export default {
         return true
       }
     },
-    testDataSource () { // 测试数据
+    testOptionsConf () { // 测试数据
       let that = this
       that.showExecSqlModal = true
       this.loading = true
@@ -195,51 +195,60 @@ export default {
         this.loading = false
       })
     },
-    saveDataSource () {
+    saveOptionsConf () {
       let that = this
-      if (!that.$parent.$refs.xsc.activeNode.id) {
-        this.$emit('saveOption')
-      } else {
-        that.$parent.$refs.xsc.update(that.$parent.$refs.xsc.activeNode.id).then(warnData => {
-          let warnMsgStr = ''
-          if (warnData.warns) {
-            warnData.warns.forEach(warnObj => {
-              if (warnObj.warn && warnObj.warn.length > 0) {
-                warnObj.warn.forEach(warn => {
-                  warnMsgStr += warn + '<br/>'
+      let chartPromises=[]
+      this.$parent.canvasData.forEach(chart=>{
+        if(chart.id){
+          chartPromises.push(new Promise((resolve,reject) => {
+            that.$parent.$refs.xsc.update(chart.id).then(warnData=>{
+              let warnMsgStr = ''
+              if (warnData.warns) {
+                warnData.warns.forEach(warnObj => {
+                  if (warnObj.warn && warnObj.warn.length > 0) {
+                    warnObj.warn.forEach(warn => {
+                      warnMsgStr += warn + '<br/>'
+                    })
+                  }
                 })
               }
-            })
-          }
-          if (warnMsgStr) {
-            that.$Modal.warning({
-              title: '配置异常',
-              content: warnMsgStr
-            })
-          } else {
-            this.$emit('saveOption')
-          }
-        }).catch(errDatas => {
-          let errMsgStr = ''
-          if (errDatas instanceof Array) {
-            errDatas.forEach(c => {
-              if (c.error && c.error.message) {
-                errMsgStr += c.error.message + '<br/>'
+              resolve(warnMsgStr)
+            }).catch(errDatas=>{
+              let errMsgStr = ''
+              if (errDatas instanceof Array) {
+                errDatas.forEach(c => {
+                  if (c.error && c.error.message) {
+                    errMsgStr += c.error.message + '<br/>'
+                  }
+                })
+              } else {
+                if (errDatas.message) {
+                  errMsgStr = errDatas.message
+                }
               }
+              reject(errMsgStr)
             })
-          } else {
-            if (errDatas.message) {
-              errMsgStr = errDatas.message
-            }
-          }
-          if (errMsgStr) {
-            that.$Modal.error({
-              title: '配置错误',
-              content: errMsgStr
-            })
-          }
-        })
-      }
+          }))
+        }
+      })
+
+      Promise.all(chartPromises).then(warnMsgStrArray=>{
+        if(warnMsgStrArray.find(c=>c!=='')){
+          that.$Modal.warning({
+            title: '配置异常',
+            content: warnMsgStrArray.join('<br/>')
+          })
+        }else{
+          this.$emit('saveOption')
+        }
+      }).catch(errMsgStrArray=>{
+        if(errMsgStrArray.find(c=>c!=='')){
+          that.$Modal.error({
+            title: '配置错误',
+            content: errMsgStrArray.join('<br/>')
+          })
+        }
+      })
     },
     radioChange (v) {
       console.log(v)

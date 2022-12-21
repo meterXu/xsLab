@@ -10,6 +10,10 @@ const getters = {
     editorTheme: state=>{
         state.app.editorTheme = localStorage.getItem('xsLab_editorTheme')
         return state.app.editorTheme
+    },
+    defaultChartTheme:state=>{
+        state.app.defaultChartTheme = localStorage.getItem('xsLab_defaultChartTheme')
+        return state.app.defaultChartTheme
     }
 }
 export default getters

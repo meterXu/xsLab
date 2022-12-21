@@ -24,6 +24,7 @@ Vue.prototype.$clipboard=clipboard
 
 axios.get('./config.json').then(res=>{
   store.commit('setBaseUrl',res.data.baseUrl)
+  store.commit('setDefaultChartTheme',res.data.defaultChartTheme)
   if(!store.getters.editorTheme){
     store.commit('setEditorTheme',res.data.editorTheme)
     document.getElementsByTagName('html')[0].setAttribute('data-theme', res.data.editorTheme)

@@ -50,7 +50,7 @@
           <div class="mtCanvasState">
             <ButtonGroup>
               <Button v-if="canvasState===1" type="success" size="small" icon="md-checkmark">{{canvasState | fmCanvasState}}</Button>
-              <Button v-else-if="canvasState===0" @click="saveDataSource" type="primary" size="small" icon="ios-medical">{{canvasState | fmCanvasState}}</Button>
+              <Button v-else-if="canvasState===0" @click="saveOptionsConf" type="primary" size="small" icon="ios-medical">{{canvasState | fmCanvasState}}</Button>
               <Button v-else-if="canvasState===-1" type="primary" loading size="small">{{canvasState | fmCanvasState}}</Button>
               <Button v-if="canvasName" size="small" icon="md-refresh" @click="resetCanvas">重置</Button>
             </ButtonGroup>
@@ -158,8 +158,8 @@ export default {
         this.$Message.warning('请先打开一个画布！')
       }
     },
-    saveDataSource () {
-      this.$emit('saveDataSource')
+    saveOptionsConf () {
+      this.$emit('saveOptionsConf')
     },
     resetCanvas(){
       this.$emit('resetCanvas')

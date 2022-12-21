@@ -10,7 +10,7 @@
                 @getCanvasUrl="getCanvasUrl"
                 @dbManager="dbManager"
                 @dbSetting="dbSetting"
-                @saveDataSource="saveDataSource"
+                @saveOptionsConf="saveOptionsConf"
                 @resetCanvas="resetCanvas">
       </mtHeader>
     </div>
@@ -48,12 +48,12 @@
         </FormItem>
       </Form>
     </Modal>
-    <Modal :width="800"
+    <Modal :width="1000"
            v-model="showOpenCanvasModal"
            :mask-closable="false"
            :footer-hide="true"
            title="打开画布">
-      <Table height="400"
+      <Table height="600"
              @on-row-click="cavRowClick"
              :columns="cavColumn"
              :loading="cavTableLoading"
@@ -106,14 +106,14 @@ export default {
   },
   data () {
     return {
-      tmpCanvasState: 1,
+      tmpCanvasState: null,
       showMenu: false,
       canvasData: [],
       editorData: editorData,
       resources: resources,
       mtCanvasOptions: {},
       addFrom:{
-        name:'新的画布',
+        name:'',
         width:1024,
         height:768
       },
@@ -142,7 +142,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['baseUrl']),
+    ...mapGetters(['baseUrl','defaultChartTheme']),
     canvasUrl: function () {
       if(this.$route.query.hasOwnProperty('X-Access-Token')){
         return `${window.location.origin}${window.location.pathname}#/view/${this.mtCanvasOptions.id}?X-Access-Token=${this.$route.query['X-Access-Token']}`
@@ -169,7 +169,7 @@ export default {
             this.editorData.resources.initOptions[this.editorData.dragMenuNode.type][this.editorData.dragMenuNode.chart].box.width / 2 - 200 + scrollLeft
           cloneConfig.box.y = event.y -
             this.editorData.resources.initOptions[this.editorData.dragMenuNode.type][this.editorData.dragMenuNode.chart].box.height / 2 - 50 + scrollTop
-          cloneConfig.theme = 'default'
+          cloneConfig.theme = this.defaultChartTheme||'light'
           let addChart = {
             id: (new Date()).valueOf(),
             type: this.editorData.dragMenuNode.type,
@@ -230,6 +230,7 @@ export default {
       this.editorData.activeNode = null
       this.showCanvasUrlModal = false
       this.showOpenCanvasModal = false
+      this.addFrom.name ='新的画布-'+new Date().valueOf()
     },
     saveCanvas (name) { // 保存画布
       let that = this
@@ -413,8 +414,8 @@ export default {
     changeOption () {
       this.tmpCanvasState = 0
     },
-    saveDataSource () {
-      this.$refs.mtOptions.saveDataSource()
+    saveOptionsConf () {
+      this.$refs.mtOptions.saveOptionsConf()
     },
     resetCanvas(){
       this.cavRowClick({
