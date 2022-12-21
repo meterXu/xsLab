@@ -1,49 +1,61 @@
 <template>
     <header class="header">
-      <div class="block_header">
-        <div class="logo"></div>
-        <div class="title">XSLab</div>
-        <Divider type="vertical" />
-        <div class="mtCanvasName"><span>{{canvasName||'需要画布进行操作'}}</span></div>
-      </div>
-      <div class="mtCanvasInfo">
-        <div class="mtCanvasState">
+      <div class="header-con">
+        <div class="block_header">
+          <div class="logo"></div>
+          <div class="title">XSLab</div>
+          <Divider type="vertical" />
+          <div class="mtCanvasName"><span>{{canvasName||'需要画布进行操作'}}</span></div>
+        </div>
+        <div class="mtCanvasTool" style="margin-left: 24px">
           <ButtonGroup>
-            <Button v-if="canvasState===1" type="success" size="small" icon="md-checkmark">{{canvasState | fmCanvasState}}</Button>
-            <Button v-else-if="canvasState===0" @click="saveDataSource" type="primary" size="small" icon="ios-medical">{{canvasState | fmCanvasState}}</Button>
-            <Button v-else-if="canvasState===-1" type="primary" loading size="small">{{canvasState | fmCanvasState}}</Button>
-            <Button v-if="canvasName" size="small" icon="md-refresh" @click="resetCanvas">重置</Button>
+            <Button title="打开画布" icon="ios-browsers" @click="openCanvas">打开</Button>
+            <Button title="新增画布" icon="md-add" @click="addCanvas">新增</Button>
+            <Button title="删除画布" icon="md-trash" @click="delCanvas">删除</Button>
+            <Button title="查看画布" icon="md-eye" @click="viewCanvas">查看</Button>
+            <Button title="获取链接" icon="ios-link" @click="getCanvasUrl">分享</Button>
+            <Button title="下载画布" icon="md-arrow-down" @click="openDownModal" :disabled="isDisableDownload">下载</Button>
           </ButtonGroup>
         </div>
+        <div class="mtEditorTool">
+          <Button size="small"
+                  shape="circle"
+                  type="success"
+                  title="管理数据源"
+                  custom-icon="icon-database"
+                  @click="dbManager"
+                  :replace="true" class="header-icon-btn"></Button>
+          <Button size="small"
+                  shape="circle"
+                  v-if="showBackCanvas"
+                  title="返回画布"
+                  @click="backCanvas"
+                  :replace="true"
+                  class="header-icon-btn"
+                  custom-icon="icon-delicious"></Button>
+          <Button size="small"
+                  title="系统设置"
+                  icon="ios-construct"
+                  @click="dbSetting"
+                  shape="circle" class="header-icon-btn"></Button>
+        </div>
       </div>
-      <div class="mtCanvasTool">
-        <ButtonGroup>
-          <Button title="打开画布" icon="ios-browsers" @click="openCanvas">打开</Button>
-          <Button title="新增画布" icon="md-add" @click="addCanvas">新增</Button>
-          <Button title="删除画布" icon="md-trash" @click="delCanvas">删除</Button>
-          <Button title="查看画布" icon="md-eye" @click="viewCanvas">查看</Button>
-          <Button title="获取链接" icon="ios-link" @click="getCanvasUrl">分享</Button>
-          <Button title="下载画布" icon="md-arrow-down" @click="openDownModal" :disabled="isDisableDownload">下载</Button>
-        </ButtonGroup>
-      </div>
-      <div class="mtEditorTool">
-        <Icon v-if="showJson"
+      <div class="header-con">
+        <Icon v-if="canvasName"
               title="查看JSON"
               custom="iconfont icon-json"
               class="viewJson"
               @click="viewJson"/>
-        <Button size="small"
-                shape="circle"
-                type="success"
-                title="管理数据源"
-                custom-icon="iconfont icon-database"
-                @click="dbManager"
-                :replace="true" class="header-icon-btn"></Button>
-        <Button size="small"
-                title="系统设置"
-                icon="ios-construct"
-                @click="dbSetting"
-                shape="circle" class="header-icon-btn"></Button>
+        <div class="mtCanvasInfo">
+          <div class="mtCanvasState">
+            <ButtonGroup>
+              <Button v-if="canvasState===1" type="success" size="small" icon="md-checkmark">{{canvasState | fmCanvasState}}</Button>
+              <Button v-else-if="canvasState===0" @click="saveDataSource" type="primary" size="small" icon="ios-medical">{{canvasState | fmCanvasState}}</Button>
+              <Button v-else-if="canvasState===-1" type="primary" loading size="small">{{canvasState | fmCanvasState}}</Button>
+              <Button v-if="canvasName" size="small" icon="md-refresh" @click="resetCanvas">重置</Button>
+            </ButtonGroup>
+          </div>
+        </div>
       </div>
       <Modal :width="800"
              v-model="isShowJson"
@@ -79,7 +91,7 @@
 </template>
 
 <script>
-import '../../assets/mtIcon/mtIcon.css'
+import '../../assets/mtIcon/style.css'
 import mtFormItemCode from '../../components/editor/options/mtFormItemCode'
 export default {
   name: 'mtHeader',
@@ -98,8 +110,8 @@ export default {
     }
   },
   computed: {
-    showJson () {
-      return this.$parent.showCanvas
+    showBackCanvas(){
+      return !this.$parent.showCanvas&&this.canvasName
     }
   },
   components: {
@@ -211,6 +223,16 @@ export default {
       this.$parent.showAddCanvasModal = false
       this.optionsStr = JSON.stringify(this.$parent.mtCanvasOptions, null, '\t')
       this.chartsStr = JSON.stringify(this.$parent.canvasData, null, '\t')
+    },
+    backCanvas(){
+      this.$parent.showCanvas = true
+      this.$parent.showCanvas = true
+      this.$parent.showDbManager = false
+      this.$parent.showDbSetting = false
+      this.$parent.showOpenCanvasModal = false
+      this.$parent.showCanvasUrlModal = false
+      this.$parent.tmpCanvasState = 1
+      this.$parent.opNode = null
     }
   },
   filters: {
@@ -238,10 +260,17 @@ export default {
     line-height: 50px;
     background: var(--header-bg-color);
     padding: 0 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .header-con{
+    height: 100%;
+    display: inline-flex;
+    justify-content: flex-start;
+    align-items: center;
   }
   .block_header{
-    height: 49px;
-    line-height: 49px;
     display: inline-flex;
     justify-content: left;
     align-items: center;
@@ -251,7 +280,7 @@ export default {
     background: url("../../assets/logo.png") no-repeat center center;
     background-size: contain;
     width: 23px;
-    height: 100%;
+    height:23px;
   }
   .title{
     height: 100%;
@@ -261,22 +290,16 @@ export default {
     font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "\5FAE\8F6F\96C5\9ED1", Arial, sans-serif;
     margin-left: 6px;
   }
-  .mtCanvasTool,.mtEditorTool{
+  .mtCanvasTool,.mtEditorTool,.mtCanvasInfo{
+    height: 100%;
     display: inline-block;
-    height: 49px;
-    line-height: 49px;
-    float: right;
-    margin-right: 0px;
+    margin-left: 6px;
   }
   .mtEditorTool
   {
     margin-right: 10px;
   }
   .mtCanvasInfo{
-    height: 49px;
-    line-height: 49px;
-    float: right;
-    background: none;
     margin-left: 18px;
   }
   .mtCanvasState,.mtCanvasName{
@@ -295,10 +318,10 @@ export default {
   }
   .viewJson{
     position: relative;
+    top: 2px;
     width: 40px;
     height: 20px;
     color: #22579d;
-    right: 8px;
     cursor: pointer;
     &:hover{
       color: #2380cc;

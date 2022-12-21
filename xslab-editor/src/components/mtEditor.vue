@@ -1,8 +1,8 @@
 <template>
   <div class="mt-editor">
     <div class="mt-editor-header">
-      <mtHeader :canvasName="canvasName"
-                :canvasState="canvasState"
+      <mtHeader :canvasName="mtCanvasOptions.name"
+                :canvasState="tmpCanvasState"
                 @addCanvas="addCanvas"
                 @openCanvas="openCanvas"
                 @delCanvas="delCanvas"
@@ -18,8 +18,8 @@
       <mtMenu @dragStart="menuDragStart"></mtMenu>
       <mtDbManager v-if="showDbManager"></mtDbManager>
       <mtSetting v-if="showDbSetting"></mtSetting>
-      <mtScale ref="mtScale" v-show="showCanvas">
-        <Xsc ref="xsc"
+      <mtScale ref="mtScale">
+        <Xsc ref="xsc" v-show="showCanvas"
              :charts="canvasData"
              :options="mtCanvasOptions"
              :view="false"
@@ -150,20 +150,6 @@ export default {
         return `${window.location.origin}${window.location.pathname}#/view/${this.mtCanvasOptions.id}`
       }
 
-    },
-    canvasName: function () {
-      if (this.showCanvas) {
-        return this.mtCanvasOptions.name
-      } else {
-        return null
-      }
-    },
-    canvasState: function () {
-      if (this.showCanvas) {
-        return this.tmpCanvasState
-      } else {
-        return null
-      }
     }
   },
   methods: {
@@ -389,7 +375,6 @@ export default {
       this.showDbManager = true
       this.showDbSetting = false
       this.showCanvas = false
-      this.mtCanvasOptions.id = null
       this.showOpenCanvasModal = false
       this.showCanvasUrlModal = false
       this.showAddCanvasModal = false
@@ -400,7 +385,6 @@ export default {
       this.showDbManager = false
       this.showDbSetting = true
       this.showCanvas = false
-      this.mtCanvasOptions.id = null
       this.showOpenCanvasModal = false
       this.showCanvasUrlModal = false
       this.showAddCanvasModal = false
