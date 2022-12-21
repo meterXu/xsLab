@@ -1,23 +1,25 @@
 <template>
-  <div id="app">
-    <mtHeader :canvasName="canvasName"
-              :canvasState="canvasState"
-              @addCanvas="addCanvas"
-              @openCanvas="openCanvas"
-              @delCanvas="delCanvas"
-              @viewCanvas="viewCanvas"
-              @getCanvasUrl="getCanvasUrl"
-              @dbManager="dbManager"
-              @dbSetting="dbSetting"
-              @saveDataSource="saveDataSource"
-              @resetCanvas="resetCanvas">
-    </mtHeader>
-    <mtMenu @dragStart="menuDragStart"></mtMenu>
-    <mtScale ref="mtScale">
-      <template slot="content">
-        <mtDbManager v-if="showDbManager"></mtDbManager>
-        <mtSetting v-if="showDbSetting"></mtSetting>
-        <Xsc ref="xsc" v-if="showCanvas"
+  <div class="mt-editor">
+    <div class="mt-editor-header">
+      <mtHeader :canvasName="canvasName"
+                :canvasState="canvasState"
+                @addCanvas="addCanvas"
+                @openCanvas="openCanvas"
+                @delCanvas="delCanvas"
+                @viewCanvas="viewCanvas"
+                @getCanvasUrl="getCanvasUrl"
+                @dbManager="dbManager"
+                @dbSetting="dbSetting"
+                @saveDataSource="saveDataSource"
+                @resetCanvas="resetCanvas">
+      </mtHeader>
+    </div>
+    <div class="mt-editor-layout">
+      <mtMenu @dragStart="menuDragStart"></mtMenu>
+      <mtDbManager v-if="showDbManager"></mtDbManager>
+      <mtSetting v-if="showDbSetting"></mtSetting>
+      <mtScale ref="mtScale" v-show="showCanvas">
+        <Xsc ref="xsc"
              :charts="canvasData"
              :options="mtCanvasOptions"
              :view="false"
@@ -26,9 +28,9 @@
              @nodeActive="nodeActive">
           <mtContextMenu v-if="showMenu" :point="mtMenuPoint" @menuClick="menuClick"></mtContextMenu>
         </Xsc>
-      </template>
-    </mtScale>
-    <mtOptions ref="mtOptions" v-if="opNode" :opNode="opNode" @saveOption="saveOption" @changeOption="changeOption"></mtOptions>
+      </mtScale>
+      <mtOptions ref="mtOptions" v-if="opNode" :opNode="opNode" @saveOption="saveOption" @changeOption="changeOption"></mtOptions>
+    </div>
     <Modal :width="400"
            v-model="showAddCanvasModal"
            :mask-closable="false"
@@ -446,9 +448,22 @@ export default {
 }
 </script>
 <style scoped>
-  #app {
-    margin:0;
-    padding:0
+  .mt-editor {
+    display: flex;
+    flex-flow: column;
+    height: 100%;
+    justify-content: flex-start;
+  }
+  .mt-editor-header{
+    border-bottom: 1px solid var(--header-border-color);
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.1);
+    z-index: 2;
+  }
+  .mt-editor-layout{
+    display: flex;
+    height: 100%;
+    flex-flow: row;
+    justify-content: flex-start;
   }
   .ivu-form-item{
     margin-bottom: 20px !important;

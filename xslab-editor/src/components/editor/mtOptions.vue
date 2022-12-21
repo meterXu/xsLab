@@ -1,5 +1,5 @@
 <template>
-  <div id="options">
+  <div class="options">
     <template v-if="showOp">
     <div class="title">
       <div class="titleCon">
@@ -273,12 +273,8 @@ export default {
 </script>
 
 <style scoped>
-  #options {
-    position: absolute;
-    right: 0;
-    top: 50px;
+  .options {
     width: 280px;
-    bottom: 0;
     background: var(--options-bg-color,#f5f5f5);
     border-left: 1px solid var(--options-border-color,#ddd);
     overflow:auto;

@@ -1,33 +1,20 @@
 <template>
-<div id="mtScale" ref="mtScale" :style="scaleStyle">
-    <slot name="content"/>
+<div id="mtScale" ref="mtScale">
+    <slot/>
 </div>
 </template>
 
 <script>
 export default {
   name: 'mtScale',
-  computed: {
-    scaleStyle () {
-      if (this.$parent.opNode) {
-        return {
-          right: '280px'
-        }
-      } else {
-        return null
-      }
-    }
-  }
 }
 </script>
 
 <style scoped>
   #mtScale{
-    position: absolute;
-    top: 50px;
-    left: 200px;
-    bottom: 0;
-    right: 0px;
+    position: relative;
+    flex: 1;
+    height: auto;
     background: var(--scale-bg-img, url("../../assets/scaleBg.png")) repeat repeat;
     overflow: auto;
   }

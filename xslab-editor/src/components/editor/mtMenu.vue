@@ -1,5 +1,5 @@
 <template>
-    <div id="menu">
+    <div class="menu">
       <div class="title">
         <div class="titleCon">组件列表</div>
       </div>
@@ -44,12 +44,8 @@ export default {
 </script>
 
 <style scoped>
-  #menu{
-    position: absolute;
-    top: 50px;
-    left: 0;
-    bottom: 0;
-    float: left;
+  .menu{
+    position: relative;
     width: 200px;
     height: auto;
     background: var(--menu-bg-color);

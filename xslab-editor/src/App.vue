@@ -33,7 +33,9 @@ export default {
 }
 </script>
 <style>
-body{
+html,body,#app{
+  height: 100%;
+  width: 100%;
   overflow-x: hidden;
 }
 </style>

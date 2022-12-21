@@ -1,5 +1,5 @@
 <template>
-    <header id="header">
+    <header class="header">
       <div class="block_header">
         <div class="logo"></div>
         <div class="title">XSLab</div>
@@ -232,19 +232,12 @@ export default {
 </script>
 
 <style lang="less" scoped>
-  #header{
-    position: absolute;
+  .header{
     width: 100%;
     height: 50px;
     line-height: 50px;
     background: var(--header-bg-color);
-    border-bottom: 1px solid var(--header-border-color);
-    top: 0;
-    right: 0;
-    left: 0;
-    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.1);
     padding: 0 18px;
-    z-index: 2;
   }
   .block_header{
     height: 49px;

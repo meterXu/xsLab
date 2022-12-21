@@ -64,8 +64,8 @@ export default {
     },
     initCodeMirror(){
       if(this.$refs.codeMirror){
-        this.editor = CodeMirror.fromTextArea(this.$refs.codeMirror, this.options)
-        this.editor.setValue(this.value)
+        // this.editor = CodeMirror.fromTextArea(this.$refs.codeMirror, this.options)
+        // this.editor.setValue(this.value)
       }
     },
     getValue(){
