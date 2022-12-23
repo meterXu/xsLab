@@ -75,17 +75,29 @@ router.post('/DelDataSource', async (ctx, next) => {
     }
 });
 router.post('/GetCanvasList', async (ctx, next) => {
-    ctx.response.type = 'json';
-    let res = await db.sqliteProvider.query('select * from xs_canvas where `delete`=1 and state=1 order by createTime desc');
+    const {pageSize,pageNumber} = ctx.request.body
+    let totalRes = await db.sqliteProvider.query('select count(*) total from xs_canvas where `delete`=1 and state=1');
+    let res = await db.sqliteProvider.query('select * from xs_canvas where `delete`=1 and state=1 order by createTime desc limit ? offset ?',[
+        pageSize,
+        (pageNumber-1)*pageSize
+    ]);
     let resData = [];
     res.forEach(c => {
         resData.push({
             oid: c.ID,
             name: c.NAME,
-            insertTime: new Date(c.CREATETIME).toLocaleString(),
+            insertTime: c.CREATETIME,
         });
     });
-    ctx.body = resData;
+    ctx.response.type = 'json';
+    ctx.body = {
+        rows:resData,
+        total:totalRes[0].total,
+        page:{
+            pageSize:parseInt(pageSize),
+            pageNumber:parseInt(pageNumber)
+        }
+    };
 });
 router.post('/GetCanvasData', async (ctx, next) => {
     if (ctx.request.body.canvasOid) {

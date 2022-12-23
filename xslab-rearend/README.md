@@ -1,6 +1,8 @@
 # xslab-rearend
 > 可视化图表编辑器后端
 
+说明：生产环境请使用mysql数据库，不要使用sqlite
+
 # 版本要求
 node >= 12.16.1
 
