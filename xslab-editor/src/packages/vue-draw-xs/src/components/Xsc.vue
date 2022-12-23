@@ -1,25 +1,30 @@
 <template>
-  <div @drop="drop" @dragover="dragover" @click="canvasClick" :style="canvasStyle" :class="['mt_canvas', {mt_canvas_position:view}]">
-    <template v-for="item in charts">
-      <XscNode :ref="item.id"
-               :key="item.id"
-               :node="item"
-               :view="view"
-               :class="[view?'mt_node_view':(item===activeNode ? 'mt_node_active': 'mt_node_base'),'dragging']"
-               @nodeClick="nodeClick"
-               @contextmenu="contextmenu"
-               @mousedown="itemMousedown">
-               <template v-if="item.type==='dev'" v-slot:[item.config.options.key]>
-                  <slot :name="item.config.options.key"></slot>
-               </template>
-        <template v-slot:resize>
-          <span  @mousedown="reSizeMousedown(item)">
+  <div :style="view?'display: block':'display: inline-block'">
+    <div @drop="drop" @dragover="dragover" @click="canvasClick" :style="canvasStyle" :class="['mt_canvas', {mt_canvas_position:view}]">
+      <template v-for="item in charts">
+        <XscNode :ref="item.id"
+                 :key="item.id"
+                 :node="item"
+                 :view="view"
+                 :class="[view?'mt_node_view':(item===activeNode ? 'mt_node_active': 'mt_node_base'),'dragging']"
+                 @nodeClick="nodeClick"
+                 @contextmenu="contextmenu"
+                 @mousedown="itemMousedown">
+          <template v-if="item.type==='dev'" v-slot:[item.config.options.key]>
+            <slot :name="item.config.options.key"></slot>
+          </template>
+          <template v-slot:resize>
+          <span  @mousedown="reSizeMousedown(item,'chart')">
             <Button ref="resize" v-if="!view&&item===activeNode" class="node_resize" shape="circle" icon="ios-resize"></Button>
           </span>
-        </template>
-      </XscNode>
-    </template>
-    <slot></slot>
+          </template>
+        </XscNode>
+      </template>
+      <slot></slot>
+    </div>
+    <span  @mousedown="reSizeMousedown(options,'canvas')">
+      <Button ref="resize" v-if="!view&&activeNode&&activeNode.chart==='canvas'" class="node_resize" shape="circle" icon="ios-resize"></Button>
+  </span>
   </div>
 </template>
 <script>
@@ -90,18 +95,22 @@ export default {
         this.nodeViewChange(clickBox,direction,node);
       }
     },
-    reSizeMousedown(node){
+    reSizeMousedown(node,type){
       if(!this.view){
         event.stopPropagation()
         let direction = 'rightBottomCorner';
         let clickBox = event.currentTarget.parentElement
-        this.nodeViewChange(clickBox,direction,node);
+        this.nodeViewChange(clickBox,direction,node,type);
       }
     },
-    nodeViewChange(clickBox,direction,node){
-      this.activeNode = node
-      if(this.activeNode){
-        let dragNode = this.charts.find(c => c.id === this.activeNode.id)
+    nodeViewChange(clickBox,direction,node,type){
+      if(node){
+        let dragNode = null
+        if(type==='chart'){
+          dragNode = this.charts.find(c => c.id === node.id)
+        }else{
+          dragNode = node
+        }
         let mouseDownX = event.pageX;
         let mouseDownY = event.pageY;
         let clickBoxLeft = clickBox.offsetLeft;
@@ -113,8 +122,13 @@ export default {
           let xx = e.clientX;
           let yy = e.clientY;
           if (direction === 'rightBottomCorner'){
-            dragNode.config.box.width = clickBoxWeight +xx-mouseDownX
-            dragNode.config.box.height = clickBoxHeight +yy-mouseDownY
+            if(type==='chart'){
+              dragNode.config.box.width = clickBoxWeight +xx-mouseDownX
+              dragNode.config.box.height = clickBoxHeight +yy-mouseDownY
+            }else{
+              dragNode.width = clickBoxWeight +xx-mouseDownX
+              dragNode.height = clickBoxHeight +yy-mouseDownY
+            }
           }else if(direction === "drag"){
             dragNode.config.box.x = xx-mouseDownX+clickBoxLeft
             dragNode.config.box.y = yy-mouseDownY+clickBoxTop

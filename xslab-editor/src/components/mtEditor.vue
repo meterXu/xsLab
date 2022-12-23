@@ -194,6 +194,7 @@ export default {
       let fromRes = resources.initOptions[activeNode.type][activeNode.chart]
       this.opNode = this.mergeOptions(activeNode,fromRes.options)
       this.showMenu = false
+      this.$store.commit('setActiveNode',activeNode)
     },
     mergeOptions(activeNode, fromResOptions) {
       let fromKeys = Object.keys(fromResOptions)

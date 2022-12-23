@@ -24,12 +24,12 @@ const text = {
         textAlign: 'center'
       },
       background: {
-        color: null
+        color: 'transparent'
       },
       border: {
         width: 0,
         style: 'solid',
-        color: null
+        color: 'transparent'
       }
     }
   },

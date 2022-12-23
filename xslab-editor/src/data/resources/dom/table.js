@@ -1,4 +1,5 @@
 import sourceConf from '../sourceConf'
+import commonData from "@/data/resources/commonData";
 
 const table = {
   resource: {
@@ -24,7 +25,7 @@ const table = {
         { 'id': 4, 'name': 'durian', 'value': '榴莲' }
       ],
       primary: {
-        background: null,
+        background: 'transparent',
         backgroundImg: '',
         borderWidth: 1,
         borderColor: null,
@@ -51,7 +52,7 @@ const table = {
         fontFamily: '微软雅黑',
         height: 30,
         color: null,
-        backgroundColor: null,
+        backgroundColor: 'transparent',
         borderBottomWidth: 1,
         borderRightWidth: 1,
         borderBottomStyle: 'dotted',
@@ -65,7 +66,7 @@ const table = {
         fontFamily: '微软雅黑',
         height: 30,
         color: null,
-        backgroundColor: null,
+        backgroundColor: 'transparent',
         borderBottomWidth: 1,
         borderRightWidth: 1,
         borderBottomStyle: 'dotted',
@@ -136,6 +137,45 @@ const table = {
           ]
         }]
     },
+      {
+        type: '样式',
+        icon: 'md-brush',
+        con: [
+          {
+            key: '',
+            name: '全局',
+            sub: [
+              {
+                key: 'theme',
+                name: '主题',
+                type: 'select',
+                data: commonData.theme
+              }
+            ]
+          },
+          {
+            key: 'options/primary',
+            name: '背景',
+            sub: [
+              {key: 'background', name: '颜色', type: 'color'}
+            ]
+          },
+          {
+            key: 'options/th',
+            name: '表头',
+            sub: [
+              {key: 'backgroundColor', name: '背景色', type: 'color'}
+            ]
+          },
+          {
+            key: 'options/td',
+            name: '表体',
+            sub: [
+              {key: 'backgroundColor', name: '背景色', type: 'color'}
+            ]
+          }
+        ]
+      },
       {
       type: '数据',
       icon: 'md-pulse',

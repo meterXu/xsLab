@@ -1,8 +1,9 @@
-const appState = {
+const state = {
     dbList:null,
     baseUrl: null,
     editorTheme: null,
-    defaultChartTheme:null
+    defaultChartTheme:null,
+    activeNode:null
 }
 
 const mutations = {
@@ -20,6 +21,9 @@ const mutations = {
     setDefaultChartTheme(state, data) {
         state.defaultChartTheme = data
         localStorage.setItem('xsLab_defaultChartTheme', data)
+    },
+    setActiveNode(state,data){
+        state.activeNode = data
     }
 }
 
@@ -27,6 +31,6 @@ const mutations = {
 
 export default {
     namespaced: false,
-    state: appState,
+    state,
     mutations
 }

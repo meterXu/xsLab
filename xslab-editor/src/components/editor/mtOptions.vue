@@ -5,7 +5,7 @@
       <div class="titleCon">
         <span class="titleCon_span">参数配置</span>
         <ButtonGroup size="small">
-          <Button v-if="this.opNode.config.data" @click="testOptionsConf" icon="ios-bug">调试数据</Button>
+          <Button v-if="this.opNode.config.data" @click="testOptionsConf" icon="ios-flask">调试数据</Button>
         </ButtonGroup>
         </div>
     </div>
@@ -25,7 +25,7 @@
         </TabPane>
       </Tabs>
     </template>
-    <Modal :width="800"  v-model="showExecSqlModal" title="调试数据,如果成功则说明数据有效，可配置至图表">
+    <Modal :width="800"  v-model="showExecSqlModal" title="调试数据，如果成功则说明数据有效，可配置至图表！">
       <div class="tableContainer">
         <Tabs value="数据1" style="width: 100%">
           <TabPane :label="'数据'+(index+1)" :name="'数据'+(index+1)" v-for="(dataConfig,index) in dataConfigs" :key="index">

@@ -1,7 +1,7 @@
 import commonData from '../commonData'
 const canvas = {
   resource: {
-    type: 'img',
+    type: 'canvas',
     theme: 'default',
     options:{
       id: null,

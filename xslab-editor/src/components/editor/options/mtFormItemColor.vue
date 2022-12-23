@@ -27,6 +27,7 @@ export default {
   },
   methods: {
     onChange (value) {
+      value = value===''?'transparent':value
       this.$emit('update', value)
     }
   },

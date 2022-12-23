@@ -33,7 +33,7 @@ export default {
       default: function () {
         return {
           mode: this.mode,
-          theme: 'light',
+          theme: 'default',
           lineNumbers: true,
           lineWrapping: true
         }
@@ -97,9 +97,21 @@ export default {
 }
 </script>
 
-<style>
+<style lang="less">
 .CodeMirror{
+  .CodeMirror-sizer{
+    margin-left: 32px !important;
+  }
   height: 563px !important;
+  .CodeMirror-gutters{
+    left: 1px !important;
+  }
+  .CodeMirror-gutter-wrapper{
+    left: -28.8px !important;
+  }
+  .CodeMirror-linenumbers{
+    width: 31px !important;
+  }
 }
 </style>
 <style lang="less" scoped>

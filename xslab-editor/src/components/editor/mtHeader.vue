@@ -4,10 +4,9 @@
         <div class="block_header">
           <div class="logo"></div>
           <div class="title">XSLab</div>
-          <Divider type="vertical" />
-          <div class="mtCanvasName"><span>{{canvasName||'需要画布进行操作'}}</span></div>
         </div>
-        <div class="mtCanvasTool" style="margin-left: 24px">
+        <Divider type="vertical" />
+        <div class="mtCanvasTool">
           <ButtonGroup>
             <Button title="打开画布" icon="ios-browsers" @click="openCanvas">打开</Button>
             <Button title="新增画布" icon="md-add" @click="addCanvas">新增</Button>
@@ -41,21 +40,29 @@
         </div>
       </div>
       <div class="header-con">
-        <Icon v-if="canvasName"
-              title="查看JSON"
-              custom="iconfont icon-json"
-              class="viewJson"
-              @click="viewJson"/>
-        <div class="mtCanvasInfo">
-          <div class="mtCanvasState">
-            <ButtonGroup>
-              <Button v-if="canvasState===1" type="success" size="small" icon="md-checkmark">{{canvasState | fmCanvasState}}</Button>
-              <Button v-else-if="canvasState===0" @click="saveOptionsConf" type="primary" size="small" icon="ios-medical">{{canvasState | fmCanvasState}}</Button>
-              <Button v-else-if="canvasState===-1" type="primary" loading size="small">{{canvasState | fmCanvasState}}</Button>
-              <Button v-if="canvasName" size="small" icon="md-refresh" @click="resetCanvas">重置</Button>
-            </ButtonGroup>
+        <template v-if="activeNode&&activeNode.id">
+          <div class="mtCanvasName" style="color: #00bcd4">id:{{activeNode.id}}</div>
+          <Divider type="vertical" />
+        </template>
+        <div class="mtCanvasName"><span>{{canvasName||'需要画布进行操作'}}</span></div>
+        <template v-if="canvasName">
+          <Divider type="vertical" />
+          <Icon title="查看JSON"
+                custom="iconfont icon-json"
+                class="viewJson"
+                @click="viewJson"/>
+          <div class="mtCanvasInfo">
+            <div class="mtCanvasState">
+              <ButtonGroup>
+                <Button v-if="canvasState===1" type="success" size="small" icon="md-checkmark">{{canvasState | fmCanvasState}}</Button>
+                <Button v-else-if="canvasState===0" @click="saveOptionsConf" type="primary" size="small" icon="ios-medical">{{canvasState | fmCanvasState}}</Button>
+                <Button v-else-if="canvasState===-1" type="primary" loading size="small">{{canvasState | fmCanvasState}}</Button>
+                <Button v-if="canvasName" size="small" icon="md-refresh" @click="resetCanvas">重置</Button>
+              </ButtonGroup>
+            </div>
           </div>
-        </div>
+        </template>
+
       </div>
       <Modal :width="800"
              v-model="isShowJson"
@@ -93,6 +100,8 @@
 <script>
 import '../../assets/mtIcon/style.css'
 import mtFormItemCode from '../../components/editor/options/mtFormItemCode'
+import {mapGetters} from "vuex";
+
 export default {
   name: 'mtHeader',
   props: {
@@ -112,7 +121,8 @@ export default {
   computed: {
     showBackCanvas(){
       return !this.$parent.showCanvas&&this.canvasName
-    }
+    },
+    ...mapGetters(['activeNode'])
   },
   components: {
     mtFormItemCode

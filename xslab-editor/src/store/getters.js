@@ -14,6 +14,9 @@ const getters = {
     defaultChartTheme:state=>{
         state.app.defaultChartTheme = localStorage.getItem('xsLab_defaultChartTheme')
         return state.app.defaultChartTheme
+    },
+    activeNode:state=>{
+        return state.app.activeNode
     }
 }
 export default getters
