@@ -20,7 +20,7 @@ class CanvasController {
     @testTag
     @query(PaginationModel.swaggerDocument)
     static async canvas(ctx) {
-        const pagination = new PaginationModel(parseInt(ctx.request.query.pageNumber), parseInt(ctx.request.query.pageSize))
+        const pagination = new PaginationModel(ctx.request.query)
         let totalRes = await db.sqliteProvider.query('select count(*) total from xs_canvas where `delete`=1 and state=1');
         let res = await db.sqliteProvider.query('select * from xs_canvas where `delete`=1 and state=1 order by createTime desc limit ? offset ?', [
             pagination.pageSize,
@@ -73,10 +73,7 @@ class CanvasController {
     @body(CanvasModel.swaggerDocument)
     async saveCanvasData(ctx) {
         ctx.response.body = 'json';
-        const canvas = new CanvasModel(ctx.request.body.id,
-            ctx.request.body.name,
-            ctx.request.body.data,
-            ctx.request.body.options)
+        const canvas = new CanvasModel(ctx.request.body)
         let c = await db.sqliteProvider.query('select * from xs_canvas where id = ?', [canvas.id]);
         if (c.length > 0) {
             // 更新
@@ -134,7 +131,7 @@ class CanvasController {
     async execSql(ctx) {
         ctx.response.body = 'json';
         let resData = [];
-        let execSqlModel = new ExecSqlModel(ctx.request.body.dbs,ctx.request.body.sqls);
+        let execSqlModel = new ExecSqlModel(ctx.request.body);
         let dbArray = [];
         let sqlArray = [];
         if (execSqlModel.dbs) {
@@ -147,7 +144,7 @@ class CanvasController {
             if (!dbArray[i] || !sqlArray[i]) {
                 ctx.body = null;
             } else {
-                var dbRes = await db.sqliteProvider.query('select * from XS_DATABASE where ID=? and `DELETE`=1 and STATE=1', [dbArray[i]]);
+                let dbRes = await db.sqliteProvider.query('select * from XS_DATABASE where ID=? and `DELETE`=1 and STATE=1', [dbArray[i]]);
                 if (dbRes.length > 0) {
                     switch (dbRes[0].TYPE.toString()) {
                         case "1": {
@@ -215,7 +212,7 @@ class CanvasController {
     @query(DownloadModel.swaggerDocument)
     async download(ctx){
         ctx.response.type = 'text';
-        let downloadModel = new DownloadModel(ctx.request.query.type,ctx.request.query.id)
+        let downloadModel = new DownloadModel(ctx.request.query)
         if (downloadModel.type && downloadModel.id) {
             let templatePath = "";
             let downLoadDirName = "";

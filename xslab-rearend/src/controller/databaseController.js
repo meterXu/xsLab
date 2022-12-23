@@ -16,7 +16,7 @@ export default class DatabaseController{
     @query(PaginationModel.swaggerDocument)
     async dataBaseList(ctx){
         ctx.response.type = 'json';
-        const pagination = new PaginationModel(parseInt(ctx.request.query.pageNumber), parseInt(ctx.request.query.pageSize))
+        const pagination = new PaginationModel(ctx.request.query)
         let totalRes = await db.sqliteProvider.query('select count(*) total from xs_database where `delete`=1 and state=1');
         let res = await db.sqliteProvider.query('select * from xs_database where `delete`=1 and state=1 order by createTime desc limit ? offset ?',
             [

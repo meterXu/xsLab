@@ -3,24 +3,32 @@
 
 说明：生产环境请使用mysql数据库，不要使用sqlite
 
-# 版本要求
-node >= 12.16.1
+## 版本要求
+node >= 14
 
-# 查看帮助
+## 开发模式
 ```bash
-cd xslab-rearend
-node index.js -h
+npm run dev
 ```
 
-# 开启服务
+## 部署模式
 ```bash
-cd xslab-rearend
-node index.js
+npm run build
+node dist/index.js
 ```
 
-# 以指定的端口运行
+## 配置文件
 ```bash
-node index.js -p 3003
+src/config.js
+dist/config.js
 ```
-# oracle数据库支持
+
+## swagger地址
+```bash
+http://localhost:11525/api/swagger-html
+```
+
+
+
+## oracle数据库支持
 需要拷贝oracle客户端文件至`oracledb\oracledb\build\Release`
