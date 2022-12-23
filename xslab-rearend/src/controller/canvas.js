@@ -1,4 +1,4 @@
-import db from "../../common/provider.js";
+import db from "../common/provider.js";
 import { request, summary, body,query, tags } from 'koa-swagger-decorator'
 import Pagination from '../model/pagination.js'
 
@@ -7,7 +7,7 @@ const testTag = tags(['test'])
 class Canvas{
     constructor() {}
 
-    @request('get', '/api/canvas')
+    @request('get', '/canvas')
     @summary('获取画布列表')
     @testTag
     @query({
