@@ -1,4 +1,4 @@
-import {request, summary, SwaggerRouter, tags} from 'koa-swagger-decorator'
+import {SwaggerRouter} from 'koa-swagger-decorator'
 import path from "path";
 
 const router = new SwaggerRouter({
