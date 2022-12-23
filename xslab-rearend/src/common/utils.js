@@ -79,8 +79,8 @@ export default class Utils{
 
     static async testConnect(config) {
         try {
-            switch (config.type.toString()) {
-                case "1": {
+            switch (config.type) {
+                case 1: {
                     let queryData = await db.oracleProvider.query({
                         user: config.username,
                         password: config.password,
@@ -89,7 +89,7 @@ export default class Utils{
                     return queryData.rows.length > 0;
                     break;
                 }
-                case "2": {
+                case 2: {
                     let queryData = await db.mssqlProvider.query({
                         host: config.ip,
                         port: config.port,
@@ -100,7 +100,7 @@ export default class Utils{
                     return queryData.recordset.length > 0;
                     break;
                 }
-                case "3": {
+                case 3: {
                     let queryData = await db.mysqlProvider.query({
                         host: config.ip,
                         port: config.port,

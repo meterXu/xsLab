@@ -46,11 +46,11 @@ class CanvasController {
     @summary('获取画布数据')
     @testTag
     @query({
-        canvasOid: {type: 'string', required: true, description: '画布id'},
+        id: {type: 'number', required: true, description: '画布id'},
     })
     async canvasData(ctx) {
-        if (ctx.request.body.canvasOid) {
-            let res = await db.sqliteProvider.query('select data,options from xs_canvas where id = ?', [ctx.request.body.canvasOid]);
+        if (ctx.request.query.id) {
+            let res = await db.sqliteProvider.query('select data,options from xs_canvas where id = ?', [ctx.request.query.id]);
             if (res.length > 0) {
                 ctx.response.body = 'json';
                 ctx.body = {
@@ -111,12 +111,12 @@ class CanvasController {
     @summary('删除画布')
     @testTag
     @body({
-        canvasOid: {type: 'string', required: true, description: '画布id'}
+        id: {type: 'number', required: true, description: '画布id'}
     })
     async delCanvas(ctx) {
         ctx.response.body = 'text';
-        if (ctx.request.body.canvasOid) {
-            let c = await db.sqliteProvider.exec('update xs_canvas set `delete`=? where id = ?', [2, ctx.request.body.canvasOid]);
+        if (ctx.request.body.id) {
+            let c = await db.sqliteProvider.exec('update xs_canvas set `delete`=? where id = ?', [2, ctx.request.body.id]);
             if (c.changes > 0) {
                 ctx.body = '1';
             } else {
@@ -215,7 +215,7 @@ class CanvasController {
     @query(DownloadModel.swaggerDocument)
     async download(ctx){
         ctx.response.type = 'text';
-        let downloadModel = new DownloadModel(ctx.request.query.type,ctx.request.query.canvasOid)
+        let downloadModel = new DownloadModel(ctx.request.query.type,ctx.request.query.id)
         if (downloadModel.type && downloadModel.id) {
             let templatePath = "";
             let downLoadDirName = "";

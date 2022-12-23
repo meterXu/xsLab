@@ -44,12 +44,12 @@ export default class DatabaseController{
     }
 
     @request('post', '/database/save')
-    @summary('新增数据库')
+    @summary('保存数据库')
     @testTag
     @body(DatabaseModel.swaggerDocument)
     async saveDataSource(ctx){
         ctx.response.type = 'json';
-        const databaseModel = new DatabaseModel(ctx.request.body.id,ctx.request.body.name,ctx.request.body.type,ctx.request.body.ip,ctx.request.body.port,ctx.request.body.schemas,ctx.request.body.username,ctx.request.body.password)
+        const databaseModel = new DatabaseModel(ctx.request.body)
         if (await Utils.testConnect(databaseModel)) {
             if (databaseModel.id) {
                 let res = await db.sqliteProvider.exec('update xs_database set name=?,type=?,ipaddress=?,port=?,userName=?,password=?,`schemas`=? where id = ?',
