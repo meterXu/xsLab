@@ -1,6 +1,8 @@
-import {query, request, summary, tags} from "koa-swagger-decorator";
+import {body, query, request, summary, tags} from "koa-swagger-decorator";
 import PaginationModel from "../model/paginationModel";
 import db from "../common/provider";
+import Utils from "../common/utils";
+import DatabaseModel from "../model/databaseModel";
 
 const testTag = tags(['test'])
 
@@ -40,51 +42,59 @@ export default class DatabaseController{
             pagination: pagination
         }
     }
+
+    @request('post', '/database/save')
+    @summary('新增数据库')
+    @testTag
+    @body(DatabaseModel.swaggerDocument)
+    async saveDataSource(ctx){
+        ctx.response.type = 'json';
+        const databaseModel = new DatabaseModel(ctx.request.body.id,ctx.request.body.name,ctx.request.body.type,ctx.request.body.ip,ctx.request.body.port,ctx.request.body.schemas,ctx.request.body.username,ctx.request.body.password)
+        if (await Utils.testConnect(databaseModel)) {
+            if (databaseModel.id) {
+                let res = await db.sqliteProvider.exec('update xs_database set name=?,type=?,ipaddress=?,port=?,userName=?,password=?,`schemas`=? where id = ?',
+                    [databaseModel.name, databaseModel.type, databaseModel.ipAddress, databaseModel.port, databaseModel.username, databaseModel.password, databaseModel.schemas, databaseModel.id]);
+                if (res.changes > 0) {
+                    ctx.body = {code: 1, id: databaseModel.id};
+                } else {
+                    ctx.body = {code: 0, id: databaseModel.id};
+                }
+            } else {
+                let res = await db.sqliteProvider.exec('insert into xs_database(NAME,TYPE,IPADDRESS,PORT,USERNAME,PASSWORD,`SCHEMAS`,CREATETIME) values(?,?,?,?,?,?,?,?)',
+                    [
+                        databaseModel.name, databaseModel.type, databaseModel.ip, databaseModel.port, databaseModel.username, databaseModel.password, databaseModel.schemas, new Date().valueOf()
+                    ]);
+                if (res.changes > 0) {
+                    ctx.body = {code: 1, id: res.lastId.toString()};
+                } else {
+                    ctx.body = {code: 0, id: ''};
+                }
+            }
+        } else {
+            ctx.body = {code: 0, msg: '数据库无法连接'};
+        }
+    }
+
+
+    @request('post', '/database/delete')
+    @summary('删除数据库')
+    @testTag
+    @body({
+        id:{ type: "number", required: true,description:'数据库id' }
+    })
+    async delDataSource(ctx){
+        ctx.response.type = 'text';
+        let id = ctx.request.body.id;
+        if (id) {
+            let c = await db.sqliteProvider.exec('update xs_database set `delete`=? where id = ?', [2, id]);
+            if (c.changes > 0) {
+                ctx.body = '1';
+            } else {
+                ctx.body = '0';
+            }
+        } else {
+            ctx.body = '0';
+        }
+    }
+
 }
-
-
-
-// router.post('/saveDataSource', async (ctx, next) => {
-//     ctx.response.type = 'json';
-//     let id = ctx.request.body.value;
-//     let name = ctx.request.body.text;
-//     let {type, ipAddress, port, schemas, username, password} = ctx.request.body;
-//     if (await testConnect({type, ipAddress, port, schemas, username, password: password})) {
-//         if (id) {
-//             let res = await db.sqliteProvider.exec('update xs_database set name=?,type=?,ipaddress=?,port=?,userName=?,password=?,`schemas`=? where id = ?',
-//                 [name, type, ipAddress, port, username, password, schemas, id]);
-//             if (res.changes > 0) {
-//                 ctx.body = {code: 1, oid: id};
-//             } else {
-//                 ctx.body = {code: 0, oid: id};
-//             }
-//         } else {
-//             let res = await db.sqliteProvider.exec('insert into xs_database(NAME,TYPE,IPADDRESS,PORT,USERNAME,PASSWORD,`SCHEMAS`,CREATETIME) values(?,?,?,?,?,?,?,?)',
-//                 [
-//                     name, type, ipAddress, port, username, password, schemas, new Date().valueOf()
-//                 ]);
-//             if (res.changes > 0) {
-//                 ctx.body = {code: 1, oid: res.lastId.toString()};
-//             } else {
-//                 ctx.body = {code: 0, oid: ''};
-//             }
-//         }
-//     } else {
-//         ctx.body = {code: 0, msg: '数据库无法连接'};
-//     }
-//
-// });
-// router.post('/delDataSource', async (ctx, next) => {
-//     ctx.response.type = 'text';
-//     let id = ctx.request.body.oid;
-//     if (id) {
-//         let c = await db.sqliteProvider.exec('update xs_database set `delete`=? where id = ?', [2, id]);
-//         if (c.changes > 0) {
-//             ctx.body = '1';
-//         } else {
-//             ctx.body = '0';
-//         }
-//     } else {
-//         ctx.body = '0';
-//     }
-// });

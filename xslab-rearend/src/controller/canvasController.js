@@ -29,7 +29,7 @@ class CanvasController {
         let resData = [];
         res.forEach(c => {
             resData.push({
-                oid: c.ID,
+                id: c.ID,
                 name: c.NAME,
                 insertTime: c.CREATETIME,
             });
@@ -107,7 +107,7 @@ class CanvasController {
         }
     }
 
-    @request('post', '/canvas/del')
+    @request('post', '/canvas/delete')
     @summary('删除画布')
     @testTag
     @body({
