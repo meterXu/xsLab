@@ -2,17 +2,16 @@
   "name": "xscollect",
   "version": "1.0.2",
   "description": "xslab后端，有问题提issues，不要发邮件！",
-  "main": "index.js",
+  "main": "dist/index.js",
   "license": "MIT",
   "scripts": {
-    "serve": "node index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon --exec babel-node src/index.js",
+    "build": "babel src -d dist"
   },
   "repository": {
     "type": "git",
     "url": "git@github.com:meterXu/xsCollect.git"
   },
-  "type": "module",
   "author": "isaac <xhgainxq@qq.com>",
   "dependencies": {
     "art-template": "^4.13.2",
@@ -22,11 +21,21 @@
     "koa-body": "^4.1.1",
     "koa-router": "^7.4.0",
     "koa-send": "^5.0.0",
+    "koa-swagger-decorator": "^1.8.6",
     "koa2-cors": "^2.0.6",
     "mssql": "^5.1.0",
     "mysql": "^2.17.1",
     "oracledb": "^5.0.0",
     "safe-buffer": "^5.2.0",
     "sqlite3": "^5.1.4"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.20.7",
+    "@babel/core": "^7.20.7",
+    "@babel/node": "^7.20.7",
+    "@babel/plugin-proposal-decorators": "^7.20.7",
+    "@babel/plugin-transform-runtime": "^7.19.6",
+    "@babel/preset-env": "^7.20.2",
+    "nodemon": "^2.0.20"
   }
 }
