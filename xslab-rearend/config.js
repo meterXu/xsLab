@@ -12,4 +12,4 @@ let config = {
         database:'xslab'
     }
 };
-module.exports = config;
+export default config

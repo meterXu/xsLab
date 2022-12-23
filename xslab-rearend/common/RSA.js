@@ -1,5 +1,5 @@
-let crypto = require('crypto')
-let Buffer = require('safe-buffer').Buffer
+import crypto from  'crypto'
+import {Buffer} from 'safe-buffer'
 
 function RSA () {
   let MAX_DECRYPT_BLOCK = 128
@@ -64,4 +64,4 @@ PWSibni50c6ORA==
     return result
   }
 }
-module.exports = new RSA();
+export default new RSA()

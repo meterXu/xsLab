@@ -1,13 +1,13 @@
-const Koa = require('koa');
-const app = new Koa();
-const fs = require('fs');
-const config = require('./config');
-const router = require('./router/index');
-const koaBody = require('koa-body');
-const cors = require('koa2-cors');
-const http = require('http');
-const https = require('https');
+import Koa from 'koa';
+import fs from 'fs'
+import config from './config.js'
+import router from './router/index.js'
+import koaBody from 'koa-body'
+import cors from 'koa2-cors'
+import http from 'http'
+import https from 'https'
 
+const app = new Koa();
 app.use(koaBody());
 app.use(cors());
 let sslOptions = null;

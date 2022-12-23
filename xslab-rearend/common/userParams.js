@@ -1,4 +1,4 @@
-var program = require('commander');
+import program from  'commander'
 
 function range (val) {
     return val.split('..').map(Number);

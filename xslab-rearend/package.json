@@ -1,17 +1,19 @@
 {
   "name": "xscollect",
   "version": "1.0.2",
-  "description": "Chart editor backend",
+  "description": "xslab后端，有问题提issues，不要发邮件！",
   "main": "index.js",
   "license": "MIT",
   "scripts": {
+    "serve": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
     "url": "git@github.com:meterXu/xsCollect.git"
   },
-  "author": "meter <xuhonggang@hotmail.com>",
+  "type": "module",
+  "author": "isaac <xhgainxq@qq.com>",
   "dependencies": {
     "art-template": "^4.13.2",
     "commander": "^3.0.1",

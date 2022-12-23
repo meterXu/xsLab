@@ -12,7 +12,6 @@ function sign(){
         });
         let paramStr='';
         sortKeys.forEach(k=>{
-            if()
             paramStr+=params[k].toString();
         })
     }

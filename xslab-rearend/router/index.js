@@ -1,18 +1,22 @@
-const router = require('koa-router')();
-const db = require('../common/provider');
-const RSA = require("../common/RSA");
-const path = require('path');
-const fs = require('fs');
-const template = require('art-template');
-const compressing = require('compressing');
-const send = require('koa-send');
+import Router from 'koa-router'
+import db from '../common/provider.js'
+import RSA from "../common/RSA.js"
+import path from 'path'
+import fs from 'fs'
+import template from 'art-template'
+import compressing from 'compressing'
+import send from 'koa-send'
+
+
+const router = new Router()
+
 router.get('/', async (ctx, next) => {
     ctx.body = 'hello xscollect!'
 });
-router.post('/validateBaseUrl', async (ctx, next) => {
+router.get('/validateBaseUrl', async (ctx, next) => {
     ctx.body = 1
 });
-router.post('/GetDataBaseList', async (ctx, next) => {
+router.get('/getDataBaseList', async (ctx, next) => {
     ctx.response.type = 'json';
     let res = await db.sqliteProvider.query('select * from xs_database where `delete`=1 and state=1 order by createTime desc');
     let resData = [];
@@ -30,7 +34,7 @@ router.post('/GetDataBaseList', async (ctx, next) => {
     });
     ctx.body = resData
 });
-router.post('/SaveDataSource', async (ctx, next) => {
+router.post('/saveDataSource', async (ctx, next) => {
     ctx.response.type = 'json';
     let id = ctx.request.body.value;
     let name = ctx.request.body.text;
@@ -60,7 +64,7 @@ router.post('/SaveDataSource', async (ctx, next) => {
     }
 
 });
-router.post('/DelDataSource', async (ctx, next) => {
+router.post('/delDataSource', async (ctx, next) => {
     ctx.response.type = 'text';
     let id = ctx.request.body.oid;
     if (id) {
@@ -74,7 +78,7 @@ router.post('/DelDataSource', async (ctx, next) => {
         ctx.body = '0';
     }
 });
-router.post('/GetCanvasList', async (ctx, next) => {
+router.get('/getCanvasList', async (ctx, next) => {
     const {pageSize,pageNumber} = ctx.request.body
     let totalRes = await db.sqliteProvider.query('select count(*) total from xs_canvas where `delete`=1 and state=1');
     let res = await db.sqliteProvider.query('select * from xs_canvas where `delete`=1 and state=1 order by createTime desc limit ? offset ?',[
@@ -99,7 +103,7 @@ router.post('/GetCanvasList', async (ctx, next) => {
         }
     };
 });
-router.post('/GetCanvasData', async (ctx, next) => {
+router.get('/getCanvasData', async (ctx, next) => {
     if (ctx.request.body.canvasOid) {
         let res = await db.sqliteProvider.query('select data,options from xs_canvas where id = ?', [ctx.request.body.canvasOid]);
         if (res.length > 0) {
@@ -117,7 +121,7 @@ router.post('/GetCanvasData', async (ctx, next) => {
         ctx.body = '';
     }
 });
-router.post('/SaveCanvasData', async (ctx, next) => {
+router.post('/saveCanvasData', async (ctx, next) => {
     ctx.response.body = 'json';
     let id = ctx.request.body.canvasOid;
     let name = ctx.request.body.canvasName;
@@ -150,7 +154,7 @@ router.post('/SaveCanvasData', async (ctx, next) => {
         }
     }
 });
-router.post('/DelCanvas', async (ctx, next) => {
+router.post('/delCanvas', async (ctx, next) => {
     ctx.response.body = 'text';
     if (ctx.request.body.canvasOid) {
         let c = await db.sqliteProvider.exec('update xs_canvas set `delete`=? where id = ?', [2, ctx.request.body.canvasOid]);
@@ -163,7 +167,7 @@ router.post('/DelCanvas', async (ctx, next) => {
         ctx.body = '0';
     }
 });
-router.post('/ExecSql', async (ctx, next) => {
+router.post('/execSql', async (ctx, next) => {
     ctx.response.body = 'json';
     let resData = [];
     let {dbs, sqls} = ctx.request.body;
@@ -239,7 +243,7 @@ router.post('/ExecSql', async (ctx, next) => {
     }
     ctx.body = resData;
 });
-router.get('/DownloadCanvas', async (ctx, next) => {
+router.get('/downloadCanvas', async (ctx, next) => {
     ctx.response.type = 'text';
     let data = ctx.request.query
     if (data.type && data.canvasOid) {
@@ -405,4 +409,4 @@ function deleteDir(path) {
 }
 
 
-module.exports = router;
+export default router
