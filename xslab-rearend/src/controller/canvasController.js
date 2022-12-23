@@ -4,15 +4,14 @@ import PaginationModel from '../model/paginationModel.js'
 import CanvasModel from '../model/canvasModel'
 import ExecSqlModel from "../model/execSqlModel";
 import path from "path";
-import * as Util from "util";
-import {Utils} from "../common/utils";
+import Utils from "../common/utils";
 import fs from "fs";
 import send from "koa-send";
 import DownloadModel from "../model/downloadModel";
 
 const testTag = tags(['test'])
 
-class Canvas {
+class CanvasController {
     constructor() {
     }
 
@@ -268,4 +267,4 @@ class Canvas {
 
 }
 
-export default Canvas
+export default CanvasController

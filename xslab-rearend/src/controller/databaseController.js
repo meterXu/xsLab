@@ -1,24 +1,49 @@
-// router.get('/validateBaseUrl', async (ctx, next) => {
-//     ctx.body = 1
-// });
-// router.get('/getDataBaseList', async (ctx, next) => {
-//     ctx.response.type = 'json';
-//     let res = await db.sqliteProvider.query('select * from xs_database where `delete`=1 and state=1 order by createTime desc');
-//     let resData = [];
-//     res.map(c => {
-//         resData.push({
-//             value: c.ID.toString(),
-//             type: c.TYPE.toString(),
-//             text: c.NAME,
-//             schemas: c.SCHEMAS,
-//             username: c.USERNAME,
-//             ipAddress: c.IPADDRESS,
-//             port: c.PORT.toString(),
-//             password: ''
-//         })
-//     });
-//     ctx.body = resData
-// });
+import {query, request, summary, tags} from "koa-swagger-decorator";
+import PaginationModel from "../model/paginationModel";
+import db from "../common/provider";
+
+const testTag = tags(['test'])
+
+export default class DatabaseController{
+    constructor() {
+    }
+
+    @request('get', '/database/list')
+    @summary('获取数据库列表')
+    @testTag
+    @query(PaginationModel.swaggerDocument)
+    async dataBaseList(ctx){
+        ctx.response.type = 'json';
+        const pagination = new PaginationModel(parseInt(ctx.request.query.pageNumber), parseInt(ctx.request.query.pageSize))
+        let totalRes = await db.sqliteProvider.query('select count(*) total from xs_database where `delete`=1 and state=1');
+        let res = await db.sqliteProvider.query('select * from xs_database where `delete`=1 and state=1 order by createTime desc limit ? offset ?',
+            [
+                pagination.pageSize,
+                (pagination.pageNumber - 1) * pagination.pageSize
+            ]);
+        let resData = [];
+        res.map(c => {
+            resData.push({
+                value: c.ID.toString(),
+                type: c.TYPE.toString(),
+                text: c.NAME,
+                schemas: c.SCHEMAS,
+                username: c.USERNAME,
+                ipAddress: c.IPADDRESS,
+                port: c.PORT.toString(),
+                password: ''
+            })
+        });
+        ctx.body = {
+            rows:resData,
+            total: totalRes[0].total,
+            pagination: pagination
+        }
+    }
+}
+
+
+
 // router.post('/saveDataSource', async (ctx, next) => {
 //     ctx.response.type = 'json';
 //     let id = ctx.request.body.value;

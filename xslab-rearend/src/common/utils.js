@@ -4,7 +4,7 @@ import path from "path";
 import fs from "fs";
 import compressing from "compressing";
 
-export class Utils{
+export default class Utils{
     constructor() {}
     static async createRealContent(templatePath, oid, type) {
         try {

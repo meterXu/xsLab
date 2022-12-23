@@ -1,6 +1,9 @@
 import {request, summary, tags} from "koa-swagger-decorator";
 const testTag = tags(['test'])
-class Index{
+export default class IndexController{
+    constructor() {
+    }
+
     @request('get', '/')
     @summary('xslab api')
     @testTag
@@ -16,5 +19,3 @@ class Index{
     }
 
 }
-
-export default Index
