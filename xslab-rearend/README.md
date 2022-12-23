@@ -14,7 +14,7 @@ npm run dev
 ## 部署模式
 ```bash
 npm run build
-node dist/index.js
+node dist/routerResponse.js
 ```
 
 ## 配置文件

@@ -3,6 +3,7 @@ import PaginationModel from "../model/paginationModel";
 import db from "../common/provider";
 import Utils from "../common/utils";
 import DatabaseModel from "../model/databaseModel";
+import ResultModel from "../model/resultModel";
 
 const testTag = tags(['test'])
 
@@ -15,7 +16,6 @@ export default class DatabaseController{
     @testTag
     @query(PaginationModel.swaggerDocument)
     async dataBaseList(ctx){
-        ctx.response.type = 'json';
         const pagination = new PaginationModel(ctx.request.query)
         let totalRes = await db.sqliteProvider.query('select count(*) total from xs_database where `delete`=1 and state=1');
         let res = await db.sqliteProvider.query('select * from xs_database where `delete`=1 and state=1 order by createTime desc limit ? offset ?',
@@ -36,11 +36,11 @@ export default class DatabaseController{
                 password: ''
             })
         });
-        ctx.body = {
+        ctx.success(new ResultModel({
             rows:resData,
             total: totalRes[0].total,
             pagination: pagination
-        }
+        }))
     }
 
     @request('post', '/database/save')
@@ -48,16 +48,15 @@ export default class DatabaseController{
     @testTag
     @body(DatabaseModel.swaggerDocument)
     async saveDataSource(ctx){
-        ctx.response.type = 'json';
         const databaseModel = new DatabaseModel(ctx.request.body)
         if (await Utils.testConnect(databaseModel)) {
             if (databaseModel.id) {
                 let res = await db.sqliteProvider.exec('update xs_database set name=?,type=?,ipaddress=?,port=?,userName=?,password=?,`schemas`=? where id = ?',
                     [databaseModel.name, databaseModel.type, databaseModel.ipAddress, databaseModel.port, databaseModel.username, databaseModel.password, databaseModel.schemas, databaseModel.id]);
                 if (res.changes > 0) {
-                    ctx.body = {code: 1, id: databaseModel.id};
+                    ctx.success(new ResultModel(1,databaseModel.id))
                 } else {
-                    ctx.body = {code: 0, id: databaseModel.id};
+                    ctx.success(new ResultModel(0,databaseModel.id))
                 }
             } else {
                 let res = await db.sqliteProvider.exec('insert into xs_database(NAME,TYPE,IPADDRESS,PORT,USERNAME,PASSWORD,`SCHEMAS`,CREATETIME) values(?,?,?,?,?,?,?,?)',
@@ -65,13 +64,13 @@ export default class DatabaseController{
                         databaseModel.name, databaseModel.type, databaseModel.ip, databaseModel.port, databaseModel.username, databaseModel.password, databaseModel.schemas, new Date().valueOf()
                     ]);
                 if (res.changes > 0) {
-                    ctx.body = {code: 1, id: res.lastId.toString()};
+                    ctx.success(new ResultModel(1, res.lastId.toString()))
                 } else {
-                    ctx.body = {code: 0, id: ''};
+                    ctx.success(new ResultModel(0))
                 }
             }
         } else {
-            ctx.body = {code: 0, msg: '数据库无法连接'};
+            ctx.success(new ResultModel(0,'数据库无法连接'))
         }
     }
 
@@ -83,17 +82,16 @@ export default class DatabaseController{
         id:{ type: "number", required: true,description:'数据库id' }
     })
     async delDataSource(ctx){
-        ctx.response.type = 'text';
         let id = ctx.request.body.id;
         if (id) {
             let c = await db.sqliteProvider.exec('update xs_database set `delete`=? where id = ?', [2, id]);
             if (c.changes > 0) {
-                ctx.body = '1';
+                ctx.success(new ResultModel(1))
             } else {
-                ctx.body = '0';
+                ctx.success(new ResultModel(0))
             }
         } else {
-            ctx.body = '0';
+            ctx.success(new ResultModel(0))
         }
     }
 

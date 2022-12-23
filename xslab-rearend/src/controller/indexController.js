@@ -1,4 +1,5 @@
 import {request, summary, tags} from "koa-swagger-decorator";
+import ResultModel from "../model/resultModel";
 const testTag = tags(['test'])
 export default class IndexController{
     constructor() {
@@ -15,7 +16,7 @@ export default class IndexController{
     @summary('xslab api校验')
     @testTag
     async validate(ctx){
-        ctx.body = 1
+        ctx.success(new ResultModel(1))
     }
 
 }

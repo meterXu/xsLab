@@ -3,6 +3,7 @@ let config = {
     enableSsl:false,
     ssl_key:'',
     ssl_cert:'',
+    allowHosts:[],
     dbConf:{
         type:'mysql',
         host:'192.168.126.42',

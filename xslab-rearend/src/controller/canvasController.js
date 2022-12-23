@@ -8,6 +8,7 @@ import Utils from "../common/utils";
 import fs from "fs";
 import send from "koa-send";
 import DownloadModel from "../model/downloadModel";
+import ResultModel from "../model/resultModel";
 
 const testTag = tags(['test'])
 
@@ -19,7 +20,7 @@ class CanvasController {
     @summary('获取画布列表')
     @testTag
     @query(PaginationModel.swaggerDocument)
-    static async canvas(ctx) {
+    static async canvas(ctx,next) {
         const pagination = new PaginationModel(ctx.request.query)
         let totalRes = await db.sqliteProvider.query('select count(*) total from xs_canvas where `delete`=1 and state=1');
         let res = await db.sqliteProvider.query('select * from xs_canvas where `delete`=1 and state=1 order by createTime desc limit ? offset ?', [
@@ -34,12 +35,12 @@ class CanvasController {
                 insertTime: c.CREATETIME,
             });
         });
-        ctx.response.type = 'json';
-        ctx.body = {
+
+        ctx.success(new ResultModel({
             rows: resData,
             total: totalRes[0].total,
             pagination: pagination
-        };
+        }))
     }
 
     @request('get', '/canvas/query')
@@ -52,18 +53,15 @@ class CanvasController {
         if (ctx.request.query.id) {
             let res = await db.sqliteProvider.query('select data,options from xs_canvas where id = ?', [ctx.request.query.id]);
             if (res.length > 0) {
-                ctx.response.body = 'json';
-                ctx.body = {
+                ctx.success(new ResultModel({
                     cavOptions: res[0].OPTIONS,
                     cavData: res[0].DATA.toString(),
-                };
+                }))
             } else {
-                ctx.response.body = 'text';
-                ctx.body = '';
+                ctx.success(new ResultModel(null))
             }
         } else {
-            ctx.response.body = 'text';
-            ctx.body = '';
+            ctx.success(new ResultModel(null))
         }
     }
 
@@ -72,7 +70,6 @@ class CanvasController {
     @testTag
     @body(CanvasModel.swaggerDocument)
     async saveCanvasData(ctx) {
-        ctx.response.body = 'json';
         const canvas = new CanvasModel(ctx.request.body)
         let c = await db.sqliteProvider.query('select * from xs_canvas where id = ?', [canvas.id]);
         if (c.length > 0) {
@@ -80,26 +77,18 @@ class CanvasController {
             let upc = await db.sqliteProvider.exec('update xs_canvas set name=?,data=?,options=? where id=?',
                 [canvas.name, JSON.stringify(canvas.data), JSON.stringify(canvas.options), canvas.id]);
             if (upc.changes > 0) {
-                ctx.body = {
-                    success: 1,
-                };
+                ctx.success(new ResultModel(1))
             } else {
-                ctx.body = {
-                    success: 0,
-                };
+                ctx.success(new ResultModel(0))
             }
         } else {
             // 新增
             let inc = await db.sqliteProvider.exec('insert into xs_canvas(id,name,data,options,createtime) values(?,?,?,?,?)',
                 [canvas.id, canvas.name, JSON.stringify(canvas.data), JSON.stringify(canvas.options), new Date().valueOf()]);
             if (inc.changes > 0) {
-                ctx.body = {
-                    success: 1,
-                };
+                ctx.success(new ResultModel(1))
             } else {
-                ctx.body = {
-                    success: 0,
-                };
+                ctx.success(new ResultModel(0))
             }
         }
     }
@@ -111,16 +100,15 @@ class CanvasController {
         id: {type: 'number', required: true, description: '画布id'}
     })
     async delCanvas(ctx) {
-        ctx.response.body = 'text';
         if (ctx.request.body.id) {
             let c = await db.sqliteProvider.exec('update xs_canvas set `delete`=? where id = ?', [2, ctx.request.body.id]);
             if (c.changes > 0) {
-                ctx.body = '1';
+                ctx.success(new ResultModel(1))
             } else {
-                ctx.body = '0';
+                ctx.success(new ResultModel(0))
             }
         } else {
-            ctx.body = '0';
+            ctx.success(new ResultModel(0))
         }
     }
 
@@ -129,7 +117,6 @@ class CanvasController {
     @testTag
     @body(ExecSqlModel.swaggerDocument)
     async execSql(ctx) {
-        ctx.response.body = 'json';
         let resData = [];
         let execSqlModel = new ExecSqlModel(ctx.request.body);
         let dbArray = [];
@@ -202,7 +189,7 @@ class CanvasController {
                 }
             }
         }
-        ctx.body = resData;
+        ctx.success(new ResultModel(resData))
     }
 
 
@@ -211,7 +198,6 @@ class CanvasController {
     @testTag
     @query(DownloadModel.swaggerDocument)
     async download(ctx){
-        ctx.response.type = 'text';
         let downloadModel = new DownloadModel(ctx.request.query)
         if (downloadModel.type && downloadModel.id) {
             let templatePath = "";
@@ -240,11 +226,11 @@ class CanvasController {
             }
             const realContent = await Utils.createRealContent(templatePath, downloadModel.id, downloadModel.type);
             if (!realContent) {
-                ctx.body = 0
+                ctx.success(new ResultModel(0))
             } else {
                 Utils.copyDir(templatePath, downLoadTmpPath, (err) => {
                     if (err) {
-                        ctx.body= 0
+                        ctx.success(new ResultModel(0,err.message))
                     }
                 });
                 fs.writeFileSync(destWriteFile,realContent)
@@ -252,13 +238,13 @@ class CanvasController {
                 await Utils.createZip(downLoadTmpPath, downLoadDirName);
                 const zipPath = `download\\${downLoadDirName}.zip`
                 ctx.attachment(zipPath)
-                ctx.body= 1
+                ctx.success(new ResultModel(1))
                 await send(ctx,zipPath)
                 Utils.deleteDir(downLoadTmpPath)
                 fs.unlinkSync(zipPath)
             }
         } else {
-            ctx.body= 0
+            ctx.success(new ResultModel(0))
         }
     }
 
