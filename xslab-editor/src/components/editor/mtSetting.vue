@@ -23,7 +23,7 @@
 <script>
 import commonData from '../../data/resources/commonData'
 import {mapGetters} from "vuex";
-import axios from "axios";
+import {getAction} from "./../../request";
 import Vue from "vue";
 import createRequest from "@/config/api";
 export default {
@@ -57,7 +57,8 @@ export default {
     saveSetProp: function () {
       this.$refs.formValidate.validate(res => {
         if (res) {
-          axios.post(this.config.baseUrl+this.action.validateBaseUrl).then(c => {
+          getAction(this.action.validateBaseUrl).then(c => {
+            debugger
             if (c.data) {
               this.$store.commit('setBaseUrl',this.config.baseUrl)
               this.$store.commit('setEditorTheme',this.config.editorTheme)

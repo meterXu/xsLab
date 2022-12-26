@@ -1,5 +1,5 @@
 node_modules
 .idea/
 dist/
-public/config.json
+public/config.js
 yarn-error.log

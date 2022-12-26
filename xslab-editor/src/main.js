@@ -22,23 +22,22 @@ Vue.use(Xsc)
 Vue.mixin(myMixin)
 Vue.prototype.$clipboard=clipboard
 
-axios.get('./config.json').then(res=>{
-  store.commit('setBaseUrl',res.data.baseUrl)
-  store.commit('setDefaultChartTheme',res.data.defaultChartTheme)
-  if(!store.getters.editorTheme){
-    store.commit('setEditorTheme',res.data.editorTheme)
-    document.getElementsByTagName('html')[0].setAttribute('data-theme', res.data.editorTheme)
-  }else{
-    document.getElementsByTagName('html')[0].setAttribute('data-theme', store.getters.editorTheme)
-  }
-  Vue.prototype.$ajax =  createRequest()
-  // 启动应用
-  new Vue({
-    router,
-    store,
-    render: h => h(App)
-  }).$mount('#app')
-})
+window.config = data
+store.commit('setBaseUrl',data.baseUrl)
+store.commit('setDefaultChartTheme',data.defaultChartTheme)
+if(!store.getters.editorTheme){
+  store.commit('setEditorTheme',data.editorTheme)
+  document.getElementsByTagName('html')[0].setAttribute('data-theme', data.editorTheme)
+}else{
+  document.getElementsByTagName('html')[0].setAttribute('data-theme', store.getters.editorTheme)
+}
+Vue.prototype.$ajax =  createRequest()
+// 启动应用
+new Vue({
+  router,
+  store,
+  render: h => h(App)
+}).$mount('#app')
 
 Vue.prototype.$clipboard = clipboard
 
