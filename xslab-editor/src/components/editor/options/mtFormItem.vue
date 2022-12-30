@@ -262,7 +262,7 @@ export default {
   },
   render(h, context) {
     // const {panel,fItem} = context.props;
-    return h(<template><div>xxxx</div></template>)
+    return (<template><div>xxxx</div></template>)
 
     // radioChange: function (v) {
     //   this.$emit('radioChange', v)
