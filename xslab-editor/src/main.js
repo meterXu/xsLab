@@ -13,31 +13,20 @@ import Xsc from './packages/vue-draw-xs/src/index'
 import store from './store'
 import vuex from 'vuex'
 import myMixin from "./config/myMixin";
-import createRequest from "./config/api"
-// Vue 全局配置
 Vue.use(iView, VueAxios, axios)
 Vue.use(vuex)
 Vue.use(VueQr)
 Vue.use(Xsc)
 Vue.mixin(myMixin)
 Vue.prototype.$clipboard=clipboard
+let theme = store.getters.editorTheme||window.config.editorTheme
+store.commit('setEditorTheme',theme)
+document.getElementsByTagName('html')[0].setAttribute('data-theme', theme)
 
-window.config = data
-store.commit('setBaseUrl',data.baseUrl)
-store.commit('setDefaultChartTheme',data.defaultChartTheme)
-if(!store.getters.editorTheme){
-  store.commit('setEditorTheme',data.editorTheme)
-  document.getElementsByTagName('html')[0].setAttribute('data-theme', data.editorTheme)
-}else{
-  document.getElementsByTagName('html')[0].setAttribute('data-theme', store.getters.editorTheme)
-}
-Vue.prototype.$ajax =  createRequest()
 // 启动应用
 new Vue({
   router,
   store,
   render: h => h(App)
 }).$mount('#app')
-
-Vue.prototype.$clipboard = clipboard
 
