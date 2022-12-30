@@ -58,10 +58,10 @@ class CanvasController {
                     cavData: res[0].DATA.toString(),
                 }))
             } else {
-                ctx.success(new ResultModel(null))
+                ctx.fail(new ResultModel(null))
             }
         } else {
-            ctx.success(new ResultModel(null))
+            ctx.fail(new ResultModel(null))
         }
     }
 
@@ -100,15 +100,15 @@ class CanvasController {
         id: {type: 'number', required: true, description: '画布id'}
     })
     async delCanvas(ctx) {
-        if (ctx.request.body.id) {
+        if (ctx.request.body.id!==null&&ctx.request.body.id!==undefined) {
             let c = await db.sqliteProvider.exec('update xs_canvas set `delete`=? where id = ?', [2, ctx.request.body.id]);
             if (c.changes > 0) {
-                ctx.success(new ResultModel(1))
+                ctx.success(new ResultModel(ctx.request.body.id))
             } else {
-                ctx.success(new ResultModel(0))
+                ctx.fail(new ResultModel(ctx.request.body.id))
             }
         } else {
-            ctx.success(new ResultModel(0))
+            ctx.fail(new ResultModel(ctx.request.body.id))
         }
     }
 
@@ -198,54 +198,54 @@ class CanvasController {
     @testTag
     @query(DownloadModel.swaggerDocument)
     async download(ctx){
-        let downloadModel = new DownloadModel(ctx.request.query)
-        if (downloadModel.type && downloadModel.id) {
-            let templatePath = "";
-            let downLoadDirName = "";
-            let downLoadRootPath = "";
-            let downLoadTmpPath = "";
-            let destWriteFile = "";
-            switch (downloadModel.type) {
-                case 2: {
-                    templatePath = path.resolve( "template\\v_c_xs");
-                    downLoadDirName = "v_c_xs_" + (new Date()).valueOf();
-                    downLoadRootPath = path.resolve("download");
-                    downLoadTmpPath = path.join(downLoadRootPath, downLoadDirName);
-                    destWriteFile = path.join(downLoadTmpPath, "src\\components\\HelloWorld.art");
-                }
-                    break;
-                default:
-                case 1: {
-                    templatePath = path.resolve("template\\j_c_xs");
-                    downLoadDirName = "j_c_xs_" + (new Date()).valueOf();
-                    downLoadRootPath = path.resolve( "download");
-                    downLoadTmpPath = path.join(downLoadRootPath, downLoadDirName);
-                    destWriteFile = path.join(downLoadTmpPath, "index.art");
-                }
-                    break;
-            }
-            const realContent = await Utils.createRealContent(templatePath, downloadModel.id, downloadModel.type);
-            if (!realContent) {
-                ctx.success(new ResultModel(0))
-            } else {
-                Utils.copyDir(templatePath, downLoadTmpPath, (err) => {
-                    if (err) {
-                        ctx.success(new ResultModel(0,err.message))
+        try{
+            let downloadModel = new DownloadModel(ctx.request.query)
+            if (downloadModel.type && downloadModel.id) {
+                let templatePath = "";
+                let downLoadDirName = "";
+                let downLoadRootPath = "";
+                let downLoadTmpPath = "";
+                let destWriteFile = "";
+                switch (downloadModel.type) {
+                    case 2: {
+                        templatePath = path.resolve( "template\\v_c_xs");
+                        downLoadDirName = "v_c_xs_" + (new Date()).valueOf();
+                        downLoadRootPath = path.resolve("download");
+                        downLoadTmpPath = path.join(downLoadRootPath, downLoadDirName);
+                        destWriteFile = path.join(downLoadTmpPath, "src\\components\\HelloWorld.art");
                     }
-                });
-                fs.writeFileSync(destWriteFile,realContent)
-                fs.renameSync(destWriteFile,destWriteFile.replace('art',downloadModel.type===2?'vue':'html'))
-                await Utils.createZip(downLoadTmpPath, downLoadDirName);
-                const zipPath = `download\\${downLoadDirName}.zip`
-                ctx.attachment(zipPath)
-                ctx.success(new ResultModel(1))
-                await send(ctx,zipPath)
-                Utils.deleteDir(downLoadTmpPath)
-                fs.unlinkSync(zipPath)
+                        break;
+                    default:
+                    case 1: {
+                        templatePath = path.resolve("template\\j_c_xs");
+                        downLoadDirName = "j_c_xs_" + (new Date()).valueOf();
+                        downLoadRootPath = path.resolve( "download");
+                        downLoadTmpPath = path.join(downLoadRootPath, downLoadDirName);
+                        destWriteFile = path.join(downLoadTmpPath, "index.art");
+                    }
+                        break;
+                }
+                const realContent = await Utils.createRealContent(templatePath, downloadModel.id, downloadModel.type);
+                if (!realContent) {
+                    ctx.fail(new ResultModel(0))
+                } else {
+                    if(!fs.existsSync('download')){fs.mkdirSync(path.resolve('download'))}
+                    Utils.copyDirSync(templatePath, downLoadTmpPath);
+                    fs.writeFileSync(destWriteFile,realContent)
+                    fs.renameSync(destWriteFile,destWriteFile.replace('art',downloadModel.type===2?'vue':'html'))
+                    await Utils.createZip(downLoadTmpPath, downLoadDirName);
+                    const zipPath = `download\\${downLoadDirName}.zip`
+                    await send(ctx,zipPath)
+                    Utils.deleteDir(downLoadTmpPath)
+                    fs.unlinkSync(zipPath)
+                }
+            } else {
+                ctx.fail(new ResultModel(null))
             }
-        } else {
-            ctx.success(new ResultModel(0))
+        }catch (err){
+            ctx.fail(new ResultModel(err.message))
         }
+
     }
 
 }

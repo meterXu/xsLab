@@ -25,11 +25,11 @@ function createService(baseUrl,withCredentials,isToken,timeout){
 
 function onResponseError(service,callback){
     service.interceptors.response.use((response) => {
-        if(response.data.success){
-            return Promise.resolve(response.data)
-        }else{
+        if(response.data.hasOwnProperty('success')&&response.data.success===false){
             Vue.prototype.$Message.error(response.data.message)
             return Promise.reject(response)
+        }else{
+            return Promise.resolve(response.data)
         }
     }, (error) => {
         callback&&callback(error)
@@ -58,10 +58,12 @@ function getErrorText(status){
 
 function dealWithError(error){
     let message = null
-    if(error.response.data){
-        message = error.response.data.message
-    }else if (error.response.status){
-        message =  getErrorText(error.response.status)
+    if(error.response){
+        if(error.response.data){
+            message = error.response.data.message
+        }else if (error.response.status){
+            message =  getErrorText(error.response.status)
+        }
     }
     message = message||error.message
     Vue.prototype.$Message.error(message)
@@ -84,6 +86,15 @@ export function getAction(url, parameter) {
         url: url,
         method: 'get',
         params: parameter
+    })
+}
+
+export function downloadAction(url, parameter) {
+    return axiosService({
+        url: url,
+        method: 'get',
+        params: parameter,
+        responseType:'blob'
     })
 }
 

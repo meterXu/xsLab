@@ -22,10 +22,8 @@
 
 <script>
 import commonData from '../../data/resources/commonData'
-import {mapGetters} from "vuex";
 import {getAction} from "./../../request";
-import Vue from "vue";
-import createRequest from "@/config/api";
+import {enable,disable} from 'darkreader';
 export default {
   name: 'mtSetting',
   data () {
@@ -41,7 +39,7 @@ export default {
       },
       config:{
         baseUrl:null,
-        editorTheme:null,
+        editorTheme:null
       }
     }
   },
@@ -57,26 +55,34 @@ export default {
     saveSetProp: function () {
       this.$refs.formValidate.validate(res => {
         if (res) {
-          getAction(this.action.validateBaseUrl).then(c => {
-            debugger
-            if (c.data) {
-              this.$store.commit('setBaseUrl',this.config.baseUrl)
+          getAction(this.action.validateBaseUrl).then(res => {
+            if (res.success) {
               this.$store.commit('setEditorTheme',this.config.editorTheme)
-              this.$ajax =  createRequest()
               this.$Message.success('保存成功！')
             }
-          }).catch(c => {
+          }).catch(() => {
             this.$Message.error('后端地址错误，请确保正确的后端地址！')
           })
         }
       })
     },
     changeTheme(theme){
-      document.getElementsByTagName('html')[0].setAttribute('data-theme', theme)
+      switch (theme){
+        case 'dark':{
+          enable({
+            brightness: 100,
+            contrast: 90,
+            sepia: 10,
+          });
+        }break;
+        default:{
+          disable()
+        }break;
+      }
     }
   },
   created() {
-    this.config.baseUrl = this.$store.getters.baseUrl
+    this.config.baseUrl = this.$config.baseUrl
     this.config.editorTheme = this.$store.getters.editorTheme
   }
 }

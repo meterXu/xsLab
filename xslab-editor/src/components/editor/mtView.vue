@@ -4,6 +4,8 @@
 
 <script>
 
+import {getAction} from "@/request";
+
 export default {
   name: 'mtView',
   data () {
@@ -23,8 +25,8 @@ export default {
   mounted () {
     let that = this
     let id = this.$route.params.id
-    this.$ajax.post(this.action.getCanvasData, {
-      canvasOid: id
+    getAction(this.action.getCanvasData, {
+      id: id
     }).then(c => {
       if (c.data) {
         that.options = JSON.parse(c.data.cavOptions)

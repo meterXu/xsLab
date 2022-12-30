@@ -13,7 +13,7 @@
             <Button title="删除画布" icon="md-trash" @click="delCanvas">删除</Button>
             <Button title="查看画布" icon="md-eye" @click="viewCanvas">查看</Button>
             <Button title="获取链接" icon="ios-link" @click="getCanvasUrl">分享</Button>
-            <Button title="下载画布" icon="md-arrow-down" @click="openDownModal" :disabled="isDisableDownload">下载</Button>
+<!--            <Button title="下载画布" icon="md-arrow-down" @click="openDownModal" :disabled="isDisableDownload">下载</Button>-->
           </ButtonGroup>
         </div>
         <div class="mtEditorTool">
@@ -64,7 +64,7 @@
         </template>
 
       </div>
-      <Modal :width="800"
+      <Modal :width="1000"
              v-model="isShowJson"
              :mask-closable="true"
              :footer-hide="true"
@@ -101,6 +101,7 @@
 import '../../assets/mtIcon/style.css'
 import mtFormItemCode from '../../components/editor/options/mtFormItemCode'
 import {mapGetters} from "vuex";
+import {downloadAction} from "@/request";
 
 export default {
   name: 'mtHeader',
@@ -175,42 +176,39 @@ export default {
       this.$emit('resetCanvas')
     },
     downCanvas (type) {
-      let that = this
-      let cavid = this.$parent.mtCanvasOptions.id
-      that.isDisableDownload = true
-      that.$Message.loading({
+      let id = this.$parent.mtCanvasOptions.id
+      this.isDisableDownload = true
+      this.$Message.loading({
         content: '正在努力组装中，请稍等……'
       })
-      that.$ajax({
-        url: that.action.downloadCanvas + `?canvasOid=${cavid}&type=${type}`,
-        method: 'get',
-        responseType: 'blob'
-      }).then(c => {
-        that.$Message.destroy()
-        if (!c.data) {
-          that.$Message.warning('组装失败！')
+      downloadAction(
+        this.action.downloadCanvas,
+          {
+            id:id,
+            type:type
+          }
+      ).then(res => {
+        this.$Message.destroy()
+        if (res.hasOwnProperty('success')&&res.success===false) {
+          this.$Message.warning('组装失败！')
         } else {
-          that.isDisableDownload = false
-          that.isShowDownload = false
-          let blob = new Blob([c.data])
+          this.isDisableDownload = false
+          this.isShowDownload = false
+          let blob = new Blob([res])
           if (window.navigator.msSaveOrOpenBlob) {
-            navigator.msSaveBlob(blob, `${cavid}_${type}.zip`)
+            navigator.msSaveBlob(blob, `${id}_${type}.zip`)
           } else {
             let link = document.createElement('a')
             let evt = document.createEvent('HTMLEvents')
             evt.initEvent('click', false, false)
             link.href = URL.createObjectURL(blob)
-            link.download = `${cavid}_${type}.zip`
+            link.download = `${id}_${type}.zip`
             link.style.display = 'none'
             document.body.appendChild(link)
             link.click()
             window.URL.revokeObjectURL(link.href)
           }
         }
-      }).catch(c => {
-        that.$Message.error(c.message)
-        that.isDisableDownload = false
-        that.isShowDownload = false
       })
     },
     getCanvasUrl () {

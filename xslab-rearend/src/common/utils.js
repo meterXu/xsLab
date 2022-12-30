@@ -4,18 +4,17 @@ import path from "path";
 import fs from "fs";
 import compressing from "compressing";
 
-export default class Utils{
-    constructor() {}
-    static async createRealContent(templatePath, oid, type) {
+function Utils(){
+    this.createRealContent=async function (templatePath, id, type) {
         try {
             const sql = "select * from XS_CANVAS where OID =?";
-            const resTable = await db.sqliteProvider.query(sql, [oid])
+            const resTable = await db.sqliteProvider.query(sql, [id])
             if (resTable.length === 0) {
                 return null;
             } else {
                 const canvasOptionStr = resTable[0]["OPTIONS"];
                 const canvasDataStr = resTable[0]["DATA"];
-                const realContent = template(path.join(templatePath, type === "1" ? "index.art" : "src\\components\\HelloWorld.art"), {
+                const realContent = template(path.join(templatePath, type === 1 ? "index.art" : "src\\components\\HelloWorld.art"), {
                     charts: canvasDataStr,
                     options: canvasOptionStr
                 });
@@ -28,47 +27,41 @@ export default class Utils{
         }
     }
 
-    static copyDir(src, dist, callback) {
-        try{
-            if(!fs.existsSync(dist)){
-                fs.mkdirSync(dist);
-            }
-            _copy(null, src, dist);
-            function _copy(err, src, dist) {
-                const paths = fs.readdirSync(src)
-                paths.forEach(function (path) {
-                    const _src = src + '/' + path;
-                    const _dist = dist + '/' + path;
-                    // 判断是文件还是目录
-                    if (fs.statSync(_src).isFile()) {
-                        fs.writeFileSync(_dist, fs.readFileSync(_src));
-                    } else if (fs.statSync(_src).isDirectory()) {
-                        // 当是目录是，递归复制
-                        copyDir(_src, _dist, callback)
-                    }
-                })
-            }
-        }catch (err) {
-            console.error(err.message)
-            if(callback){
-                callback()
+    this.copySync=function (src, dist) {
+        const paths = fs.readdirSync(src)
+        for(let i =0;i<paths.length;i++){
+            const _src = src + '/' + paths[i];
+            const _dist = dist + '/' + paths[i];
+            // 判断是文件还是目录
+            if (fs.statSync(_src).isFile()) {
+                const con = fs.readFileSync(_src)
+                fs.writeFileSync(_dist, con);
+            } else if (fs.statSync(_src).isDirectory()) {
+                // 当是目录是，递归复制
+                this.copyDirSync(_src, _dist)
             }
         }
-
     }
 
-    static async createZip(dirPath,dirName){
+    this.copyDirSync=function (src, dist) {
+        if(!fs.existsSync(dist)){
+            fs.mkdirSync(dist);
+        }
+        this.copySync(src, dist);
+    }
+
+    this.createZip=async function (dirPath,dirName){
         return compressing.zip.compressDir(dirPath, `download\\${dirName}.zip`)
     }
 
-    static deleteDir(path) {
+    this.deleteDir = function (path) {
         let files = [];
         if(fs.existsSync(path)) {
             files = fs.readdirSync(path);
             files.forEach(function(file, index) {
                 const curPath = path + "/" + file;
                 if(fs.statSync(curPath).isDirectory()) {
-                    deleteDir(curPath);
+                    this.deleteDir(curPath);
                 } else {
                     fs.unlinkSync(curPath);
                 }
@@ -77,7 +70,7 @@ export default class Utils{
         }
     }
 
-    static async testConnect(config) {
+    this.testConnect=async function (config) {
         try {
             switch (config.type) {
                 case 1: {
@@ -117,3 +110,5 @@ export default class Utils{
         }
     }
 }
+
+export default new Utils()

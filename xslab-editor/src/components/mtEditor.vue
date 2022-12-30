@@ -57,7 +57,9 @@
              @on-row-click="cavRowClick"
              :columns="cavColumn"
              :loading="cavTableLoading"
-             :data="cavTableData"></Table>
+             :data="cavTableData">
+      </Table>
+      <Page style="margin-top: 3px" :total="pagination.total" :current.sync="pagination.pageNumber" :page-size="pagination.pageSize" size="small" @on-change="openCanvas" show-total></Page>
     </Modal>
     <Modal :width="500"
            v-model="showCanvasUrlModal"
@@ -91,8 +93,8 @@ import mtDbManager from './editor/mtDbManager'
 import mtSetting from './editor/mtSetting'
 import mtContextMenu from './editor/mtContextMenu'
 import resources from '../data/resources/resources'
-import {mapGetters} from "vuex";
-import merge from 'deepmerge'
+import moment from 'moment'
+import {getAction, postAction} from "@/request";
 export default {
   name: 'mtEditor',
   components: {
@@ -117,6 +119,11 @@ export default {
         width:1024,
         height:768
       },
+      pagination:{
+        total:null,
+        pageSize:20,
+        pageNumber:1
+      },
       showCanvas: false,
       showDbManager: false,
       showAddCanvasModal: false,
@@ -130,9 +137,28 @@ export default {
         height: { type: 'number', required: true, message: '高度不可为空', trigger: 'blur' }
       },
       cavColumn: [
-        {title: '序号', key: 'oid', type: 'index'},
+        {title: '序号', key: 'id', render: (h, params)=>{
+            return h('span',(this.pagination.pageNumber-1)*this.pagination.pageSize+params.index+1)
+        }},
         {title: '名称', key: 'name'},
-        {title: '添加时间', key: 'insertTime'}
+        {title: '添加时间', key: 'insertTime', render: (h, params) => {
+            return h('span',new moment(params.row.insertTime).format('YYYY-MM-DD HH:mm:ss') );
+          }
+        },
+        {title: '操作', key: 'id',render: (h, params) => {
+            return h('Button',{
+              props: {
+                type: 'error',
+                size: 'small'
+              },
+              on: {
+                click: () => {
+                  this.delCanvasPost(params.row.id)
+                }
+              }
+            },'删除');
+          }
+        }
       ],
       cavTableData: [],
       copyBtn: null,
@@ -142,7 +168,6 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['baseUrl','defaultChartTheme']),
     canvasUrl: function () {
       if(this.$route.query.hasOwnProperty('X-Access-Token')){
         return `${window.location.origin}${window.location.pathname}#/view/${this.mtCanvasOptions.id}?X-Access-Token=${this.$route.query['X-Access-Token']}`
@@ -169,7 +194,7 @@ export default {
             this.editorData.resources.initOptions[this.editorData.dragMenuNode.type][this.editorData.dragMenuNode.chart].box.width / 2 - 200 + scrollLeft
           cloneConfig.box.y = event.y -
             this.editorData.resources.initOptions[this.editorData.dragMenuNode.type][this.editorData.dragMenuNode.chart].box.height / 2 - 50 + scrollTop
-          cloneConfig.theme = this.defaultChartTheme||'light'
+          cloneConfig.theme = this.$config.defaultChartTheme||'light'
           let addChart = {
             id: (new Date()).valueOf(),
             type: this.editorData.dragMenuNode.type,
@@ -206,13 +231,13 @@ export default {
     },
     saveOption () { // 保存配置数据
       this.tmpCanvasState = -1
-      this.$ajax.post(this.action.saveCanvasData, {
-        canvasOid: this.mtCanvasOptions.id,
-        canvasName: this.mtCanvasOptions.name,
-        canvasData: JSON.stringify(this.canvasData),
-        canvasOptions: JSON.stringify(this.mtCanvasOptions)
-      }).then(c => {
-        if (c.data.success) {
+      postAction(this.action.saveCanvasData, {
+        id: this.mtCanvasOptions.id,
+        name: this.mtCanvasOptions.name,
+        data: this.canvasData,
+        options: this.mtCanvasOptions
+      }).then(res => {
+        if (res.success) {
           this.$Message.success('保存成功！')
           this.tmpCanvasState = 1
         } else {
@@ -220,10 +245,6 @@ export default {
           this.tmpCanvasState = 0
         }
       })
-        .catch(c => {
-          this.$Message.error(c.message)
-          this.tmpCanvasState = 0
-        })
     },
     addCanvas () { // 模态界面-添加画布界面
       this.$Modal.remove()
@@ -231,7 +252,7 @@ export default {
       this.editorData.activeNode = null
       this.showCanvasUrlModal = false
       this.showOpenCanvasModal = false
-      this.addFrom.name ='新的画布-'+new Date().valueOf()
+      this.addFrom.name ='新的画布'
     },
     saveCanvas (name) { // 保存画布
       let that = this
@@ -257,25 +278,28 @@ export default {
       this.cavTableLoading = true
       this.showCanvasUrlModal = false
       this.showAddCanvasModal = false
-      this.$ajax.post(this.action.getCanvasList)
+      getAction(this.action.getCanvasList,{
+        pageNumber:this.pagination.pageNumber,
+        pageSize:this.pagination.pageSize
+      })
         .then(c => {
           this.cavTableLoading = false
-          if (c.data) {
-            this.cavTableData = c.data
+          if (c.success) {
+            this.cavTableData = c.data.rows
+            this.pagination.total = c.data.total
+          }else{
+            this.$Message.error(c.message)
           }
         })
-        .catch(c => {
-          this.$Message.error(c.message)
-        })
     },
-    cavRowClick (row, index) { // 点击行
-      this.$ajax.post(this.action.getCanvasData, {
-        canvasOid: row.oid
+    cavRowClick (row) { // 点击行
+      getAction(this.action.getCanvasData, {
+        id: row.id
       }).then(c => {
         if (c.data) {
           let cavOptions = JSON.parse(c.data.cavOptions)
           let chartData = JSON.parse(c.data.cavData)
-          cavOptions.baseUrl = this.baseUrl
+          cavOptions.baseUrl = this.$config.baseUrl
           this.mtCanvasOptions = Object.assign({},resources.initOptions.dom.canvas.options,cavOptions)
           this.canvasData = chartData
           this.showCanvas = true
@@ -300,36 +324,38 @@ export default {
         this.showOpenCanvasModal = false
         this.showCanvasUrlModal = false
         this.showAddCanvasModal = false
-        let that = this
-        this.$Modal.confirm({
-          title: '删除确认',
-          content: '确定删除这个打开的画布吗？',
-          onOk: function () {
-            that.$ajax.post(this.action.delCanvas, {
-              canvasOid: that.mtCanvasOptions.id
-            }).then(c => {
-              if (c.data) {
-                that.$Message.success('删除成功！')
-                that.mtCanvasOptions.id = ''
-                that.mtCanvasOptions.name = ''
-                that.mtCanvasOptions.width = 0
-                that.mtCanvasOptions.height = 0
-                that.mtCanvasOptions['background-color'] = null
-                that.mtCanvasOptions['background-image'] = ''
-                that.showCanvas = false
-                that.editorData.activeNode = null
-                that.opNode = null
-              } else {
-                that.$Message.error('删除失败！')
-              }
-            }).catch(c => {
-              that.$Message.error(c.message)
-            })
-          }
+        this.delCanvasPost(this.mtCanvasOptions.id,()=>{
+          this.mtCanvasOptions.id = ''
+          this.mtCanvasOptions.name = ''
+          this.mtCanvasOptions.width = 0
+          this.mtCanvasOptions.height = 0
+          this.mtCanvasOptions['background-color'] = null
+          this.mtCanvasOptions['background-image'] = ''
+          this.showCanvas = false
+          this.editorData.activeNode = null
+          this.opNode = null
         })
       } else {
         this.$Message.warning('请先打开一个画布！')
       }
+    },
+    delCanvasPost(id,callback){
+      this.$Modal.confirm({
+        title: '删除确认',
+        content: '确定删除这个画布吗？',
+        onOk: function () {
+          postAction(this.action.delCanvas, {
+            id: id
+          }).then(res => {
+            if (res.success) {
+              this.$Message.success('删除成功！')
+              callback&&callback()
+            } else {
+              this.$Message.error(res.message)
+            }
+          })
+        }
+      })
     },
     viewCanvas () {
       this.$Modal.remove()

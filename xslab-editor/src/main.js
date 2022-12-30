@@ -5,24 +5,34 @@ import VueAxios from 'vue-axios'
 import router from './router'
 import iView from 'iview'
 import 'iview/dist/styles/iview.css'
-import './assets/styles/dark-color.css'
-import "./assets/styles/ivu-dark.less";
 import clipboard from 'clipboard'
 import VueQr from 'vue-qriously'
 import Xsc from './packages/vue-draw-xs/src/index'
 import store from './store'
 import vuex from 'vuex'
 import myMixin from "./config/myMixin";
+import {disable, enable} from "darkreader";
 Vue.use(iView, VueAxios, axios)
 Vue.use(vuex)
 Vue.use(VueQr)
 Vue.use(Xsc)
 Vue.mixin(myMixin)
 Vue.prototype.$clipboard=clipboard
+Vue.prototype.$config = window.config
 let theme = store.getters.editorTheme||window.config.editorTheme
 store.commit('setEditorTheme',theme)
-document.getElementsByTagName('html')[0].setAttribute('data-theme', theme)
-
+switch (theme){
+  case 'dark':{
+    enable({
+      brightness: 100,
+      contrast: 90,
+      sepia: 10,
+    });
+  }break;
+  default:{
+    disable()
+  }break;
+}
 // 启动应用
 new Vue({
   router,
