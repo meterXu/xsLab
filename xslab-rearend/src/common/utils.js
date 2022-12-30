@@ -84,14 +84,14 @@ export default class Utils{
                     let queryData = await db.oracleProvider.query({
                         user: config.username,
                         password: config.password,
-                        connectString: config.ip + ":" + config.port + "/" + config.schemas
+                        connectString: config.ipAddress + ":" + config.port + "/" + config.schemas
                     }, 'select 1 VALUE from dual');
                     return queryData.rows.length > 0;
                     break;
                 }
                 case 2: {
                     let queryData = await db.mssqlProvider.query({
-                        host: config.ip,
+                        host: config.ipAddress,
                         port: config.port,
                         user: config.username,
                         password: config.password,
@@ -102,7 +102,7 @@ export default class Utils{
                 }
                 case 3: {
                     let queryData = await db.mysqlProvider.query({
-                        host: config.ip,
+                        host: config.ipAddress,
                         port: config.port,
                         user: config.username,
                         password: config.password,

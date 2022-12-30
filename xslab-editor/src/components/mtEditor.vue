@@ -447,7 +447,7 @@ export default {
   }
   .mt-editor-layout{
     display: flex;
-    height: 100%;
+    height: calc(100% - 50px);
     flex-flow: row;
     justify-content: flex-start;
   }

@@ -1,10 +1,14 @@
 const state = {
+    token:null,
     dbList:null,
     editorTheme: null,
     activeNode:null
 }
 
 const mutations = {
+    setToken(state,data){
+      state.token = data
+    },
     setDbList(state, data) {
         state.dbList = data
     },

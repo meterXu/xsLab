@@ -127,19 +127,17 @@ function mysqlProvider() {
 
 function mssqlProvider(){
     this.query = async function(config,sql){
-        return new Promise((resolve, reject)=>{
-            (async function(){
-                try{
-                    let pool = await mssql.connect('mssql://'+config.user+':'+config.password+'@'+config.host+':'+config.port+'/'+config.database);
-                    let result =await pool.request().query(sql);
-                    resolve(result);
-                    pool.close()
-                    mssql.close();
-                }catch (e) {
-                    console.error(e);
-                    reject(e);
-                }
-            })()
+        return new Promise(async (resolve, reject)=>{
+            try{
+                let pool = await mssql.connect('mssql://'+config.user+':'+config.password+'@'+config.host+':'+config.port+'/'+config.database);
+                let result =await pool.request().query(sql);
+                resolve(result);
+                pool.close()
+                mssql.close();
+            }catch (e) {
+                console.error(e);
+                reject(e);
+            }
         });
 
     }

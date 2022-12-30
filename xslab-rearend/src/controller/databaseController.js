@@ -26,9 +26,9 @@ export default class DatabaseController{
         let resData = [];
         res.map(c => {
             resData.push({
-                value: c.ID.toString(),
+                id: c.ID.toString(),
                 type: c.TYPE.toString(),
-                text: c.NAME,
+                name: c.NAME,
                 schemas: c.SCHEMAS,
                 username: c.USERNAME,
                 ipAddress: c.IPADDRESS,
@@ -54,23 +54,23 @@ export default class DatabaseController{
                 let res = await db.sqliteProvider.exec('update xs_database set name=?,type=?,ipaddress=?,port=?,userName=?,password=?,`schemas`=? where id = ?',
                     [databaseModel.name, databaseModel.type, databaseModel.ipAddress, databaseModel.port, databaseModel.username, databaseModel.password, databaseModel.schemas, databaseModel.id]);
                 if (res.changes > 0) {
-                    ctx.success(new ResultModel(1,databaseModel.id))
+                    ctx.success(new ResultModel(databaseModel.id))
                 } else {
-                    ctx.success(new ResultModel(0,databaseModel.id))
+                    ctx.fail(new ResultModel(databaseModel.id))
                 }
             } else {
                 let res = await db.sqliteProvider.exec('insert into xs_database(NAME,TYPE,IPADDRESS,PORT,USERNAME,PASSWORD,`SCHEMAS`,CREATETIME) values(?,?,?,?,?,?,?,?)',
                     [
-                        databaseModel.name, databaseModel.type, databaseModel.ip, databaseModel.port, databaseModel.username, databaseModel.password, databaseModel.schemas, new Date().valueOf()
+                        databaseModel.name, databaseModel.type, databaseModel.ipAddress, databaseModel.port, databaseModel.username, databaseModel.password, databaseModel.schemas, new Date().valueOf()
                     ]);
                 if (res.changes > 0) {
-                    ctx.success(new ResultModel(1, res.lastId.toString()))
+                    ctx.success(new ResultModel(res.lastId.toString()))
                 } else {
-                    ctx.success(new ResultModel(0))
+                    ctx.fail(new ResultModel(null))
                 }
             }
         } else {
-            ctx.success(new ResultModel(0,'数据库无法连接'))
+            ctx.fail(new ResultModel(null,'数据库无法连接'))
         }
     }
 
@@ -86,12 +86,12 @@ export default class DatabaseController{
         if (id) {
             let c = await db.sqliteProvider.exec('update xs_database set `delete`=? where id = ?', [2, id]);
             if (c.changes > 0) {
-                ctx.success(new ResultModel(1))
+                ctx.success(new ResultModel(id))
             } else {
-                ctx.success(new ResultModel(0))
+                ctx.fail(new ResultModel(id))
             }
         } else {
-            ctx.success(new ResultModel(0))
+            ctx.fail(new ResultModel(id))
         }
     }
 

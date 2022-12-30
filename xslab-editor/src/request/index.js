@@ -8,12 +8,12 @@ function createService(baseUrl,withCredentials,isToken,timeout){
         withCredentials:withCredentials||false
     })
     service.interceptors.request.use(config => {
-        if (token&&isToken) {
+        if (isToken) {
             if(config.headers&&!config.headers['Authorization']){
                 if(isToken) {
-                    config.headers['Authorization'] = token; // 让每个请求携带自定义 token 请根据实际情况自行修改
+                    config.headers['Authorization'] = Vue.prototype.$store.getters.token;
                 } else {
-                    config.headers['Authorization'] = null; // 让每个请求携带自定义 token 请根据实际情况自行修改
+                    config.headers['Authorization'] = null;
                 }
             }
         }
@@ -25,9 +25,15 @@ function createService(baseUrl,withCredentials,isToken,timeout){
 
 function onResponseError(service,callback){
     service.interceptors.response.use((response) => {
-        return response
+        if(response.data.success){
+            return Promise.resolve(response.data)
+        }else{
+            Vue.prototype.$Message.error(response.data.message)
+            return Promise.reject(response)
+        }
     }, (error) => {
         callback&&callback(error)
+        return Promise.reject(error.response)
     })
 }
 
@@ -46,42 +52,23 @@ function getErrorText(status){
         case 426:
             return '服务器拒绝使用当前协议执行请求'
         default:
-            return '未知'
+            return `未知错误：${status}`
     }
 }
 
 function dealWithError(error){
-    let data = error.response?error.response.data:error;
-    if(typeof(data)==='string'){
-        if(data.indexOf('{')===0){
-            data = JSON.parse(data);
-        }else{
-            data = {message:data}
-        }
+    let message = null
+    if(error.response.data){
+        message = error.response.data.message
+    }else if (error.response.status){
+        message =  getErrorText(error.response.status)
     }
-    else {
-        data.message = (data.msg||data.message)||getErrorText(error.response.status)
-    }
-    if(error.response){
-        switch (error.response.status){
-            case 500:{
-                break
-            }
-            case 401:{
-                break
-            }
-            default:
-                break
-        }
-    }else{
-    }
+    message = message||error.message
+    Vue.prototype.$Message.error(message)
 }
 
 const axiosService = createService(window.config.baseUrl)
 onResponseError(axiosService,(error)=>dealWithError(error))
-axiosService.interceptors.response.use((response) => {
-    return response?response.data:{}
-})
 
 export function postAction(url, parameter) {
     return axiosService({
@@ -93,7 +80,7 @@ export function postAction(url, parameter) {
 
 
 export function getAction(url, parameter) {
-    return axios({
+    return axiosService({
         url: url,
         method: 'get',
         params: parameter
@@ -101,7 +88,7 @@ export function getAction(url, parameter) {
 }
 
 export function deleteAction(url, parameter) {
-    return axios({
+    return axiosService({
         url: url,
         method: 'delete',
         params: parameter
@@ -109,7 +96,7 @@ export function deleteAction(url, parameter) {
 }
 
 export function putAction(url, parameter) {
-    return axios({
+    return axiosService({
         url: url,
         method: 'put',
         data: parameter

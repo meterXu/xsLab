@@ -9,7 +9,7 @@
                 <img :src="item.type|getIconByType"/>
               </div>
               <div class="mt_db_remark">
-                <p class="mt_db_title">{{item.text}}</p>
+                <p class="mt_db_title">{{item.name}}</p>
                 <p class="mt_db_address">{{item.ipAddress}}:{{item.port}}</p>
               </div>
             </div>
@@ -38,8 +38,8 @@
               <Radio v-for="(item, id) in commonData.dataSourceType" :label="item.value" :key="id"><span>{{item.text}}</span></Radio>
             </RadioGroup>
           </FormItem>
-          <FormItem label="名称" prop="text">
-            <Input v-model="activeDbProp.text" placeholder="请输入名称..."/>
+          <FormItem label="名称" prop="name">
+            <Input v-model="activeDbProp.name" placeholder="请输入名称..."/>
           </FormItem>
           <FormItem label="地址" prop="ipAddress">
             <Input v-model="activeDbProp.ipAddress" placeholder="请输入地址..."/>
@@ -58,7 +58,7 @@
           </FormItem>
           <FormItem style="text-align: left">
             <Button type="success" @click="saveDbProp">验证并保存</Button>
-            <Button v-if="activeDbProp.value" type="error" style="margin-left: 8px" @click="delDbProp">删除</Button>
+            <Button v-if="activeDbProp.id" type="error" style="margin-left: 8px" @click="delDbProp">删除</Button>
             <Button type="info" style="margin-left: 8px" @click="setDbPropBack">返回</Button>
           </FormItem>
         </Form>
@@ -71,6 +71,7 @@
 import editorData from '../../data/editorData'
 import commonData from '../../data/resources/commonData'
 import {mapGetters} from 'vuex'
+import {postAction} from "@/request";
 export default {
   name: 'mtDbManager',
   data () {
@@ -78,22 +79,13 @@ export default {
       editorData: editorData,
       commonData: commonData,
       isShowDbProp: false,
-      activeDbProp: {
-        value: null,
-        type: null,
-        text: null,
-        ipAddress: null,
-        port: null,
-        schemas: null,
-        username: null,
-        password: null
-      },
+      activeDbProp: {},
       activeDbIndex: null,
       ruleValidate: {
         type: [
           { required: true, message: '类型必选', trigger: 'blur' }
         ],
-        text: [
+        name: [
           { required: true, message: '名称必填', trigger: 'blur' }
         ],
         ipAddress: [
@@ -132,14 +124,14 @@ export default {
       }
     },
     getTitleByType: function (value) {
-      switch (value) {
-        case '1' : {
+      switch (parseInt(value)) {
+        case 1 : {
           return 'ORACLE'
         }
-        case '2': {
+        case 2: {
           return 'SQLSERVER'
         }
-        case '3': {
+        case 3: {
           return 'MYSQL'
         }
       }
@@ -153,16 +145,7 @@ export default {
     },
     addDbProp () {
       this.isShowDbProp = true
-      this.activeDbProp = {
-        value: null,
-        type: null,
-        text: null,
-        ipAddress: null,
-        port: null,
-        schemas: null,
-        username: null,
-        password: null
-      }
+      this.activeDbProp = {}
     },
     setDbPropBack () {
       this.isShowDbProp = false
@@ -171,28 +154,19 @@ export default {
       let that = this
       this.$refs['formValidate'].validate((valid) => {
         if (valid) {
-          that.$ajax.post(this.action.saveDataSource, that.activeDbProp).then(c => {
-            if (c.data) {
-              if (c.data.code) {
-                that.$Message.success('保存成功!')
-                if (!that.activeDbProp.value) { // 新增
-                  that.activeDbProp.value = c.data.oid
-                  that.dbList.push(that.activeDbProp)
-                  that.$store.commit('setDbList',that.dbList)
-                }
-                that.isShowDbProp = false
-              } else {
-                if (c.data.msg) {
-                  that.$Message.error(c.data.msg)
-                } else {
-                  that.$Message.error('保存失败!')
-                }
+          postAction(this.action.saveDataSource, that.activeDbProp).then(res => {
+            if (res.success) {
+              that.$Message.success('保存成功!')
+              if (!that.activeDbProp.id) { // 新增
+                that.activeDbProp.id = res.data
+                that.activeDbProp.password = null
+                that.dbList.push(that.activeDbProp)
+                that.$store.commit('setDbList',that.dbList)
               }
+              that.isShowDbProp = false
             } else {
-              that.$Message.error('保存失败!')
+              that.$Message.error(res.message)
             }
-          }).catch(c => {
-            that.$Message.error(c.message)
           })
         }
       })
@@ -204,11 +178,11 @@ export default {
         okText: '删除',
         content: '确定删除这个数据源吗?',
         onOk: function () {
-          if (that.activeDbProp.value) {
-            that.$ajax.post(this.action.delDataSource, {
-              oid: that.activeDbProp.value
-            }).then(c => {
-              if (c.data) {
+          if (that.activeDbProp.id) {
+            postAction(this.action.delDataSource, {
+              id: that.activeDbProp.id
+            }).then(res => {
+              if (res.data) {
                 that.$Message.success('删除成功!')
                 that.dbList.splice(that.activeDbIndex, 1)
                 that.$store.commit('setDbList',that.dbList)
@@ -216,8 +190,8 @@ export default {
               } else {
                 that.$Message.error('删除失败!')
               }
-            }).catch(c => {
-              that.$Message.error(c.message)
+            }).catch(err => {
+              that.$Message.error(err.message)
             })
           } else {
             that.$Message.success('删除成功!')
@@ -233,9 +207,10 @@ export default {
 <style scoped>
   #mtDbManager{
     width: 100%;
-    min-height: 100%;
+    height: 100%;
     background: var(--db-bg-color,#d0d0d0);
     text-align: center;
+    overflow-y: auto;
   }
   #mtDbManager_ul{
     display: flex;

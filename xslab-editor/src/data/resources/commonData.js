@@ -1,8 +1,8 @@
 let commonData = {
   dataSourceType: [
-    {text: 'mysql', value: '3'},
-    {text: 'sqlServer', value: '2'},
-    {text: 'oracle', value: '1'}
+    {text: 'mysql', value: "3"},
+    {text: 'sqlServer', value: "2"},
+    {text: 'oracle', value: "1"}
   ],
   editorTheme: [
     {text: '明亮', value: 'light'},

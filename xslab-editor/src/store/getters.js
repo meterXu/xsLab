@@ -1,6 +1,8 @@
 const getters = {
+    token:state=>{
+        return state.app.token
+    },
     dbList:state => {
-        state.app.dbList = JSON.parse(localStorage.getItem('xsLab_dbs')||null)||state.app.dbList
         return state.app.dbList;
     },
     editorTheme: state=>{

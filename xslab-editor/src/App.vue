@@ -7,7 +7,7 @@
 <script>
 import mtEditor from './components/mtEditor'
 import './assets/styles/ivu-dark.less'
-import {mapGetters} from "vuex";
+import {getAction} from "@/request";
 export default {
   name: 'App',
   components: {
@@ -15,13 +15,13 @@ export default {
   },
   methods: {
     getDataBaseList () {
-      this.$ajax.post(this.action.getDataBaseList).then(c => {
-        this.$store.commit('setDbList',c.data)
+      getAction(this.action.getDataBaseList,{
+        pageNumber:1,
+        pageSize:9999
+      }).then(res => {
+        this.$store.commit('setDbList',res.data.rows)
       })
     }
-  },
-  computed:{
-    ...mapGetters(['config'])
   },
   created () {
     this.getDataBaseList()
