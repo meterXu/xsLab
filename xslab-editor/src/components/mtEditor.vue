@@ -152,7 +152,8 @@ export default {
                 size: 'small'
               },
               on: {
-                click: () => {
+                click: (event) => {
+                  event.stopPropagation()
                   this.delCanvasPost(params.row.id)
                 }
               }
