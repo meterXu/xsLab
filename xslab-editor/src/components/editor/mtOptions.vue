@@ -56,7 +56,7 @@
 
 <script>
 import resources from '../../data/resources/resources'
-import mtFormItem from './options/mtFormItem'
+import mtFormItem from './options/mtFormItem.js'
 import editorData from '../../data/editorData'
 import MtFormItemCode from './options/mtFormItemCode'
 import {mapGetters} from 'vuex'

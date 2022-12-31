@@ -1228,7 +1228,7 @@
 
 "@vue/babel-helper-vue-jsx-merge-props@^1.4.0":
   version "1.4.0"
-  resolved "https://registry.yarnpkg.com/@vue/babel-helper-vue-jsx-merge-props/-/babel-helper-vue-jsx-merge-props-1.4.0.tgz#8d53a1e21347db8edbe54d339902583176de09f2"
+  resolved "https://registry.npmjs.org/@vue/babel-helper-vue-jsx-merge-props/-/babel-helper-vue-jsx-merge-props-1.4.0.tgz#8d53a1e21347db8edbe54d339902583176de09f2"
   integrity sha512-JkqXfCkUDp4PIlFdDQ0TdXoIejMtTHP67/pvxlgeY+u5k3LEdKuWZ3LK6xkxo52uDoABIVyRwqVkfLQJhk7VBA==
 
 "@vue/babel-helper-vue-transform-on@^1.0.2":
@@ -1288,6 +1288,20 @@
 "@vue/babel-preset-jsx@^1.2.4":
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/@vue/babel-preset-jsx/-/babel-preset-jsx-1.4.0.tgz#f4914ba314235ab097bc4372ed67473c0780bfcc"
+  integrity sha512-QmfRpssBOPZWL5xw7fOuHNifCQcNQC1PrOo/4fu6xlhlKJJKSA3HqX92Nvgyx8fqHZTUGMPHmFA+IDqwXlqkSA==
+  dependencies:
+    "@vue/babel-helper-vue-jsx-merge-props" "^1.4.0"
+    "@vue/babel-plugin-transform-vue-jsx" "^1.4.0"
+    "@vue/babel-sugar-composition-api-inject-h" "^1.4.0"
+    "@vue/babel-sugar-composition-api-render-instance" "^1.4.0"
+    "@vue/babel-sugar-functional-vue" "^1.4.0"
+    "@vue/babel-sugar-inject-h" "^1.4.0"
+    "@vue/babel-sugar-v-model" "^1.4.0"
+    "@vue/babel-sugar-v-on" "^1.4.0"
+
+"@vue/babel-preset-jsx@^1.4.0":
+  version "1.4.0"
+  resolved "https://registry.npmjs.org/@vue/babel-preset-jsx/-/babel-preset-jsx-1.4.0.tgz#f4914ba314235ab097bc4372ed67473c0780bfcc"
   integrity sha512-QmfRpssBOPZWL5xw7fOuHNifCQcNQC1PrOo/4fu6xlhlKJJKSA3HqX92Nvgyx8fqHZTUGMPHmFA+IDqwXlqkSA==
   dependencies:
     "@vue/babel-helper-vue-jsx-merge-props" "^1.4.0"
