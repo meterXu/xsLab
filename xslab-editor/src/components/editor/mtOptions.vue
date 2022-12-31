@@ -17,7 +17,7 @@
               {{panel.name}}
               <Form slot="content" label-position="left" :label-width="100">
                 <FormItem v-for="(fItem,fi) in panel.sub"  v-show="showConfItem(fItem,panel)" :key="fi" :label="fItem.name">
-                  <mtFormItem :fItem="fItem" :panel="panel" :opNode="opNode" @radioChange="radioChange" @showFullCode="showFullCode"></mtFormItem>
+                  <mtFormItem :fItem="fItem" :panel="panel" :opNode="opNode"></mtFormItem>
                 </FormItem>
               </Form>
             </Panel>
@@ -250,14 +250,11 @@ export default {
         }
       })
     },
-    radioChange (v) {
-      console.log(v)
-    },
-    showFullCode (field, value, index, mode, label) {
+    showFullCode (field, value, index, mode,name) {
       this.showFullCodeModal = true
       this.codeProValue = value
       this.codeProIndex = index
-      this.codeProLabel = label
+      this.codeProLabel = name
       this.codeProMode = mode
       this.codeProField = field
     },
@@ -277,6 +274,9 @@ export default {
       },
       deep: true
     }
+  },
+  created() {
+    this.$bus.$on('showFullCode',this.showFullCode)
   }
 }
 </script>

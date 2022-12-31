@@ -1,6 +1,6 @@
 const state = {
     token:null,
-    dbList:null,
+    dbList:[],
     editorTheme: null,
     activeNode:null
 }

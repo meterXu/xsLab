@@ -24,6 +24,10 @@ export default {
       type: String,
       default: ''
     },
+    name: {
+      type: String,
+      default: ''
+    },
     mode: {
       type: String,
       default: 'text/javascript'
@@ -59,7 +63,7 @@ export default {
   },
   methods: {
     showFullCode () {
-      this.$emit('showFullCode', this.$attrs.field, this.value, this.$attrs.index,this.$props.mode)
+      this.$bus.$emit('showFullCode',this.$attrs.field, this.value, this.$attrs.index,this.$props.mode,this.$props.name);
     },
     initCodeMirror(){
       if(this.$refs.codeMirror&&this.value&&this.full){

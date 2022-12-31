@@ -29,6 +29,9 @@ export default {
       top: 80,
       duration: 3
     })
+  },
+  beforeDestroy() {
+    this.$bus.$off()
   }
 }
 </script>

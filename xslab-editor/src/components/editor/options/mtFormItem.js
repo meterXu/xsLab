@@ -1,3 +1,5 @@
+import mtFormItemColor from './mtFormItemColor'
+import mtFormItemCode from './mtFormItemCode'
 export default {
     name: 'mtFormItem',
     functional: true,
@@ -6,15 +8,11 @@ export default {
         panel: Object,
         opNode: Object
     },
+    components: {
+        mtFormItemColor,
+        mtFormItemCode
+    },
     render(createElement, context) {
-        function radioChange(v) {
-            this.$emit('radioChange', v)
-        }
-
-        function showFullCode(v0, v1, v2, v3) {
-            this.$emit('showFullCode', v0, v1, v2, v3, this.$parent.$props.label)
-        }
-
         function getModelProp(key, opNode) {
             let modelObj = null
             const keyDeep = key.split('/')
@@ -22,7 +20,7 @@ export default {
                 if (modelObj) {
                     modelObj = modelObj[key]
                 } else {
-                    modelObj = opNode.config[key]
+                    modelObj = key?opNode.config[key]:opNode.config
                 }
             })
             return modelObj
@@ -33,68 +31,74 @@ export default {
                 case 'number': {
                     return (
                         <span>
-                            <InputNumber v-model={modelObj[fItem.key]} size="small"></InputNumber> {fItem.unit || 'px'}
+                            <InputNumber value={modelObj[fItem.key]} onInput={$event => {modelObj[fItem.key] = $event}} size="small"></InputNumber> {fItem.unit || 'px'}
                         </span>
                     )
                 }
                 case 'text': {
                     return (
-                        <span>
-                            <Input v-model={modelObj[fItem.key]} size="small"/>
-                        </span>
+                        <Input value={modelObj[fItem.key]} onInput={$event => {modelObj[fItem.key] = $event}} size="small"/>
                     )
                 }
                 case 'color': {
                     return (
-                        <span>
-                            <mtFormItemColor v-model={modelObj[fItem.key]} size="small"/>
-                        </span>
+                        <mtFormItemColor value={modelObj[fItem.key]} onUpdate={$event => {modelObj[fItem.key] = $event}} size="small"/>
                     )
                 }
                 case 'textarea': {
                     return (
-                        <span>
-                            <Input type="textarea" rows={4} v-model={modelObj[fItem.key]} size="small"/>
-                        </span>
+                        <Input type="textarea" rows={4} value={modelObj[fItem.key]} onInput={$event => {modelObj[fItem.key] = $event}} size="small"/>
                     )
                 }
                 case 'boolean': {
                     return (
-                        <i-switch v-model={modelObj[fItem.key]}>
+                        <i-switch value={modelObj[fItem.key]} onInput={$event => {modelObj[fItem.key] = $event}}>
                             <Icon type="md-checkmark" slot="open"/>
                             <Icon type="md-close" slot="close"/>
                         </i-switch>
                     )
                 }
                 case 'select': {
+                    const options = fItem.data.map(item=>{
+                        return (
+                            <Option value={item.value}>{item.text}</Option>
+                        )
+                    })
                     return (
-                        <Select size="small" v-model={modelObj[fItem.key]}>
-                            <Option v-for="item in fItem.data" key={item.text + item.value}
-                                    value={item.value}>{item.text}</Option>
+                        <Select size="small" value={modelObj[fItem.key]} onInput={$event => {modelObj[fItem.key] = $event}}>
+                            {options}
                         </Select>
                     )
                 }
                 case 'code': {
                     return (
-                        <span>
-                            <mtFormItemCode size="small" v-model={modelObj[fItem.key]} index="0" field={fItem.key}
-                                            mode={fItem.mode} onshowFullCode={showFullCode}></mtFormItemCode>
-                        </span>
+                        <mtFormItemCode size="small" value={modelObj[fItem.key]} index="0" field={fItem.key} name={fItem.name}
+                                        mode={fItem.mode} onUpdate={$event => {modelObj[fItem.key] = $event}}></mtFormItemCode>
                     )
                 }
                 case 'radio':{
+                    const radios = fItem.data.map(item=>{
+                        return (
+                            <Radio label={item.value}>
+                                <Icon type={item.icon}></Icon>
+                                <span>{item.text}</span>
+                            </Radio>
+                        )
+                    })
                     return (
-                        <RadioGroup v-model="opNode.config[fItem.key]" @on-change="radioChange">
-                        <Radio :label="item.value" v-for="item in fItem.data" :key="item.value">
-                        <Icon :type="item.icon"></Icon>
-                    <span>{{item.text}}</span>
-                </Radio>
-                </RadioGroup>
+                        <RadioGroup value={modelObj[fItem.key]} onInput={$event => {modelObj[fItem.key] = $event}}>
+                            {radios}
+                        </RadioGroup>
                     )
                 }
                 case 'div':{
                     return (
                         <div class="mt-emptyDiv" style={{width: 'auto',height: fItem.style.height+'px'}}></div>
+                    )
+                }
+                default:{
+                    return (
+                        <Input  size="small" value={modelObj[fItem.key]} onInput={$event => {modelObj[fItem.key] = $event}}/>
                     )
                 }
             }

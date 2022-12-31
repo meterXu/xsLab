@@ -33,6 +33,16 @@ switch (theme){
     disable()
   }break;
 }
+
+let EventBus = new Vue();
+Object.defineProperties(Vue.prototype, {
+  $bus: {
+    get: function () {
+      return EventBus
+    }
+  }
+})
+
 // 启动应用
 new Vue({
   router,
