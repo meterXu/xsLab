@@ -517,20 +517,6 @@ export default {
   mounted () {
     this.setChartOption()
   },
-  watch: {
-    'node.config.options': {
-      handler (e, t) {
-        this.setChartOption()
-      },
-      deep: true
-    },
-    'node.config.theme': {
-      handler (e, t) {
-        this.setChartOption()
-      },
-      deep: true
-    }
-  },
   destroyed () {
     if (this.timeout) {
       window.clearTimeout(this.timeout)

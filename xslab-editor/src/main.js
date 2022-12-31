@@ -44,7 +44,7 @@ Object.defineProperties(Vue.prototype, {
 })
 
 // 启动应用
-new Vue({
+window.vue=new Vue({
   router,
   store,
   render: h => h(App)

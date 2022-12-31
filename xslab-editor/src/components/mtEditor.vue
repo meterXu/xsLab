@@ -453,6 +453,9 @@ export default {
   },
   mounted () {
     this.initCopyLink()
+    this.$bus.$on('nodeConfigChange',()=>{
+      this.$refs.xsc.$refs[this.$refs.xsc.activeNode.id][0].setChartOption()
+    })
   },
   destroyed () {
     this.copyBtn.destroy()

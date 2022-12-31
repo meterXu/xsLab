@@ -87,7 +87,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['dbList']),
+    ...mapGetters(['dbList','activeNode']),
     isShowFormItem () {
       return function (rdTab) {
         if (rdTab) {

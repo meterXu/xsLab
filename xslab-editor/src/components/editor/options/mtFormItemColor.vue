@@ -21,21 +21,17 @@ export default {
     event: 'update'
   },
   watch: {
-    value: function (nv) {
-      this.tempValue = nv || ''
+    value: {
+      handler(nv){
+        this.tempValue = nv||''
+      },
+      immediate:true
     }
   },
   methods: {
     onChange (value) {
-      value = value===''?'transparent':value
-      this.$emit('update', value)
-    }
-  },
-  created () {
-    if (this.value) {
-      this.tempValue = this.value
-    } else {
-      this.tempValue = ''
+      const nValue = value===''?'currentColor':value
+      this.$emit('update', nValue)
     }
   }
 }
