@@ -1,0 +1,15 @@
+html,body,#app{
+    height: 100%;
+    width: 100%;
+    overflow-x: hidden;
+}
+html{
+    overflow-y: hidden;
+}
+.CodeMirror-code {
+    font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+.CodeMirror-scroll{
+    overflow-y: auto!important;
+    overflow-x: hidden!important;
+}

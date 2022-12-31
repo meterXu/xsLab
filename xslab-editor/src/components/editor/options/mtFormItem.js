@@ -13,14 +13,14 @@ export default {
         mtFormItemCode
     },
     render(createElement, context) {
-        function getModelProp(key, opNode) {
+        function getModelProp(proPath, opNode,key) {
             let modelObj = null
-            const keyDeep = key.split('/')
-            keyDeep.forEach(key => {
+            const proDeep = proPath.split('/')
+            proDeep.forEach(pro => {
                 if (modelObj) {
-                    modelObj = modelObj[key]
+                    modelObj = modelObj[pro]
                 } else {
-                    modelObj = key?opNode.config[key]:opNode.config
+                    modelObj = pro?opNode.config[pro]:opNode.config
                 }
             })
             return modelObj
@@ -101,7 +101,7 @@ export default {
         }
 
         const {fItem, panel, opNode} = context.props
-        const modelObj = getModelProp(panel.key, opNode)
+        const modelObj = getModelProp(panel.key, opNode,fItem.key)
         const item = renderItem(fItem, modelObj)
         return (item)
     }

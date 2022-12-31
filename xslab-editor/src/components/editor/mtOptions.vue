@@ -40,7 +40,7 @@
     </Modal>
     <Modal :width="800" v-model="showFullCodeModal" :title="codeProLabel" @on-ok="codeOk">
       <div class="tableContainer">
-        <mtFormItemCode ref="formCode" v-show="showFullCodeModal" :full="showFullCodeModal" v-model="codeProValue" :mode="codeProMode"></mtFormItemCode>
+
       </div>
     </Modal>
     </template>

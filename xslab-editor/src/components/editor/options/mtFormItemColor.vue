@@ -30,8 +30,7 @@ export default {
   },
   methods: {
     onChange (value) {
-      const nValue = value===''?'currentColor':value
-      this.$emit('update', nValue)
+      this.$emit('update', value)
     }
   }
 }

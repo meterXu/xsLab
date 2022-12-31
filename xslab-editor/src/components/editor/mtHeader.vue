@@ -72,10 +72,10 @@
         <div class="jsonPanel">
           <Tabs value="画布">
             <TabPane label="options" name="画布">
-              <mtFormItemCode v-model="optionsStr" :mode="mode" :full="true" :copy="true"></mtFormItemCode>
+              <textarea ref="optionsStr"></textarea>
             </TabPane>
             <TabPane label="charts" name="图表">
-              <mtFormItemCode v-model="chartsStr" :mode="mode" :full="true" :copy="true"></mtFormItemCode>
+              <textarea ref="chartsStr"></textarea>
             </TabPane>
           </Tabs>
         </div>
@@ -102,7 +102,6 @@ import '../../assets/mtIcon/style.css'
 import mtFormItemCode from '../../components/editor/options/mtFormItemCode'
 import {mapGetters} from "vuex";
 import {downloadAction} from "@/request";
-
 export default {
   name: 'mtHeader',
   props: {
@@ -231,6 +230,29 @@ export default {
       this.$parent.showAddCanvasModal = false
       this.optionsStr = JSON.stringify(this.$parent.mtCanvasOptions, null, '\t')
       this.chartsStr = JSON.stringify(this.$parent.canvasData, null, '\t')
+      this.$nextTick(()=>{
+        if(!this.editor_optionsStr){
+          this.editor_optionsStr = this.$codeMirror.fromTextArea(this.$refs.optionsStr, {
+            mode: 'application/json',
+            theme: 'default',
+            lineNumbers: true,
+            lineWrapping: true
+          })
+        }
+        if(!this.editor_chartsStr){
+          this.editor_chartsStr = this.$codeMirror.fromTextArea(this.$refs.chartsStr, {
+            mode: 'application/json',
+            theme: 'default',
+            lineNumbers: true,
+            lineWrapping: true
+          })
+        }
+        this.editor_optionsStr.setSize(null,550)
+        this.editor_chartsStr.setSize(null,550)
+        this.editor_optionsStr.setValue(this.optionsStr)
+        this.editor_chartsStr.setValue(this.chartsStr)
+      })
+
     },
     backCanvas(){
       this.$parent.showCanvas = true

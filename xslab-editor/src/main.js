@@ -5,6 +5,12 @@ import VueAxios from 'vue-axios'
 import router from './router'
 import iView from 'iview'
 import 'iview/dist/styles/iview.css'
+import 'codemirror/lib/codemirror.css';
+import CodeMirror from 'codemirror/lib/codemirror.js'
+import 'codemirror/mode/javascript/javascript.js'
+import 'codemirror/mode/sql/sql.js'
+import 'codemirror/addon/selection/active-line.js'
+import './assets/styles/index.css'
 import clipboard from 'clipboard'
 import VueQr from 'vue-qriously'
 import Xsc from './packages/vue-draw-xs/src/index'
@@ -19,6 +25,7 @@ Vue.use(Xsc)
 Vue.mixin(myMixin)
 Vue.prototype.$clipboard=clipboard
 Vue.prototype.$config = window.config
+Vue.prototype.$codeMirror = CodeMirror
 let theme = store.getters.editorTheme||window.config.editorTheme
 store.commit('setEditorTheme',theme)
 switch (theme){

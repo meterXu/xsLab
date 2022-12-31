@@ -109,7 +109,6 @@ const bar = { // 简单柱状图
             '{"text":"d","value":10},\n' +
             '{"text":"e","value":10},\n' +
             '{"text":"f","value":20}]',
-          fun: function () { return 0 },
           x: 'text',
           y: 'value',
           s: '数值',

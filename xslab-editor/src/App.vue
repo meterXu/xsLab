@@ -19,7 +19,12 @@ export default {
         pageNumber:1,
         pageSize:9999
       }).then(res => {
-        this.$store.commit('setDbList',res.data.rows)
+        const storeDbs = res.data.rows.map(c=>{
+          c.value = c.id
+          c.text = c.name
+          return c
+        })
+        this.$store.commit('setDbList',storeDbs)
       })
     }
   },
@@ -35,10 +40,3 @@ export default {
   }
 }
 </script>
-<style>
-html,body,#app{
-  height: 100%;
-  width: 100%;
-  overflow-x: hidden;
-}
-</style>
