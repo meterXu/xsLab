@@ -14,13 +14,22 @@ npm run dev
 ## 部署模式
 ```bash
 npm run build
-node dist/routerResponse.js
+NODE_ENV=production node dist/index.js
 ```
 
 ## 配置文件
 ```bash
-src/config.js
-dist/config.js
+.env.production
+```
+
+## 数据库配置文件
+```bash
+schema.prisma
+```
+
+## 初始化数据库
+```bash
+npm run initDB:prod
 ```
 
 ## swagger地址

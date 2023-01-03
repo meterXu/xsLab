@@ -32,5 +32,5 @@ model xs_database {
 
 datasource db {
   provider = "mysql"
-  url      = "mysql://root:123456@192.168.75.101:3307/xslab"
+  url      = env("database_url")
 }

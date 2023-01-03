@@ -5,10 +5,12 @@
   "main": "dist/index.js",
   "license": "MIT",
   "scripts": {
-    "initDB": "npx prisma migrate dev --name init ",
-    "dev": "NODE_ENV=development && nodemon --exec babel-node src/index.js",
+    "initDB:dev": "dotenv -e .env.development npx prisma migrate dev --name init",
+    "initDB:prod": "dotenv -e .env.production npx prisma migrate deploy --name init",
+    "initDB:proxy": "dotenv -e .env.proxy npx prisma migrate dev --name init",
+    "dev": "set NODE_ENV=development && nodemon --exec babel-node src/index.js",
     "build": "babel src -d dist",
-    "prod": "npm run build && NODE_ENV=production node dist/index.js"
+    "prod": "npm run build && set NODE_ENV=production node dist/index.js"
   },
   "repository": {
     "type": "git",
