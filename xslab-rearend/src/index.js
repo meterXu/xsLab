@@ -14,7 +14,6 @@ const app = new Koa();
 app.use(koaBody());
 app.use(cors());
 let sslOptions = null;
-let port = 11525;
 
 //Force HTTPS on all page
 if(config.enableSsl === true){
@@ -23,15 +22,8 @@ if(config.enableSsl === true){
         cert: fs.readFileSync(config.ssl_cert)  //ssl文件路径
     };
 }
-if(config.port&&parseInt(config.port)!==NaN){
-    port = config.port
-}
 app.use(async (ctx, next) => {
-    if (ctx.request.header.host.split(':')[0] === 'localhost' || ctx.request.header.host.split(':')[0] === '127.0.0.1') {
-        ctx.set('Access-Control-Allow-Origin', '*')
-    } else {
-        ctx.set('Access-Control-Allow-Origin', config.allowHosts)
-    }
+    ctx.set('Access-Control-Allow-Origin', '*')
     ctx.set('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
     ctx.set('Access-Control-Allow-Methods', 'PUT, POST, GET, DELETE, OPTIONS')
     ctx.set('Access-Control-Allow-Credentials', true) // 允许带上 cookie
@@ -43,11 +35,11 @@ app.use(async (ctx, next) => {
 
 if(config.enableSsl){
     try{
-        https.createServer(sslOptions, app.callback()).listen(port,(err)=>{
+        https.createServer(sslOptions, app.callback()).listen(config.port,(err)=>{
             if(!!err){
                 console.error('HTTPS server FAIL: ', err, (err && err.stack));
             }else{
-                console.log(`service started at https://localhost:${port}`);
+                console.log(`service started at ${config.NODE_ENV} https://localhost:${config.port}`);
             }
         });
     }catch (ex) {
@@ -56,11 +48,11 @@ if(config.enableSsl){
 }
 else{
     try{
-        http.createServer(app.callback()).listen(port,(err)=>{
+        http.createServer(app.callback()).listen(config.port,(err)=>{
             if(!!err){
                 console.error('HTTP server FAIL: ', err, (err && err.stack));
             }else{
-                console.log(`service started at http://localhost:${port}`);
+                console.log(`service started at ${config.NODE_ENV} http://localhost:${config.port}`);
             }
         });
     }catch (ex) {

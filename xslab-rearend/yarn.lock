@@ -1085,6 +1085,23 @@
     mkdirp "^1.0.4"
     rimraf "^3.0.2"
 
+"@prisma/client@4.8.0":
+  version "4.8.0"
+  resolved "https://registry.yarnpkg.com/@prisma/client/-/client-4.8.0.tgz#6ec7adaca6a2e233d7e41dbe7cc6d0fa6143a407"
+  integrity sha512-Y1riB0p2W52kh3zgssP/YAhln3RjBFcJy3uwEiyjmU+TQYh6QTZDRFBo3JtBWuq2FyMOl1Rye8jxzUP+n0l5Cg==
+  dependencies:
+    "@prisma/engines-version" "4.8.0-61.d6e67a83f971b175a593ccc12e15c4a757f93ffe"
+
+"@prisma/engines-version@4.8.0-61.d6e67a83f971b175a593ccc12e15c4a757f93ffe":
+  version "4.8.0-61.d6e67a83f971b175a593ccc12e15c4a757f93ffe"
+  resolved "https://registry.yarnpkg.com/@prisma/engines-version/-/engines-version-4.8.0-61.d6e67a83f971b175a593ccc12e15c4a757f93ffe.tgz#30401aba1029e7d32e3cb717e705a7c92ccc211e"
+  integrity sha512-MHSOSexomRMom8QN4t7bu87wPPD+pa+hW9+71JnVcF3DqyyO/ycCLhRL1we3EojRpZxKvuyGho2REQsMCvxcJw==
+
+"@prisma/engines@4.8.0":
+  version "4.8.0"
+  resolved "https://registry.yarnpkg.com/@prisma/engines/-/engines-4.8.0.tgz#5123c67dc0d2caa008268fc63081ca2d68b2ed7e"
+  integrity sha512-A1Asn2rxZMlLAj1HTyfaCv0VQrLUv034jVay05QlqZg1qiHPeA3/pGTfNMijbsMYCsGVxfWEJuaZZuNxXGMCrA==
+
 "@tootallnate/once@1":
   version "1.1.2"
   resolved "https://registry.npmjs.org/@tootallnate/once/-/once-1.1.2.tgz"
@@ -1873,6 +1890,11 @@ dir-glob@^3.0.1:
   integrity sha512-WkrWp9GR4KXfKGYzOLmTuGVi1UWFfws377n9cc55/tb6DuqyF6pcQ5AbiHEshaDpY9v6oaSr2XCDidGmMwdzIA==
   dependencies:
     path-type "^4.0.0"
+
+dotenv@^16.0.3:
+  version "16.0.3"
+  resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-16.0.3.tgz#115aec42bac5053db3c456db30cc243a5a836a07"
+  integrity sha512-7GO6HghkA5fYG9TYnNxi14/7K9f5occMlp3zXAuSxn7CKCxt9xbNWG7yF8hTCSUchlfWSe3uLmlPfigevRItzQ==
 
 ecc-jsbn@~0.1.1:
   version "0.1.2"
@@ -3545,6 +3567,13 @@ prelude-ls@~1.1.2:
   version "1.1.2"
   resolved "https://registry.npmjs.org/prelude-ls/-/prelude-ls-1.1.2.tgz"
   integrity sha512-ESF23V4SKG6lVSGZgYNpbsiaAkdab6ZgOxe52p7+Kid3W3u3bxR4Vfd/o21dmN7jSt0IwgZ4v5MUd26FEtXE9w==
+
+prisma@^4.8.0:
+  version "4.8.0"
+  resolved "https://registry.yarnpkg.com/prisma/-/prisma-4.8.0.tgz#634dbbdc9d3f76c61604880251673d08ccb6f02b"
+  integrity sha512-DWIhxvxt8f4h6MDd35mz7BJff+fu7HItW3WPDIEpCR3RzcOWyiHBbLQW5/DOgmf+pRLTjwXQob7kuTZVYUAw5w==
+  dependencies:
+    "@prisma/engines" "4.8.0"
 
 process-nextick-args@~2.0.0:
   version "2.0.1"

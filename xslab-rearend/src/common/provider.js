@@ -4,12 +4,6 @@ import sqlite3 from 'sqlite3';
 import mssql from 'mssql'
 import fs from 'fs';
 
-
-
-
-
-
-
 const db = new sqlite3.Database('db/xscollect.db');
 
 function readSql() {
@@ -49,7 +43,6 @@ readSql().then(c => {
         db.run(sql)
     });
 });
-
 
 function oracleProvider() {
     this.query = async function (config, sql, success, error) {

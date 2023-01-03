@@ -5,8 +5,9 @@
   "main": "dist/index.js",
   "license": "MIT",
   "scripts": {
-    "dev": "nodemon --exec babel-node src/index.js",
-    "build": "babel src -d dist"
+    "dev": "NODE_ENV=development nodemon --exec babel-node src/index.js",
+    "build": "babel src -d dist",
+    "prod": "npm run build && NODE_ENV=production node dist/index.js"
   },
   "repository": {
     "type": "git",
@@ -14,9 +15,11 @@
   },
   "author": "isaac <xhgainxq@qq.com>",
   "dependencies": {
+    "@prisma/client": "4.8.0",
     "art-template": "^4.13.2",
     "commander": "^3.0.1",
     "compressing": "^1.5.1",
+    "dotenv": "^16.0.3",
     "koa": "^2.11.0",
     "koa-body": "^4.1.1",
     "koa-router": "^7.4.0",
@@ -38,6 +41,7 @@
     "@babel/plugin-proposal-decorators": "^7.20.7",
     "@babel/plugin-transform-runtime": "^7.19.6",
     "@babel/preset-env": "^7.20.2",
-    "nodemon": "^2.0.20"
+    "nodemon": "^2.0.20",
+    "prisma": "^4.8.0"
   }
 }
