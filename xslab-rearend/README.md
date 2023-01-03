@@ -22,11 +22,6 @@ NODE_ENV=production node dist/index.js
 .env.production
 ```
 
-## 数据库配置文件
-```bash
-schema.prisma
-```
-
 ## 初始化数据库
 ```bash
 npm run initDB:prod
