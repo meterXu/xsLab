@@ -30,12 +30,7 @@ model XS_DATABASE {
   STATE Int @default(1)
 }
 
-// datasource db {
-//  provider = "mysql"
-//  url      = env("DATABASE_URL")
-// }
-
 datasource db {
-  provider = "sqlite"
-  url      = "file:xslab.db"
+  provider = "mysql"
+  url      = "mysql://root:123456@192.168.75.101:3307/xslab"
 }
