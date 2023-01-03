@@ -1,13 +1,10 @@
 import {body, query, request, summary, tags} from "koa-swagger-decorator";
 import PaginationModel from "../model/paginationModel";
-import db from "../common/provider";
 import Utils from "../common/utils";
 import DatabaseModel from "../model/databaseModel";
 import ResultModel from "../model/resultModel";
-
 const {PrismaClient} = require("@prisma/client");
 const prisma = new PrismaClient();
-
 const testTag = tags(['test'])
 
 export default class DatabaseController {
@@ -98,9 +95,9 @@ export default class DatabaseController {
     async delDataSource(ctx) {
         let id = ctx.request.body.id;
         if (id) {
-            let res = await prisma.xs_database.update({
+            await prisma.xs_database.update({
                 data:{
-                    delete: 1,
+                    delete: 0,
                 },
                 where: {
                     id: id

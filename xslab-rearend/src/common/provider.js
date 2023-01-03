@@ -7,7 +7,7 @@ function oracleProvider() {
         return new Promise((resolve, reject) => {
             oracledb.getConnection(
                 {
-                    user: config.user,
+                    user: config.username,
                     password: config.password,
                     connectString: config.connectString,
                 },
@@ -47,11 +47,11 @@ function mysqlProvider() {
     this.query = async function (config, sql, params) {
         return new Promise((resolve, reject) => {
             const connection = mysql.createConnection({
-                host: config.host,
+                host: config.ipaddress,
                 port: config.port,
-                user: config.user,
+                user: config.username,
                 password: config.password,
-                database: config.database,
+                schemas: config.schemas,
             });
             connection.connect((err) => {
                 if (err) {
@@ -80,7 +80,7 @@ function mssqlProvider(){
     this.query = async function(config,sql){
         return new Promise(async (resolve, reject)=>{
             try{
-                let pool = await mssql.connect('mssql://'+config.user+':'+config.password+'@'+config.host+':'+config.port+'/'+config.database);
+                let pool = await mssql.connect('mssql://'+config.username+':'+config.password+'@'+config.ipaddress+':'+config.port+'/'+config.schemas);
                 let result =await pool.request().query(sql);
                 resolve(result);
                 pool.close()

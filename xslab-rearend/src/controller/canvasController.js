@@ -9,7 +9,8 @@ import fs from "fs";
 import send from "koa-send";
 import DownloadModel from "../model/downloadModel";
 import ResultModel from "../model/resultModel";
-
+const {PrismaClient} = require("@prisma/client");
+const prisma = new PrismaClient();
 const testTag = tags(['test'])
 
 class CanvasController {
@@ -22,23 +23,27 @@ class CanvasController {
     @query(PaginationModel.swaggerDocument)
     static async canvas(ctx,next) {
         const pagination = new PaginationModel(ctx.request.query)
-        let totalRes = await db.sqliteProvider.query('select count(*) total from xs_canvas where `delete`=1 and state=1');
-        let res = await db.sqliteProvider.query('select * from xs_canvas where `delete`=1 and state=1 order by createTime desc limit ? offset ?', [
-            pagination.pageSize,
-            (pagination.pageNumber - 1) * pagination.pageSize
-        ]);
-        let resData = [];
-        res.forEach(c => {
-            resData.push({
-                id: c.ID,
-                name: c.NAME,
-                insertTime: c.CREATETIME,
-            });
-        });
+        let totalRes = await prisma.xs_canvas.findMany({
+            where:{
+                delete:1,
+                state:1
+            }
+        })
+        let resData = await prisma.xs_canvas.findMany({
+            where:{
+                delete:1,
+                state:1
+            },
+            orderBy: {
+                createTime: 'asc',
+            },
+            skip: (pagination.pageNumber - 1) * pagination.pageSize,
+            take: pagination.pageSize
+        })
 
         ctx.success(new ResultModel({
             rows: resData,
-            total: totalRes[0].total,
+            total: totalRes.length,
             pagination: pagination
         }))
     }
@@ -51,12 +56,17 @@ class CanvasController {
     })
     async canvasData(ctx) {
         if (ctx.request.query.id) {
-            let res = await db.sqliteProvider.query('select data,options from xs_canvas where id = ?', [ctx.request.query.id]);
-            if (res.length > 0) {
-                ctx.success(new ResultModel({
-                    cavOptions: res[0].OPTIONS,
-                    cavData: res[0].DATA.toString(),
-                }))
+            let canvas = await prisma.xs_canvas.findMany({
+                select: {
+                    options: true,
+                    data: true
+                },
+                where: {
+                    id: ctx.request.query.id
+                }
+            })
+            if (canvas) {
+                ctx.success(new ResultModel(canvas))
             } else {
                 ctx.fail(new ResultModel(null))
             }
@@ -71,25 +81,29 @@ class CanvasController {
     @body(CanvasModel.swaggerDocument)
     async saveCanvasData(ctx) {
         const canvas = new CanvasModel(ctx.request.body)
-        let c = await db.sqliteProvider.query('select * from xs_canvas where id = ?', [canvas.id]);
-        if (c.length > 0) {
+        if (canvas.id) {
             // 更新
-            let upc = await db.sqliteProvider.exec('update xs_canvas set name=?,data=?,options=? where id=?',
-                [canvas.name, JSON.stringify(canvas.data), JSON.stringify(canvas.options), canvas.id]);
-            if (upc.changes > 0) {
-                ctx.success(new ResultModel(1))
-            } else {
-                ctx.success(new ResultModel(0))
-            }
+            const res = await prisma.xs_canvas.update({
+                data:{
+                    name:canvas.name,
+                    data:JSON.stringify(canvas.data),
+                    options:JSON.stringify(canvas.options)
+                },
+                where:{
+                    id:canvas.id
+                }
+            })
+            ctx.success(new ResultModel(res.id))
         } else {
             // 新增
-            let inc = await db.sqliteProvider.exec('insert into xs_canvas(id,name,data,options,createtime) values(?,?,?,?,?)',
-                [canvas.id, canvas.name, JSON.stringify(canvas.data), JSON.stringify(canvas.options), new Date().valueOf()]);
-            if (inc.changes > 0) {
-                ctx.success(new ResultModel(1))
-            } else {
-                ctx.success(new ResultModel(0))
-            }
+            const res = await prisma.xs_canvas.create({
+                data:{
+                    name:canvas.name,
+                    data:JSON.stringify(canvas.data),
+                    options:JSON.stringify(canvas.options)
+                }
+            })
+            ctx.success(new ResultModel(res.id))
         }
     }
 
@@ -101,12 +115,15 @@ class CanvasController {
     })
     async delCanvas(ctx) {
         if (ctx.request.body.id!==null&&ctx.request.body.id!==undefined) {
-            let c = await db.sqliteProvider.exec('update xs_canvas set `delete`=? where id = ?', [2, ctx.request.body.id]);
-            if (c.changes > 0) {
-                ctx.success(new ResultModel(ctx.request.body.id))
-            } else {
-                ctx.fail(new ResultModel(ctx.request.body.id))
-            }
+            const res = await prisma.xs_canvas.update({
+                data:{
+                    delete:2
+                },
+                where:{
+                    id:ctx.request.body.id
+                }
+            })
+            ctx.success(new ResultModel(res.id))
         } else {
             ctx.fail(new ResultModel(ctx.request.body.id))
         }
@@ -131,60 +148,64 @@ class CanvasController {
             if (!dbArray[i] || !sqlArray[i]) {
                 ctx.body = null;
             } else {
-                let dbRes = await db.sqliteProvider.query('select * from XS_DATABASE where ID=? and `DELETE`=1 and STATE=1', [dbArray[i]]);
-                if (dbRes.length > 0) {
-                    switch (dbRes[0].TYPE.toString()) {
-                        case "1": {
-                            try {
-                                let queryData = await db.oracleProvider.query({
-                                    user: dbRes[0].USERNAME,
-                                    password: dbRes[0].PASSWORD,
-                                    connectString: dbRes[0].IPADDRESS + ":" + dbRes[0].PORT + "/" + dbRes[0].SCHEMAS
-                                }, sqlArray[i]);
-                                let dataList = [];
-                                queryData.rows.forEach((c, i) => {
-                                    let dataObj = {};
-                                    queryData.metaData.forEach((k, j) => {
-                                        dataObj[k.name] = c[j];
-                                    })
-                                    dataList.push(dataObj);
-                                });
-                                resData.push(JSON.stringify(dataList));
-                            } catch (e) {
-                                resData.push("[]");
-                            }
-                            break;
+                let dbRes = await prisma.xs_database.findUnique({
+                    where:{
+                        delete:1,
+                        state:1,
+                        id:dbArray[i]
+                    }
+                })
+                switch (dbRes.type.toString()) {
+                    case "1": {
+                        try {
+                            let queryData = await db.oracleProvider.query({
+                                username: dbRes.username,
+                                password: dbRes.password,
+                                connectString: dbRes.ipaddress + ":" + dbRes.port + "/" + dbRes.schemas
+                            }, sqlArray[i]);
+                            let dataList = [];
+                            queryData.rows.forEach((c, i) => {
+                                let dataObj = {};
+                                queryData.metaData.forEach((k, j) => {
+                                    dataObj[k.name] = c[j];
+                                })
+                                dataList.push(dataObj);
+                            });
+                            resData.push(JSON.stringify(dataList));
+                        } catch (e) {
+                            resData.push("[]");
                         }
-                        case "2": {
-                            try {
-                                let queryData = await db.mssqlProvider.query({
-                                    host: dbRes[0].IPADDRESS,
-                                    port: dbRes[0].PORT,
-                                    user: dbRes[0].USERNAME,
-                                    password: dbRes[0].PASSWORD,
-                                    database: dbRes[0].SCHEMAS
-                                }, sqlArray[i]);
-                                resData.push(JSON.stringify(queryData.recordset));
-                            } catch (e) {
-                                resData.push("[]");
-                            }
-                            break;
+                        break;
+                    }
+                    case "2": {
+                        try {
+                            let queryData = await db.mssqlProvider.query({
+                                ipaddress: dbRes[0].ipaddress,
+                                port: dbRes[0].port,
+                                username: dbRes[0].username,
+                                password: dbRes[0].password,
+                                schemas: dbRes[0].schemas
+                            }, sqlArray[i]);
+                            resData.push(JSON.stringify(queryData.recordset));
+                        } catch (e) {
+                            resData.push("[]");
                         }
-                        case "3": {
-                            try {
-                                let queryData = await db.mysqlProvider.query({
-                                    host: dbRes[0].IPADDRESS,
-                                    port: dbRes[0].PORT,
-                                    user: dbRes[0].USERNAME,
-                                    password: dbRes[0].PASSWORD,
-                                    database: dbRes[0].SCHEMAS
-                                }, sqlArray[i], [])
-                                resData.push(JSON.stringify(queryData));
-                            } catch (e) {
-                                resData.push("[]");
-                            }
-                            break;
+                        break;
+                    }
+                    case "3": {
+                        try {
+                            let queryData = await db.mysqlProvider.query({
+                                ipaddress: dbRes[0].ipaddress,
+                                port: dbRes[0].port,
+                                username: dbRes[0].username,
+                                password: dbRes[0].password,
+                                schemas: dbRes[0].schemas
+                            }, sqlArray[i], [])
+                            resData.push(JSON.stringify(queryData));
+                        } catch (e) {
+                            resData.push("[]");
                         }
+                        break;
                     }
                 }
             }
