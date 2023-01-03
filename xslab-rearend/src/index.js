@@ -1,12 +1,14 @@
 import Koa from 'koa';
 import fs from 'fs'
 import config from './config.js'
-import router from './router'
+import api from './router/api'
 import koaBody from 'koa-body'
 import cors from 'koa2-cors'
+import koastatic from 'koa-static'
 import http from 'http'
 import https from 'https'
 import routerResponse from "./middleware/routerResponse";
+import path from "path";
 
 const app = new Koa();
 app.use(koaBody());
@@ -24,7 +26,6 @@ if(config.enableSsl === true){
 if(config.port&&parseInt(config.port)!==NaN){
     port = config.port
 }
-
 app.use(async (ctx, next) => {
     if (ctx.request.header.host.split(':')[0] === 'localhost' || ctx.request.header.host.split(':')[0] === '127.0.0.1') {
         ctx.set('Access-Control-Allow-Origin', '*')
@@ -36,8 +37,9 @@ app.use(async (ctx, next) => {
     ctx.set('Access-Control-Allow-Credentials', true) // 允许带上 cookie
     await next();
 })
+    .use(koastatic(path.resolve('assets')))
     .use(routerResponse())
-    .use(router.routes())
+    .use(api.routes())
 
 if(config.enableSsl){
     try{

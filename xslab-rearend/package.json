@@ -21,6 +21,7 @@
     "koa-body": "^4.1.1",
     "koa-router": "^7.4.0",
     "koa-send": "^5.0.0",
+    "koa-static": "^5.0.0",
     "koa-swagger-decorator": "^1.8.6",
     "koa2-cors": "^2.0.6",
     "mssql": "^5.1.0",
