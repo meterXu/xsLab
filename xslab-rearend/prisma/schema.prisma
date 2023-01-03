@@ -1,0 +1,41 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model XS_CANVAS {
+  ID    Int     @id @default(autoincrement())
+  NAME String
+  DATA  Bytes
+  OPTIONS  String
+  CREATETIME  DateTime @default(now())
+  DELETE  Int @default(1)
+  STATE Int @default(1)
+}
+
+model XS_DATABASE {
+  ID    Int     @id @default(autoincrement())
+  NAME String
+  TYPE  Int
+  IPADDRESS String
+  PORT Int
+  USERNAME String
+  PASSWORD String
+  SCHEMAS String
+  CREATETIME DateTime @default(now())
+  DELETE  Int @default(1)
+  STATE Int @default(1)
+}
+
+// datasource db {
+//  provider = "mysql"
+//  url      = env("DATABASE_URL")
+// }
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:xslab.db"
+}
