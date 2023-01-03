@@ -6,28 +6,28 @@ generator client {
   provider = "prisma-client-js"
 }
 
-model XS_CANVAS {
-  ID    Int     @id @default(autoincrement())
-  NAME String
-  DATA  Bytes
-  OPTIONS  String
-  CREATETIME  DateTime @default(now())
-  DELETE  Int @default(1)
-  STATE Int @default(1)
+model xs_canvas {
+  id    Int     @id @default(autoincrement())
+  name String
+  data  Bytes
+  options  String
+  createTime  DateTime @default(now())
+  delete  Int @default(1)
+  state Int @default(1)
 }
 
-model XS_DATABASE {
-  ID    Int     @id @default(autoincrement())
-  NAME String
-  TYPE  Int
-  IPADDRESS String
-  PORT Int
-  USERNAME String
-  PASSWORD String
-  SCHEMAS String
-  CREATETIME DateTime @default(now())
-  DELETE  Int @default(1)
-  STATE Int @default(1)
+model xs_database {
+  id    Int     @id @default(autoincrement())
+  name String
+  type  Int
+  ipaddress String
+  port Int
+  username String
+  password String
+  schemas String
+  createTime DateTime @default(now())
+  delete  Int @default(1)
+  state Int @default(1)
 }
 
 datasource db {
