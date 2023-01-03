@@ -1,36 +1,32 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-
 generator client {
   provider = "prisma-client-js"
-}
-
-model xs_canvas {
-  id    Int     @id @default(autoincrement())
-  name String
-  data  Bytes
-  options  String
-  createTime  DateTime @default(now())
-  delete  Int @default(1)
-  state Int @default(1)
-}
-
-model xs_database {
-  id    Int     @id @default(autoincrement())
-  name String
-  type  Int
-  ipaddress String
-  port Int
-  username String
-  password String
-  schemas String
-  createTime DateTime @default(now())
-  delete  Int @default(1)
-  state Int @default(1)
 }
 
 datasource db {
   provider = "mysql"
   url      = env("database_url")
+}
+
+model xs_canvas {
+  id         Int      @id @default(autoincrement())
+  name       String
+  data       Bytes
+  options    String
+  createTime DateTime @default(now())
+  delete     Int      @default(1)
+  state      Int      @default(1)
+}
+
+model xs_database {
+  id         Int      @id @default(autoincrement())
+  name       String
+  type       Int
+  ipaddress  String
+  port       Int
+  username   String
+  password   String
+  schemas    String
+  createTime DateTime @default(now())
+  delete     Int      @default(1)
+  state      Int      @default(1)
 }

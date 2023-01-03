@@ -5,10 +5,12 @@
   "main": "dist/index.js",
   "license": "MIT",
   "scripts": {
-    "initDB:dev": "dotenv -e .env.development npx prisma migrate dev --name init",
-    "initDB:prod": "dotenv -e .env.production npx prisma migrate deploy --name init",
-    "initDB:proxy": "dotenv -e .env.proxy npx prisma migrate dev --name init",
+    "initDB:dev": "dotenv -e .env.development -- npx prisma migrate dev --name init",
+    "initDB:prod": "dotenv -e .env.production -- npx prisma migrate deploy --name init",
+    "initDB:proxy": "dotenv -e .env.proxy -- npx prisma migrate dev --name init",
+    "db-studio":"dotenv -e .env.proxy -- npx prisma studio",
     "dev": "set NODE_ENV=development && nodemon --exec babel-node src/index.js",
+    "proxy": "set NODE_ENV=proxy && nodemon --exec babel-node src/index.js",
     "build": "babel src -d dist",
     "prod": "npm run build && set NODE_ENV=production node dist/index.js"
   },
@@ -33,8 +35,7 @@
     "mssql": "^5.1.0",
     "mysql": "^2.17.1",
     "oracledb": "^5.0.0",
-    "safe-buffer": "^5.2.0",
-    "sqlite3": "^5.1.4"
+    "safe-buffer": "^5.2.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.20.7",
