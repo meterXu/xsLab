@@ -62,7 +62,7 @@ class CanvasController {
                     data: true
                 },
                 where: {
-                    id: ctx.request.query.id
+                    id: parseInt(ctx.request.query.id)
                 }
             })
             if (canvas) {

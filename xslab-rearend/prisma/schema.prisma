@@ -10,7 +10,7 @@ datasource db {
 model xs_canvas {
   id         Int      @id @default(autoincrement())
   name       String
-  data       Bytes
+  data       String @db.Text
   options    String
   createTime DateTime @default(now())
   delete     Int      @default(1)
