@@ -4,6 +4,8 @@ import db from "../common/provider";
 import Utils from "../common/utils";
 import DatabaseModel from "../model/databaseModel";
 import ResultModel from "../model/resultModel";
+const { PrismaClient } = require("@prisma/client");
+const prisma = new PrismaClient();
 
 const testTag = tags(['test'])
 
@@ -17,7 +19,7 @@ export default class DatabaseController{
     @query(PaginationModel.swaggerDocument)
     async dataBaseList(ctx){
         const pagination = new PaginationModel(ctx.request.query)
-        let totalRes = await db.sqliteProvider.query('select count(*) total from xs_database where `delete`=1 and state=1');
+        let totalRes = await prisma.XS_DATABASE.count('delete=1 and state=1');
         let res = await db.sqliteProvider.query('select * from xs_database where `delete`=1 and state=1 order by createTime desc limit ? offset ?',
             [
                 pagination.pageSize,

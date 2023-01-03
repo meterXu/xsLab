@@ -1,48 +1,6 @@
 import oracledb from 'oracledb';
 import mysql from 'mysql';
-import sqlite3 from 'sqlite3';
 import mssql from 'mssql'
-import fs from 'fs';
-
-const db = new sqlite3.Database('db/xscollect.db');
-
-function readSql() {
-    return new Promise((resolve, reject) => {
-        let sqls = [];
-        try {
-            fs.readFile('db/xs_canvas.sql', (error, data) => {
-                if (error) {
-                    throw error
-                }
-                if (data) {
-                    sqls.push(data.toString())
-                    fs.readFile('db/xs_database.sql', (error, data) => {
-                        if (error) {
-                            throw error
-                        }
-                        if (data) {
-                            sqls.push(data.toString())
-                        }
-                        if (resolve) {
-                            resolve(sqls)
-                        }
-                    })
-                }
-            });
-        } catch (e) {
-            if (reject) {
-                reject(e)
-            }
-        }
-
-    })
-}
-
-readSql().then(c => {
-    c.forEach(sql => {
-        db.run(sql)
-    });
-});
 
 function oracleProvider() {
     this.query = async function (config, sql, success, error) {
@@ -136,42 +94,12 @@ function mssqlProvider(){
     }
 }
 
-function sqliteProvider() {
-    this.query = async function (sql, params) {
-        return new Promise((resolve, reject) => {
-            db.all(sql, params, function (err, rows) {
-                if (err) {
-                    console.error(err);
-                    reject(err)
-                } else {
-                    resolve(rows)
-                }
-            })
-        })
-    };
-
-    this.exec = async function (sql, params) {
-        return new Promise((resolve, reject) => {
-            db.run(sql, params, function (err) {
-                if (err) {
-                    reject(err)
-                } else {
-                    resolve({
-                        lastId: this.lastID,
-                        changes: this.changes
-                    })
-                }
-            })
-        })
-    };
-}
 
 function provider() {
     return {
         oracleProvider: new oracleProvider(),
         mysqlProvider: new mysqlProvider(),
-        mssqlProvider:new mssqlProvider(),
-        sqliteProvider: new sqliteProvider()
+        mssqlProvider:new mssqlProvider()
     };
 }
 
