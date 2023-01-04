@@ -12,7 +12,7 @@
     "dev": "export NODE_ENV=development && nodemon --exec babel-node src/index.js",
     "proxy": "set NODE_ENV=proxy && nodemon --exec babel-node src/index.js",
     "build": "babel src -d dist",
-    "prod": "npm run build && set NODE_ENV=production node dist/index.js"
+    "prod": "npm run build && export NODE_ENV=production && node dist/index.js"
   },
   "repository": {
     "type": "git",
