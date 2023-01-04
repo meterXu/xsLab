@@ -156,7 +156,7 @@ export default {
     openDownModal () {
       this.isShowJson = false
       this.$Modal.remove()
-      if (this.$parent.mtCanvasOptions.id) {
+      if (this.$parent.canvasObj.id) {
         this.$parent.showCanvas = true
         this.$parent.showDbManager = false
         this.$parent.showDbSetting = false
@@ -175,7 +175,7 @@ export default {
       this.$emit('resetCanvas')
     },
     downCanvas (type) {
-      let id = this.$parent.mtCanvasOptions.id
+      let id = this.$parent.canvasObj.id
       this.isDisableDownload = true
       this.$Message.loading({
         content: '正在努力组装中，请稍等……'
@@ -228,8 +228,8 @@ export default {
       this.$parent.showOpenCanvasModal = false
       this.$parent.showCanvasUrlModal = false
       this.$parent.showAddCanvasModal = false
-      this.optionsStr = JSON.stringify(this.$parent.mtCanvasOptions, null, '\t')
-      this.chartsStr = JSON.stringify(this.$parent.canvasData, null, '\t')
+      this.optionsStr = JSON.stringify(this.$parent.canvasObj.options, null, '\t')
+      this.chartsStr = JSON.stringify(this.$parent.canvasObj.data, null, '\t')
       this.$nextTick(()=>{
         if(!this.editor_optionsStr){
           this.editor_optionsStr = this.$codeMirror.fromTextArea(this.$refs.optionsStr, {

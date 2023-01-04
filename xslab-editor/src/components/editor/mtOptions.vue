@@ -198,7 +198,7 @@ export default {
     saveOptionsConf () {
       let that = this
       let chartPromises=[]
-      this.$parent.canvasData.forEach(chart=>{
+      this.$parent.canvasObj.data.forEach(chart=>{
         if(chart.id){
           chartPromises.push(new Promise((resolve,reject) => {
             that.$parent.$refs.xsc.update(chart.id).then(warnData=>{
@@ -239,7 +239,7 @@ export default {
             content: warnMsgStrArray.join('<br/>')
           })
         }else{
-          this.$emit('saveOption')
+          this.$emit('postSaveOption')
         }
       }).catch(errMsgStrArray=>{
         if(errMsgStrArray.find(c=>c!=='')){

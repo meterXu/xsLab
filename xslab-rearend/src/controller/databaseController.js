@@ -65,7 +65,7 @@ export default class DatabaseController {
                     },
                     data: databaseModel
                 });
-                ctx.success(new ResultModel(res.id))
+                res?ctx.success(new ResultModel(res.id)):ctx.fail(new ResultModel(res.id,'更新失败！'))
             } else {
                 let res = await prisma.xs_database.create({
                     data: {
@@ -78,10 +78,10 @@ export default class DatabaseController {
                         password:databaseModel.password
                     }
                 })
-                ctx.success(new ResultModel(res.id))
+                res?ctx.success(new ResultModel(res.id)):ctx.fail(new ResultModel(res.id,'新增失败！'))
             }
         } else {
-            ctx.fail(new ResultModel(null, '数据库无法连接'))
+            ctx.fail(new ResultModel(null, '数据库无法连接！'))
         }
     }
 
@@ -95,7 +95,7 @@ export default class DatabaseController {
     async delDataSource(ctx) {
         let id = ctx.request.body.id;
         if (id) {
-            await prisma.xs_database.update({
+            const res = await prisma.xs_database.update({
                 data:{
                     delete: 0,
                 },
@@ -103,9 +103,9 @@ export default class DatabaseController {
                     id: id
                 }
             })
-            ctx.success(new ResultModel(id))
+            res?ctx.success(new ResultModel(id)):ctx.fail(new ResultModel(id,'删除失败！'))
         } else {
-            ctx.fail(new ResultModel(id))
+            ctx.fail(new ResultModel(id,'请选择需要删除的数据！'))
         }
     }
 

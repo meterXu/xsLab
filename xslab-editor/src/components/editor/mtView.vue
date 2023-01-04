@@ -29,8 +29,8 @@ export default {
       id: id
     }).then(c => {
       if (c.data) {
-        that.options = JSON.parse(c.data.cavOptions)
-        that.charts = JSON.parse(c.data.cavData)
+        that.options = JSON.parse(c.data.options)
+        that.charts = JSON.parse(c.data.data)
       }
     })
   }

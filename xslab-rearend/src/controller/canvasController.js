@@ -57,10 +57,6 @@ class CanvasController {
     async canvasData(ctx) {
         if (ctx.request.query.id) {
             let canvas = await prisma.xs_canvas.findUnique({
-                select: {
-                    options: true,
-                    data: true
-                },
                 where: {
                     id: parseInt(ctx.request.query.id)
                 }
@@ -68,10 +64,10 @@ class CanvasController {
             if (canvas) {
                 ctx.success(new ResultModel(canvas))
             } else {
-                ctx.fail(new ResultModel(null))
+                ctx.fail(new ResultModel(ctx.request.query.id,'未能获取到画布！'))
             }
         } else {
-            ctx.fail(new ResultModel(null))
+            ctx.fail(new ResultModel(ctx.request.query.id,'获取画布异常！'))
         }
     }
 
@@ -93,7 +89,7 @@ class CanvasController {
                     id:canvas.id
                 }
             })
-            ctx.success(new ResultModel(res.id))
+            res?ctx.success(new ResultModel(res.id)):ctx.fail(new ResultModel(canvas.id,'画布更新失败！'))
         } else {
             // 新增
             const res = await prisma.xs_canvas.create({
@@ -103,7 +99,7 @@ class CanvasController {
                     options:JSON.stringify(canvas.options)
                 }
             })
-            ctx.success(new ResultModel(res.id))
+            res?ctx.success(new ResultModel(res.id)):ctx.fail(new ResultModel(res.id,'画布新增失败！'))
         }
     }
 
@@ -125,7 +121,7 @@ class CanvasController {
             })
             ctx.success(new ResultModel(res.id))
         } else {
-            ctx.fail(new ResultModel(ctx.request.body.id))
+            ctx.fail(new ResultModel(res.id,'没有画布需要删除！'))
         }
     }
 
@@ -134,83 +130,87 @@ class CanvasController {
     @testTag
     @body(ExecSqlModel.swaggerDocument)
     async execSql(ctx) {
-        let resData = [];
-        let execSqlModel = new ExecSqlModel(ctx.request.body);
-        let dbArray = [];
-        let sqlArray = [];
-        if (execSqlModel.dbs) {
-            dbArray = execSqlModel.dbs.split('&')
-        }
-        if (execSqlModel.sqls) {
-            sqlArray = execSqlModel.sqls.split('&')
-        }
-        for (let i = 0; i < dbArray.length; i++) {
-            if (!dbArray[i] || !sqlArray[i]) {
-                ctx.body = null;
-            } else {
-                let dbRes = await prisma.xs_database.findUnique({
-                    where:{
-                        delete:1,
-                        state:1,
-                        id:dbArray[i]
-                    }
-                })
-                switch (dbRes.type.toString()) {
-                    case "1": {
-                        try {
-                            let queryData = await db.oracleProvider.query({
-                                username: dbRes.username,
-                                password: dbRes.password,
-                                connectString: dbRes.ipaddress + ":" + dbRes.port + "/" + dbRes.schemas
-                            }, sqlArray[i]);
-                            let dataList = [];
-                            queryData.rows.forEach((c, i) => {
-                                let dataObj = {};
-                                queryData.metaData.forEach((k, j) => {
-                                    dataObj[k.name] = c[j];
-                                })
-                                dataList.push(dataObj);
-                            });
-                            resData.push(JSON.stringify(dataList));
-                        } catch (e) {
-                            resData.push("[]");
+        try{
+            let resData = [];
+            let execSqlModel = new ExecSqlModel(ctx.request.body);
+            let dbArray = [];
+            let sqlArray = [];
+            if (execSqlModel.dbs) {
+                dbArray = execSqlModel.dbs.split('&')
+            }
+            if (execSqlModel.sqls) {
+                sqlArray = execSqlModel.sqls.split('&')
+            }
+            for (let i = 0; i < dbArray.length; i++) {
+                if (!dbArray[i] || !sqlArray[i]) {
+                    ctx.body = null;
+                } else {
+                    let dbRes = await prisma.xs_database.findUnique({
+                        where:{
+                            delete:1,
+                            state:1,
+                            id:dbArray[i]
                         }
-                        break;
-                    }
-                    case "2": {
-                        try {
-                            let queryData = await db.mssqlProvider.query({
-                                ipaddress: dbRes[0].ipaddress,
-                                port: dbRes[0].port,
-                                username: dbRes[0].username,
-                                password: dbRes[0].password,
-                                schemas: dbRes[0].schemas
-                            }, sqlArray[i]);
-                            resData.push(JSON.stringify(queryData.recordset));
-                        } catch (e) {
-                            resData.push("[]");
+                    })
+                    switch (dbRes.type.toString()) {
+                        case "1": {
+                            try {
+                                let queryData = await db.oracleProvider.query({
+                                    username: dbRes.username,
+                                    password: dbRes.password,
+                                    connectString: dbRes.ipaddress + ":" + dbRes.port + "/" + dbRes.schemas
+                                }, sqlArray[i]);
+                                let dataList = [];
+                                queryData.rows.forEach((c, i) => {
+                                    let dataObj = {};
+                                    queryData.metaData.forEach((k, j) => {
+                                        dataObj[k.name] = c[j];
+                                    })
+                                    dataList.push(dataObj);
+                                });
+                                resData.push(JSON.stringify(dataList));
+                            } catch (e) {
+                                resData.push("[]");
+                            }
+                            break;
                         }
-                        break;
-                    }
-                    case "3": {
-                        try {
-                            let queryData = await db.mysqlProvider.query({
-                                ipaddress: dbRes[0].ipaddress,
-                                port: dbRes[0].port,
-                                username: dbRes[0].username,
-                                password: dbRes[0].password,
-                                schemas: dbRes[0].schemas
-                            }, sqlArray[i], [])
-                            resData.push(JSON.stringify(queryData));
-                        } catch (e) {
-                            resData.push("[]");
+                        case "2": {
+                            try {
+                                let queryData = await db.mssqlProvider.query({
+                                    ipaddress: dbRes[0].ipaddress,
+                                    port: dbRes[0].port,
+                                    username: dbRes[0].username,
+                                    password: dbRes[0].password,
+                                    schemas: dbRes[0].schemas
+                                }, sqlArray[i]);
+                                resData.push(JSON.stringify(queryData.recordset));
+                            } catch (e) {
+                                resData.push("[]");
+                            }
+                            break;
                         }
-                        break;
+                        case "3": {
+                            try {
+                                let queryData = await db.mysqlProvider.query({
+                                    ipaddress: dbRes[0].ipaddress,
+                                    port: dbRes[0].port,
+                                    username: dbRes[0].username,
+                                    password: dbRes[0].password,
+                                    schemas: dbRes[0].schemas
+                                }, sqlArray[i], [])
+                                resData.push(JSON.stringify(queryData));
+                            } catch (e) {
+                                resData.push("[]");
+                            }
+                            break;
+                        }
                     }
                 }
             }
+            ctx.success(new ResultModel(resData))
+        }catch(ex){
+            ctx.fail(new ResultModel(null,'执行sql异常！'))
         }
-        ctx.success(new ResultModel(resData))
     }
 
 
@@ -261,10 +261,10 @@ class CanvasController {
                     fs.unlinkSync(zipPath)
                 }
             } else {
-                ctx.fail(new ResultModel(null))
+                ctx.fail(new ResultModel(downloadModel,'请下载正确的画布！'))
             }
         }catch (err){
-            ctx.fail(new ResultModel(err.message))
+            ctx.fail(new ResultModel(null,'下载画布异常！'))
         }
 
     }

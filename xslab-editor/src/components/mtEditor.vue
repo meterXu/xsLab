@@ -1,7 +1,7 @@
 <template>
   <div class="mt-editor">
     <div class="mt-editor-header">
-      <mtHeader :canvasName="mtCanvasOptions.name"
+      <mtHeader :canvasName="canvasObj.name"
                 :canvasState="tmpCanvasState"
                 @addCanvas="addCanvas"
                 @openCanvas="openCanvas"
@@ -20,8 +20,8 @@
       <mtSetting v-if="showDbSetting"></mtSetting>
       <mtScale ref="mtScale">
         <Xsc ref="xsc" v-show="showCanvas"
-             :charts="canvasData"
-             :options="mtCanvasOptions"
+             :charts="canvasObj.data"
+             :options="canvasObj.options"
              :view="false"
              @drop="drop"
              @contextmenu="contextmenu"
@@ -29,7 +29,7 @@
           <mtContextMenu v-if="showMenu" :point="mtMenuPoint" @menuClick="menuClick"></mtContextMenu>
         </Xsc>
       </mtScale>
-      <mtOptions ref="mtOptions" v-if="opNode" :opNode="opNode" @saveOption="saveOption" @changeOption="changeOption"></mtOptions>
+      <mtOptions ref="mtOptions" v-if="opNode" :opNode="opNode" @postSaveOption="postSaveOption" @changeOption="changeOption"></mtOptions>
     </div>
     <Modal :width="400"
            v-model="showAddCanvasModal"
@@ -110,19 +110,23 @@ export default {
     return {
       tmpCanvasState: null,
       showMenu: false,
-      canvasData: [],
       editorData: editorData,
       resources: resources,
-      mtCanvasOptions: {},
       addFrom:{
         name:'',
-        width:1024,
+        width:1366,
         height:768
       },
       pagination:{
         total:null,
         pageSize:20,
         pageNumber:1
+      },
+      canvasObj:{
+        id:null,
+        name:null,
+        data:[],
+        options:{}
       },
       showCanvas: false,
       showDbManager: false,
@@ -138,11 +142,11 @@ export default {
       },
       cavColumn: [
         {title: '序号', key: 'id', render: (h, params)=>{
-            return h('span',(this.pagination.pageNumber-1)*this.pagination.pageSize+params.index+1)
+            return (<span>{(this.pagination.pageNumber-1)*this.pagination.pageSize+params.index+1}</span>)
         }},
         {title: '名称', key: 'name'},
         {title: '添加时间', key: 'insertTime', render: (h, params) => {
-            return h('span',new moment(params.row.insertTime).format('YYYY-MM-DD HH:mm:ss') );
+            return (<span>{new moment(params.row.insertTime).format('YYYY-MM-DD HH:mm:ss')}</span>);
           }
         },
         {title: '操作', key: 'id',render: (h, params) => {
@@ -154,7 +158,9 @@ export default {
               on: {
                 click: (event) => {
                   event.stopPropagation()
-                  this.delCanvasPost(params.row.id)
+                  this.delCanvasPost(params.row.id,()=>{
+                    this.getCanvasList()
+                  })
                 }
               }
             },'删除');
@@ -171,9 +177,9 @@ export default {
   computed: {
     canvasUrl: function () {
       if(this.$route.query.hasOwnProperty('X-Access-Token')){
-        return `${window.location.origin}${window.location.pathname}#/view/${this.mtCanvasOptions.id}?X-Access-Token=${this.$route.query['X-Access-Token']}`
+        return `${window.location.origin}${window.location.pathname}#/view/${this.canvasObj.id}?X-Access-Token=${this.$route.query['X-Access-Token']}`
       }else{
-        return `${window.location.origin}${window.location.pathname}#/view/${this.mtCanvasOptions.id}`
+        return `${window.location.origin}${window.location.pathname}#/view/${this.canvasObj.id}`
       }
 
     }
@@ -202,7 +208,7 @@ export default {
             chart: this.editorData.dragMenuNode.chart,
             config: cloneConfig
           }
-          this.canvasData.push(addChart)
+          this.canvasObj.data.push(addChart)
           this.editorData.dragMenuNode = null
         }
       }
@@ -230,23 +236,6 @@ export default {
       })
       return activeNode
     },
-    saveOption () { // 保存配置数据
-      this.tmpCanvasState = -1
-      postAction(this.action.saveCanvasData, {
-        id: this.mtCanvasOptions.id,
-        name: this.mtCanvasOptions.name,
-        data: this.canvasData,
-        options: this.mtCanvasOptions
-      }).then(res => {
-        if (res.success) {
-          this.$Message.success('保存成功！')
-          this.tmpCanvasState = 1
-        } else {
-          this.$Message.error('保存失败！')
-          this.tmpCanvasState = 0
-        }
-      })
-    },
     addCanvas () { // 模态界面-添加画布界面
       this.$Modal.remove()
       this.showAddCanvasModal = true
@@ -262,14 +251,29 @@ export default {
           that.showCanvas = true
           that.showDbManager = false
           that.showDbSetting = false
-          that.canvasData = []
           that.opNode = null
-          that.mtCanvasOptions = Object.assign(resources.initOptions.dom.canvas.options,that.addFrom,{id:this.mtCanvasOptions.id = new Date().valueOf()})
-          // 保存至数据库
-          that.saveOption()
+          that.canvasObj.id=null
+          that.canvasObj.name=null
+          that.canvasObj.options={}
+          that.canvasObj.data=[]
+          that.canvasObj.options = Object.assign({},resources.initOptions.dom.canvas.options,that.addFrom,{id:new Date().valueOf()})
+          that.canvasObj.name = that.canvasObj.options.name
+              // 保存至数据库
+          that.postSaveOption()
         } else { // 验证失败
           that.$Message.error('保存失败，画布参数设置不正确！')
         }
+      })
+    },
+    postSaveOption () { // 保存配置数据
+      this.tmpCanvasState = -1
+      postAction(this.action.saveCanvasData, this.canvasObj).then(res => {
+        this.canvasObj.id = res.data
+        this.$Message.success('保存成功！')
+        this.tmpCanvasState = 1
+      }).catch(()=>{
+        this.$Message.error('保存失败！')
+        this.tmpCanvasState = 0
       })
     },
     openCanvas () { // 模态界面-打开画布界面
@@ -279,38 +283,36 @@ export default {
       this.cavTableLoading = true
       this.showCanvasUrlModal = false
       this.showAddCanvasModal = false
+      this.getCanvasList()
+    },
+    getCanvasList(){
       getAction(this.action.getCanvasList,{
         pageNumber:this.pagination.pageNumber,
         pageSize:this.pagination.pageSize
       })
-        .then(c => {
-          this.cavTableLoading = false
-          if (c.success) {
-            this.cavTableData = c.data.rows
-            this.pagination.total = c.data.total
-          }else{
-            this.$Message.error(c.message)
-          }
-        })
+          .then(res => {
+            this.cavTableLoading = false
+            this.cavTableData = res.data.rows
+            this.pagination.total = res.data.total
+          })
     },
     cavRowClick (row) { // 点击行
       getAction(this.action.getCanvasData, {
         id: row.id
       }).then(c => {
-        if (c.data) {
-          let cavOptions = JSON.parse(c.data.cavOptions)
-          let chartData = JSON.parse(c.data.cavData)
-          cavOptions.baseUrl = this.$config.baseUrl
-          this.mtCanvasOptions = Object.assign({},resources.initOptions.dom.canvas.options,cavOptions)
-          this.canvasData = chartData
-          this.showCanvas = true
-          this.showDbManager = false
-          this.showDbSetting = false
-          this.showOpenCanvasModal = false
-          this.showCanvasUrlModal = false
-          this.tmpCanvasState = 1
-          this.opNode = null
+        this.canvasObj = {
+          id:c.data.id,
+          name:c.data.name,
+          data:JSON.parse(c.data.data),
+          options:Object.assign({},resources.initOptions.dom.canvas.options,JSON.parse(c.data.options),{baseUrl:this.$config.baseUrl})
         }
+        this.showCanvas = true
+        this.showDbManager = false
+        this.showDbSetting = false
+        this.showOpenCanvasModal = false
+        this.showCanvasUrlModal = false
+        this.tmpCanvasState = 1
+        this.opNode = null
       })
         .catch(c => {
           this.$Message.error(c.message)
@@ -318,20 +320,18 @@ export default {
     },
     delCanvas () {
       // 删除画布
-      if (this.mtCanvasOptions.id) {
+      if (this.canvasObj.id) {
         this.showCanvas = true
         this.showDbManager = false
         this.showDbSetting = false
         this.showOpenCanvasModal = false
         this.showCanvasUrlModal = false
         this.showAddCanvasModal = false
-        this.delCanvasPost(this.mtCanvasOptions.id,()=>{
-          this.mtCanvasOptions.id = ''
-          this.mtCanvasOptions.name = ''
-          this.mtCanvasOptions.width = 0
-          this.mtCanvasOptions.height = 0
-          this.mtCanvasOptions['background-color'] = null
-          this.mtCanvasOptions['background-image'] = ''
+        this.delCanvasPost(this.canvasObj.id,()=>{
+          this.canvasObj.id=null
+          this.canvasObj.name=null
+          this.canvasObj.options={}
+          this.canvasObj.data=[]
           this.showCanvas = false
           this.editorData.activeNode = null
           this.opNode = null
@@ -360,7 +360,7 @@ export default {
     },
     viewCanvas () {
       this.$Modal.remove()
-      if (this.mtCanvasOptions.id) {
+      if (this.canvasObj.id) {
         this.showCanvas = true
         this.showDbManager = false
         this.showDbSetting = false
@@ -376,9 +376,9 @@ export default {
     menuClick (name) {
       switch (name) {
         case 'delete': {
-          let findIndex = this.canvasData.findIndex(c => c.id === this.deleteNodeId)
+          let findIndex = this.canvasObj.data.findIndex(c => c.id === this.deleteNodeId)
           if (findIndex !== -1) {
-            this.canvasData.splice(findIndex, 1)
+            this.canvasObj.data.splice(findIndex, 1)
           }
           this.$refs.xsc.activeNode = null
           this.showMenu = false
@@ -421,7 +421,7 @@ export default {
     },
     getCanvasUrl () {
       this.$Modal.remove()
-      if (this.mtCanvasOptions.id) {
+      if (this.canvasObj.id) {
         this.showCanvasUrlModal = true
         this.showAddCanvasModal = false
         this.showOpenCanvasModal = false
@@ -447,7 +447,7 @@ export default {
     },
     resetCanvas(){
       this.cavRowClick({
-        oid: this.mtCanvasOptions.id
+        id: this.canvasObj.id
       })
 
     }
