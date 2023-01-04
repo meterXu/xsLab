@@ -1,4 +1,5 @@
 import commonData from '../commonData'
+import imgData from '../imgData'
 const canvas = {
   resource: {
     type: 'canvas',
@@ -41,7 +42,16 @@ const canvas = {
           key: 'options',
           name: '背景',
           sub: [
-            {key: 'backgroundImage', name: '图片', type: 'img-selector'},
+            {key: 'backgroundImage', name: '图片', type: 'img-selector',props:{
+                title:'背景设置',
+                source:[{
+                  title:'正常图片',
+                  imgs:imgData.bg_normal
+                },{
+                  title:'长屏图片',
+                  imgs:imgData.bg_long
+                }]
+              }},
             {key: 'backgroundSize', name: '大小', type: 'text'},
             {key: 'backgroundRepeat', name: '重复模式', type: 'select', data: commonData.repeat},
             { key: '', type: 'div', style: { height: 200 } }

@@ -35,6 +35,13 @@ export default {
         {title: '简单仪表盘', icon: 'chartsIcon/gauge_simple.png', type: 'eCharts', chart: 'gauge'}
       ]
     },
+    {
+      title: '大屏素材',
+      icon: 'big-screen',
+      sub:[
+        {title: '大标题', icon: 'chartsIcon/dom_header.png', type: 'dom', chart: 'header'},
+      ]
+    },
     { title: '经典素材',
       icon: 'basic',
       sub: [

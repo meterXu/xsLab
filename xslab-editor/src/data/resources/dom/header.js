@@ -1,8 +1,10 @@
-const img = {
+import imgData from "@/data/resources/imgData";
+
+const header = {
   resource: {
     box: {
-      width: 100,
-      height: 100,
+      width: 1000,
+      height: 120,
       x: 0,
       y: 0,
       zIndex: 100
@@ -10,7 +12,7 @@ const img = {
     type: 'img',
     theme: 'default',
     options: {
-      src: ''
+      src: './img/header/2.png'
     }
   },
   option: {
@@ -32,7 +34,15 @@ const img = {
           key: 'options',
           name: '图片',
           sub: [
-            {key: 'src', name: '地址', type: 'text'},
+            {key: 'src', name: '图片', type: 'img-selector',props:{
+                title:'背景设置',
+                source:[
+                  {
+                    title:'图片',
+                    imgs:imgData.header
+                  }
+                ]
+              }},
             { key: '', type: 'div', style: { height: 200 } }
           ]
         }
@@ -41,4 +51,4 @@ const img = {
     ]
   }
 }
-export default img
+export default header

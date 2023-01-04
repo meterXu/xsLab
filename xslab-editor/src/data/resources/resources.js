@@ -19,6 +19,7 @@ import container from './dom/container'
 import slide from './dom/slide'
 import placeholderBox from './dev/placeholderBox'
 import gauge from './eCharts/gauge'
+import header from './dom/header'
 export default {
   initOptions: { // 初始化配置
     eCharts: {
@@ -40,7 +41,8 @@ export default {
       text: text.resource,
       iframe: iframe.resource,
       container: container.resource,
-      slide: slide.resource
+      slide: slide.resource,
+      header:header.resource
     },
     dev: {
       placeholderBox: placeholderBox.resource
@@ -66,7 +68,8 @@ export default {
       text: text.option,
       iframe: iframe.option,
       container: container.option,
-      slide: slide.option
+      slide: slide.option,
+      header:header.option
     },
     dev: {
       placeholderBox: placeholderBox.option

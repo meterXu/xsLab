@@ -87,7 +87,11 @@ export default {
                 }
                 case 'img-selector':{
                     return (
-                        <ImgSelector value={modelObj[fItem.key]} onUpdate={$event => {modelObj[fItem.key] = $event;watchNodeConfigChange()}}>
+                        <ImgSelector value={modelObj[fItem.key]}
+                                     onUpdate={$event => {modelObj[fItem.key] = $event;watchNodeConfigChange()}}
+                                     title={fItem.props.title}
+                                     source={fItem.props.source}
+                        >
                         </ImgSelector>
                     )
                 }

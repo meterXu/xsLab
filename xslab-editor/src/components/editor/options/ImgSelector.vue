@@ -6,24 +6,14 @@
            v-model="show"
            :mask-closable="true"
            :footer-hide="true"
-           title="背景设置">
+           :title="title">
       <Tabs>
-        <Tab-pane label="正常图片" icon="social-apple">
+        <Tab-pane :label="item.title" v-for="item in source">
           <div class="content-container">
             <ul class="img-ul">
-              <li :class="{'img-li':true,'img-active':item.url===value}" v-for="item in normal" @click="setBg(item.url)">
-                <img class="image" :src="item.url"/>
-                <span>{{item.size}}</span>
-              </li>
-            </ul>
-          </div>
-        </Tab-pane>
-        <Tab-pane label="长屏图片" icon="social-apple">
-          <div class="content-container">
-            <ul class="img-ul">
-              <li :class="{'img-li':true,'img-active':item.url===value}" v-for="item in long" @click="setBg(item.url)">
-                <img class="image" :src="item.url"/>
-                <span>{{item.size}}</span>
+              <li :class="{'img-li':true,'img-active':img.url===value}" v-for="img in item.imgs" @click="setBg(img.url)">
+                <img class="image" :src="img.url"/>
+                <span>{{img.size}}</span>
               </li>
             </ul>
           </div>
@@ -41,7 +31,7 @@
 <script>
 export default {
   name: "ImgSelector",
-  props:['value'],
+  props:['value','title','source'],
   model:{
     prop:'value',
     event:'update'
@@ -112,10 +102,10 @@ export default {
 .img-li{
   cursor: pointer;
   position: relative;
+  min-height: 60px;
   span{
     position: absolute;
     left: 6px;
-    top: 6px;
     color: #fff;
   }
 }
