@@ -10,8 +10,8 @@ const canvas = {
       height: 0,
       backgroundColor: null,
       backgroundImage: null,
-      backgroundSize: null,
-      backgroundRepeat: null,
+      backgroundSize: '100%',
+      backgroundRepeat:'round',
       baseUrl: null
     }
 
@@ -41,7 +41,7 @@ const canvas = {
           key: 'options',
           name: '背景',
           sub: [
-            {key: 'backgroundImage', name: '图片', type: 'text'},
+            {key: 'backgroundImage', name: '图片', type: 'img-selector'},
             {key: 'backgroundSize', name: '大小', type: 'text'},
             {key: 'backgroundRepeat', name: '重复模式', type: 'select', data: commonData.repeat},
             { key: '', type: 'div', style: { height: 200 } }

@@ -21,10 +21,17 @@ const mutations = {
     }
 }
 
+const actions = {
+    setActiveNode({ commit }){
+        commit('setActiveNode')
+    }
+}
+
 
 
 export default {
     namespaced: false,
     state,
-    mutations
+    mutations,
+    actions
 }

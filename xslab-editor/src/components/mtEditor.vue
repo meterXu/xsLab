@@ -1,7 +1,7 @@
 <template>
   <div class="mt-editor">
     <div class="mt-editor-header">
-      <mtHeader :canvasName="canvasObj.name"
+      <mtHeader :canvasName="canvasObj.options.name"
                 :canvasState="tmpCanvasState"
                 @addCanvas="addCanvas"
                 @openCanvas="openCanvas"
@@ -222,11 +222,11 @@ export default {
       this.showMenu = true
     },
     nodeActive () {
-      let activeNode = this.$refs.xsc.activeNode
+      const activeNode = this.$refs.xsc.activeNode
       let fromRes = resources.initOptions[activeNode.type][activeNode.chart]
       this.opNode = this.mergeOptions(activeNode,fromRes.options)
       this.showMenu = false
-      this.$store.commit('setActiveNode',activeNode)
+      this.$store.dispatch('setActiveNode',activeNode)
     },
     mergeOptions(activeNode, fromResOptions) {
       let fromKeys = Object.keys(fromResOptions)
@@ -254,7 +254,6 @@ export default {
           that.opNode = null
           that.canvasObj.id=null
           that.canvasObj.name=null
-          that.canvasObj.options={}
           that.canvasObj.data=[]
           that.canvasObj.options = Object.assign({},resources.initOptions.dom.canvas.options,that.addFrom,{id:new Date().valueOf()})
           that.canvasObj.name = that.canvasObj.options.name
@@ -267,6 +266,7 @@ export default {
     },
     postSaveOption () { // 保存配置数据
       this.tmpCanvasState = -1
+      this.canvasObj.name = this.canvasObj.options.name
       postAction(this.action.saveCanvasData, this.canvasObj).then(res => {
         this.canvasObj.id = res.data
         this.$Message.success('保存成功！')
@@ -456,7 +456,9 @@ export default {
     const that = this
     this.initCopyLink()
     this.$bus.$on('nodeConfigChange',()=>{
-      that&&that.$refs.xsc.$refs[that.$refs.xsc.activeNode.id][0].setChartOption()
+      if(that&&that.editorData.activeNode) {
+        that.editorData.activeNode.setChartOption()
+      }
     })
   },
   destroyed () {

@@ -11,7 +11,7 @@ model xs_canvas {
   id         Int      @id @default(autoincrement())
   name       String
   data       String @db.Text
-  options    String
+  options    String @db.Text
   createTime DateTime @default(now())
   delete     Int      @default(1)
   state      Int      @default(1)

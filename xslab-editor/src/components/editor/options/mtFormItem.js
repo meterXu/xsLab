@@ -1,5 +1,6 @@
 import mtFormItemColor from './mtFormItemColor'
 import mtFormItemCode from './mtFormItemCode'
+import ImgSelector from './ImgSelector'
 export default {
     name: 'mtFormItem',
     functional: true,
@@ -10,7 +11,8 @@ export default {
     },
     components: {
         mtFormItemColor,
-        mtFormItemCode
+        mtFormItemCode,
+        ImgSelector
     },
     render(createElement, context) {
         function getModelProp(proPath, opNode,key) {
@@ -81,6 +83,12 @@ export default {
                                 <span>{item.text}</span>
                             </Radio>)}
                         </RadioGroup>
+                    )
+                }
+                case 'img-selector':{
+                    return (
+                        <ImgSelector value={modelObj[fItem.key]} onUpdate={$event => {modelObj[fItem.key] = $event;watchNodeConfigChange()}}>
+                        </ImgSelector>
                     )
                 }
                 case 'div':{

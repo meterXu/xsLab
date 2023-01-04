@@ -1,6 +1,6 @@
 <template>
   <div @click="showEditCode">
-    <i :size="24" class="ivu-icon ivu-icon-ios-create" title="编辑"></i>
+    <Icon :size="14" type="ios-create" title="编辑"></Icon>
     <span>编辑</span>
     <Modal :width="800" v-model="showFullCodeModal" :title="name">
       <div class="editor-container">

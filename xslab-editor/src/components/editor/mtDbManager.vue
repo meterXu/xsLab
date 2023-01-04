@@ -112,13 +112,13 @@ export default {
   filters: {
     getIconByType: function (value) {
       switch (value) {
-        case '1' : {
+        case 1 : {
           return require('../../assets/dataSourceIcon/oracle_logo.gif')
         }
-        case '2': {
+        case 2: {
           return require('../../assets/dataSourceIcon/sql_server_logo.svg')
         }
-        case '3': {
+        case 3: {
           return require('../../assets/dataSourceIcon/mysql_logo.svg')
         }
       }
