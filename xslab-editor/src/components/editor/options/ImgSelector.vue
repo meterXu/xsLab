@@ -11,7 +11,7 @@
         <Tab-pane label="正常图片" icon="social-apple">
           <div class="content-container">
             <ul class="img-ul">
-              <li class="img-li" v-for="item in normal" @click="setBg(item.url)">
+              <li :class="{'img-li':true,'img-active':item.url===value}" v-for="item in normal" @click="setBg(item.url)">
                 <img class="image" :src="item.url"/>
                 <span>{{item.size}}</span>
               </li>
@@ -21,7 +21,7 @@
         <Tab-pane label="长屏图片" icon="social-apple">
           <div class="content-container">
             <ul class="img-ul">
-              <li class="img-li" v-for="item in long" @click="setBg(item.url)">
+              <li :class="{'img-li':true,'img-active':item.url===value}" v-for="item in long" @click="setBg(item.url)">
                 <img class="image" :src="item.url"/>
                 <span>{{item.size}}</span>
               </li>
@@ -30,7 +30,7 @@
         </Tab-pane>
         <Tab-pane label="图片地址" icon="social-windows">
           <div class="content-container">
-            <Input v-model="value" placeholder="请输入图片网址或base64值"></Input>
+            <Input :value="value" @input="inputUpdate" placeholder="请输入图片网址或base64值"></Input>
           </div>
         </Tab-pane>
       </Tabs>
@@ -84,7 +84,9 @@ export default {
     },
     setBg(imgUrl){
       this.$emit('update',imgUrl)
-      this.show = false
+    },
+    inputUpdate(value){
+      this.$emit('update',value)
     }
   }
 }
@@ -116,5 +118,30 @@ export default {
     top: 6px;
     color: #fff;
   }
+}
+.img-active:before{
+  content:'';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #4791b440;
+}
+.img-active:after{
+  text-align: center;
+  line-height: 48px;
+  font-size: 24px;
+  content: '✓';
+  color: #fff;
+  display: inline-block;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform:translateX(-50%) translateY(-50%);
+  width: 48px;
+  height: 48px;
+  background: #00cc66;
+  border-radius: 24px;
 }
 </style>
