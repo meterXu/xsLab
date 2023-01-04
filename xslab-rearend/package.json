@@ -9,7 +9,7 @@
     "initDB:prod": "dotenv -e .env.production -- npx prisma migrate deploy --name init",
     "initDB:proxy": "dotenv -e .env.proxy -- npx prisma migrate dev --name init",
     "db-studio":"dotenv -e .env.proxy -- npx prisma studio",
-    "dev": "set NODE_ENV=development && nodemon --exec babel-node src/index.js",
+    "dev": "export NODE_ENV=development && nodemon --exec babel-node src/index.js",
     "proxy": "set NODE_ENV=proxy && nodemon --exec babel-node src/index.js",
     "build": "babel src -d dist",
     "prod": "npm run build && set NODE_ENV=production node dist/index.js"

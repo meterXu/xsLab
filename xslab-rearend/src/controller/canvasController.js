@@ -56,7 +56,7 @@ class CanvasController {
     })
     async canvasData(ctx) {
         if (ctx.request.query.id) {
-            let canvas = await prisma.xs_canvas.findMany({
+            let canvas = await prisma.xs_canvas.findUnique({
                 select: {
                     options: true,
                     data: true
