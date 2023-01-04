@@ -27,10 +27,11 @@ export default {
         'font-size': this.options.title.fontSize + 'px',
         'font-weight': this.options.title.fontWeight,
         'font-family': this.options.title.fontFamily,
+        'text-align':this.options.title.textAlign,
         'height': this.options.title.height + 'px',
         'line-height': this.options.title.lineHeight + 'px',
         'background-color': this.options.title.background.backgroundColor || this.themeStyle.container.title.background.backgroundColor,
-        'background-img': 'url(\'' + this.options.title.background.backgroundImg + '\')',
+        'background-image': 'url(\'' + this.options.title.background.backgroundImg + '\')',
         'background-size': this.options.title.background.backgroundSize,
         'background-repeat': this.options.title.background.backgroundRepeat,
         'border-bottom-width': this.options.title.border.borderBottomWidth + 'px',
@@ -41,7 +42,7 @@ export default {
     containerStyle () {
       return {
         'background-color': this.options.background.backgroundColor || this.themeStyle.container.background.backgroundColor,
-        'background-img': 'url(\'' + this.options.background.backgroundImg + '\')',
+        'background-image': 'url(\'' + this.options.background.backgroundImg + '\')',
         'background-size': this.options.background.backgroundSize,
         'background-repeat': this.options.background.backgroundRepeat,
         'border': this.options.border.borderWidth + 'px ' + this.options.border.borderStyle + ' ' + (this.options.border.borderColor || this.themeStyle.container.border.borderColor)

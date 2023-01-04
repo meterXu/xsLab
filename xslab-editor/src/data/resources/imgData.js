@@ -59,5 +59,10 @@ export default {
         {url:'./img/header/30.png',size:'737x93'},
         {url:'./img/header/31.png',size:'3312x170'}
 
+    ],
+    container_body:[
+        {url:'./img/container-body/1.png',size:'131x144'},
+        {url:'./img/container-body/1-frame-[37].png',size:'862x401'},
+        {url:'./img/container-body/1模块标题_模块边框.png',size:'2684x2042'},
     ]
 }

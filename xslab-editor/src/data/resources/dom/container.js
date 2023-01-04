@@ -1,4 +1,5 @@
 import commonData from '../commonData'
+import imgData from "@/data/resources/imgData";
 const container = {
   resource: {
     box: {
@@ -12,14 +13,14 @@ const container = {
     theme: 'default',
     options: {
       background: {
-        backgroundColor: null,
-        backgroundImg: null,
-        backgroundSize: null,
-        backgroundRepeat: null
+        backgroundColor: 'transparent',
+        backgroundImg: './img/container-body/1模块标题_模块边框.png',
+        backgroundSize: '100%',
+        backgroundRepeat: 'round'
       },
       border: {
-        borderWidth: 1,
-        borderColor: null,
+        borderWidth: 0,
+        borderColor: 'transparent',
         borderStyle: 'solid'
       },
       title: {
@@ -30,15 +31,16 @@ const container = {
         fontFamily: '微软雅黑',
         height: 32,
         lineHeight: 32,
+        textAlign:'center',
         background: {
-          backgroundColor: null,
+          backgroundColor: 'transparent',
           backgroundImg: null,
-          backgroundSize: null,
-          backgroundRepeat: null
+          backgroundSize: '100%',
+          backgroundRepeat: 'round'
         },
         border: {
-          borderBottomWidth: 1,
-          borderBottomColor: null,
+          borderBottomWidth: 0,
+          borderBottomColor: 'transparent',
           borderBottomStyle: 'solid'
         }
       }
@@ -64,6 +66,15 @@ const container = {
             name: '标题',
             sub: [
               {key: 'text', name: '标题', type: 'text'},
+              {
+                key: 'textAlign',
+                name: '对其方式',
+                type: 'select',
+                data: [
+                  {text: '居左对齐', value: 'left'},
+                  {text: '居中对齐', value: 'center'},
+                  {text: '居右对齐', value: 'right'}]
+              },
               {key: 'fontFamily', name: '字体', type: 'text'},
               {key: 'fontSize', name: '大小', type: 'number'},
               {key: 'fontWeight', name: '粗细', type: 'select', data: commonData.fontWeight},
@@ -76,7 +87,7 @@ const container = {
             name: '标题背景',
             sub: [
               {key: 'backgroundImg', name: '图片', type: 'text'},
-              {key: 'backgroundSize', name: '大小', type: 'number'},
+              {key: 'backgroundSize', name: '大小', type: 'text'},
               {key: 'backgroundRepeat', name: '重复模式', type: 'select', data: commonData.repeat}
             ]
           },
@@ -92,8 +103,16 @@ const container = {
             key: 'options/background',
             name: '背景',
             sub: [
-              {key: 'backgroundImg', name: '图片', type: 'text'},
-              {key: 'backgroundSize', name: '大小', type: 'number'},
+              {key: 'backgroundImg', name: '图片', type: 'img-selector',props:{
+                  title:'背景设置',
+                  source:[
+                    {
+                      title:'图片',
+                      imgs:imgData.container_body
+                    }
+                  ]
+                }},
+              {key: 'backgroundSize', name: '大小', type: 'text'},
               {key: 'backgroundRepeat', name: '重复模式', type: 'select', data: commonData.repeat}
             ]
           },
