@@ -3,7 +3,7 @@
       <div id="setProp">
         <div id="setPropContent">
           <Form ref="formValidate" :label-width="100" :model="config" :rules="ruleValidate">
-            <FormItem label="后端地址" prop="baseUrl">
+            <FormItem label="后端地址">
               <div style="text-align: left">{{config.baseUrl}}</div>
             </FormItem>
             <FormItem label="编辑器主题" prop="editorTheme" style="text-align: left">
@@ -30,9 +30,6 @@ export default {
     return {
       commonData: commonData,
       ruleValidate: {
-        baseUrl: [
-          { required: true, message: '后端地址必填', trigger: 'blur' }
-        ],
         editorTheme: [
           { required: true, message: '编辑器主题必选', trigger: 'blur' }
         ]
