@@ -5,7 +5,6 @@ dotenv.config({
     path: path.resolve(`.env.${(process.env.NODE_ENV||'development').trim()}`)
 })
 
-
 let config = {
     NODE_ENV:process.env.NODE_ENV||'development',
     port:process.env.port||11525,
@@ -13,4 +12,5 @@ let config = {
     ssl_key:process.env.ssl_key||null,
     ssl_cert:process.env.ssl_cert||null
 };
+
 export default config

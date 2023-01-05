@@ -9,3 +9,14 @@ export default class PaginationModel {
     @swaggerProperty({ type: "number", required: true,default:1 })pageNumber=1
     @swaggerProperty({ type: "number", required: true,default:10 })pageSize=10
 }
+
+@swaggerClass()
+export class ImgPaginationModel extends PaginationModel {
+    constructor(query) {
+        super(query);
+        this.bigType = query.bigType
+        this.smallType = query.smallType
+    }
+    @swaggerProperty({ type: "string", required: true,default:'bg' })bigType='bg'
+    @swaggerProperty({ type: "string", required: false,default:'' })smallType=''
+}

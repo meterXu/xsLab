@@ -34,7 +34,8 @@ model xs_database {
 model xs_img {
   id         Int      @id @default(autoincrement())
   name       String
-  type       String
+  bigType    String
+  smallType  String
   url        String
   size       String
   createTime DateTime @default(now())

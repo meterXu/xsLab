@@ -46,10 +46,10 @@ const canvas = {
                 title:'背景设置',
                 source:[{
                   title:'正常图片',
-                  imgs:imgData.bg_normal
+                  imgsUrl:'/api/img/list?type=bg'
                 },{
                   title:'长屏图片',
-                  imgs:imgData.bg_long
+                  imgs:'/api/img/list?type=bg'
                 }]
               }},
             {key: 'backgroundSize', name: '大小', type: 'text'},
