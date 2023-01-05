@@ -170,6 +170,20 @@ export default {
       }
     }
   },
+  watch: {
+    'node.config.options': {
+      handler (e, t) {
+        this.setChartOption()
+      },
+      deep: true
+    },
+    'node.config.theme': {
+      handler (e, t) {
+        this.setChartOption()
+      },
+      deep: true
+    }
+  },
   methods: {
     loopData () {
       let that = this

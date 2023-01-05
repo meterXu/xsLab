@@ -45,7 +45,6 @@ const axisCommon = function () {
 }
 const darkblue = {
   color: colorPalette,
-  backgroundColor: '#272834',
   tooltip: {
     axisPointer: {
       lineStyle: {
