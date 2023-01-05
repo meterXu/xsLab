@@ -12,7 +12,7 @@ let colorPalette = [
   '#546570',
   '#c4ccd3'
 ]
-var axisCommon = function () {
+const axisCommon = function () {
   return {
     axisLine: {
       lineStyle: {
@@ -43,7 +43,7 @@ var axisCommon = function () {
     }
   }
 }
-var darkblue = {
+const darkblue = {
   color: colorPalette,
   backgroundColor: '#272834',
   tooltip: {

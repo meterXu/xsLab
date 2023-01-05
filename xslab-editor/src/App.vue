@@ -6,7 +6,6 @@
 
 <script>
 import mtEditor from './components/mtEditor'
-import './assets/styles/ivu-dark.less'
 import {getAction} from "@/request";
 export default {
   name: 'App',

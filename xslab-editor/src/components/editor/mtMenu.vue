@@ -48,8 +48,8 @@ export default {
     position: relative;
     width: 200px;
     height: auto;
-    background: var(--menu-bg-color);
-    border-right: 1px solid var(--menu-border-color);
+    background: #f5f5f5;
+    border-right: 1px solid #ddd;
     box-shadow: 2px 0px 2px 0 rgba(0, 0, 0, 0.1);
     z-index: 2;
   }
@@ -57,11 +57,11 @@ export default {
     text-align: left;
     height: 39px;
     line-height: 39px;
-    background: var(--menu-bg-color);
-    border-bottom: 1px solid var(--menu-border-color);
+    background: #f5f5f5;
+    border-bottom: 1px solid #ddd;
   }
   #menu .ivu-menu{
-    background: var(--menu-bg-color);
+    background: #f5f5f5;
   }
   .titleCon{
     font-size: 16px;

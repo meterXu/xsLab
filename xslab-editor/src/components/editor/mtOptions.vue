@@ -284,8 +284,8 @@ export default {
 <style scoped>
   .options {
     width: 280px;
-    background: var(--options-bg-color,#f5f5f5);
-    border-left: 1px solid var(--options-border-color,#ddd);
+    background: #f5f5f5;
+    border-left: 1px solid #ddd;
     overflow:auto;
     z-index: 2;
     box-shadow: -2px 0px 2px 0 rgba(0, 0, 0, 0.1);
@@ -294,7 +294,7 @@ export default {
     text-align: right;
     height: 39px;
     line-height: 39px;
-    border-bottom: 1px solid var(--collapse-item-border-color,#dddddd);
+    border-bottom: 1px solid #dddddd;
   }
   .titleCon{
     font-size: 16px;
@@ -305,7 +305,7 @@ export default {
     text-align: left;
   }
   .xslab-tabs{
-    background: var(--tabs-bg-color);
+    background: #f5f5f5;
   }
   .ivu-collapse {
     border-right: none;
@@ -321,11 +321,11 @@ export default {
     margin-left: 148px;
   }
   .xslab-collapse{
-    background: var(--collapse-bg-color, #fff);
-    border-color: var(--collapse-border-color, #dcdee2);
+    background: #fff;
+    border-color: #dcdee2;
   }
   .ivu-collapse>.ivu-collapse-item{
-    border-color: var(--collapse-item-border-color, #dcdee2);
+    border-color: #dcdee2;
   }
   .titleCon_span{
     margin-left:20px ;
@@ -356,9 +356,4 @@ export default {
   ::-webkit-scrollbar-thumb:window-inactive {
     background:none;
   }
-</style>
-<style>
-.xslab-collapse .ivu-collapse-content{
-  background: var(--collapse-bg-color);
-}
 </style>

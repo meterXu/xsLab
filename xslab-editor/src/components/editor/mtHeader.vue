@@ -288,7 +288,6 @@ export default {
     width: 100%;
     height: 50px;
     line-height: 50px;
-    background: var(--header-bg-color);
     padding: 0 18px;
     display: flex;
     justify-content: space-between;

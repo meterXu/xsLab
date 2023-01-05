@@ -208,7 +208,7 @@ export default {
   #mtDbManager{
     width: 100%;
     height: 100%;
-    background: var(--db-bg-color,#d0d0d0);
+    background: #d0d0d0;
     text-align: center;
     overflow-y: auto;
   }
@@ -251,7 +251,7 @@ export default {
     height: 500px;
     margin-top: 100px;
     display: inline-block;
-    background: var(--prop-bg-color,#fff);
+    background: #fff;
     border-radius: 5px;
   }
   #dbPropContent{

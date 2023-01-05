@@ -92,7 +92,7 @@ export default {
   #mtDbSetting{
     width: 100%;
     height: 100%;
-    background: var(--db-bg-color,#d0d0d0);
+    background: #d0d0d0;
     text-align: center;
   }
   #setProp{
@@ -100,7 +100,7 @@ export default {
     min-height: 100px;
     margin-top: 100px;
     display: inline-block;
-    background-color: var(--prop-bg-color,#fff);
+    background-color: #fff;
     border-radius: 5px;
   }
   #setPropContent{

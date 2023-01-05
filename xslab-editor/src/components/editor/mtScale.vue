@@ -15,7 +15,7 @@ export default {
     position: relative;
     flex: 1;
     height: auto;
-    background: var(--scale-bg-img, url("../../assets/scaleBg.png")) repeat repeat;
+    background: url("../../assets/scaleBg.png") repeat repeat;
     overflow: auto;
   }
   /* 设置滚动条的样式 */

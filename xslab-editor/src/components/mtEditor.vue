@@ -474,7 +474,7 @@ export default {
     justify-content: flex-start;
   }
   .mt-editor-header{
-    border-bottom: 1px solid var(--header-border-color);
+    border-bottom: 1px solid #ddd;
     box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.1);
     z-index: 2;
   }
