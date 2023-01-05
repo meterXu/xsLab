@@ -10,6 +10,7 @@
       <Tabs>
         <Tab-pane :label="item.title" v-for="item in source">
           <div class="content-container">
+            <Page style="margin-bottom: 3px" :total="pagination.total" :current.sync="pagination.pageNumber" :page-size="pagination.pageSize" size="small" @on-change="" show-total></Page>
             <ul class="img-ul">
               <li :class="{'img-li':true,'img-active':img.url===value}" v-for="img in item.imgs" @click="setBg(img.url)">
                 <img class="image" :src="img.url"/>
@@ -39,33 +40,11 @@ export default {
   data(){
     return {
       show:false,
-      normal:[
-        {url:'./img/bg/normal_1.png',size:'3840x2160'},
-        {url:'./img/bg/normal_2.png',size:'1600x900'},
-        {url: './img/bg/normal_3.png',size:'8000x4500'},
-        {url: './img/bg/normal_4.png',size:'1920x1080'},
-        {url: './img/bg/normal_5.png',size:'1920x1080'},
-        {url: './img/bg/normal_6.png',size:'1920x1080'},
-        {url: './img/bg/normal_7.png',size:'3840x2160'},
-        {url: './img/bg/normal_8.png',size:'960x540'},
-        {url: './img/bg/normal_9.png',size:'3840x2160'},
-        {url: './img/bg/normal_10.png',size:'3840x2160'},
-        {url: './img/bg/normal_11.png',size:'1920x1080'},
-        {url: './img/bg/normal_12.png',size:'3840x2160'},
-        {url: './img/bg/normal_13.png',size:'1920x1080'},
-        {url: './img/bg/normal_14.png',size:'1439x809'},
-        {url: './img/bg/normal_15.png',size:'1920x1080'},
-        {url: './img/bg/normal_16.png',size:'1920x1080'},
-        {url: './img/bg/normal_17.png',size:'1920x1080'},
-        {url: './img/bg/normal_18.png',size:'1920x1080'},
-        {url: './img/bg/normal_19.png',size:'1920x1080'}
-      ],
-      long:[
-        {url:'./img/bg/long_1.png',size:'8100x2160'},
-        {url:'./img/bg/long_2.png',size:'6300x2100'},
-        {url:'./img/bg/long_3.png',size:'3240x1080'},
-        {url:'./img/bg/long_4.png',size:'8100x2160'}
-      ]
+      pagination:{
+        total:null,
+        pageSize:12,
+        pageNumber:1
+      }
     }
   },
   methods:{

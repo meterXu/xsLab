@@ -11,8 +11,8 @@
     "db-studio":"dotenv -e .env.proxy -- npx prisma studio",
     "dev": "export NODE_ENV=development && nodemon --exec babel-node src/index.js",
     "proxy": "set NODE_ENV=proxy && nodemon --exec babel-node src/index.js",
-    "build": "babel src -d dist",
-    "prod": "npm run build && export NODE_ENV=production && node dist/index.js"
+    "build": "babel src -d bin",
+    "prod": "npm run build && export NODE_ENV=production && node bin/index.js"
   },
   "repository": {
     "type": "git",

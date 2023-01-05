@@ -29,7 +29,7 @@ app.use(async (ctx, next) => {
     ctx.set('Access-Control-Allow-Credentials', true) // 允许带上 cookie
     await next();
 })
-    .use(koastatic(path.resolve('assets')))
+    .use(koastatic(path.resolve('web')))
     .use(routerResponse())
     .use(api.routes())
 

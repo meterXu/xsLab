@@ -30,3 +30,14 @@ model xs_database {
   delete     Int      @default(1)
   state      Int      @default(1)
 }
+
+model xs_img {
+  id         Int      @id @default(autoincrement())
+  name       String
+  type       String
+  url        String
+  size       String
+  createTime DateTime @default(now())
+  delete     Int      @default(1)
+  state      Int      @default(1)
+}

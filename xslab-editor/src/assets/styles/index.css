@@ -1,10 +1,10 @@
 html,body,#app{
     height: 100%;
     width: 100%;
-    overflow-x: hidden;
+    overflow: hidden;
 }
 html{
-    overflow-y: hidden;
+    overflow: hidden;
 }
 .CodeMirror-code {
     font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
