@@ -1,5 +1,5 @@
 import commonData from '../commonData'
-const container = {
+const containerBody = {
   resource: {
     box: {
       width: 500,
@@ -8,12 +8,12 @@ const container = {
       y: 0,
       zIndex: 100
     },
-    type: 'container',
+    type: 'card',
     theme: 'default',
     options: {
       background: {
         backgroundColor: 'transparent',
-        backgroundImg: './img/container-body/1模块标题_模块边框.png',
+        backgroundImg: null,
         backgroundSize: '100%',
         backgroundRepeat: 'round'
       },
@@ -23,14 +23,14 @@ const container = {
         borderStyle: 'solid'
       },
       title: {
-        text: '容器',
+        text: '卡片',
         color: null,
         fontSize: 18,
         fontWeight: 'normal',
         fontFamily: '微软雅黑',
         height: 32,
         lineHeight: 32,
-        textAlign:'center',
+        textAlign:'left',
         background: {
           backgroundColor: 'transparent',
           backgroundImg: null,
@@ -85,7 +85,15 @@ const container = {
             key: 'options/title/background',
             name: '标题背景',
             sub: [
-              {key: 'backgroundImg', name: '图片', type: 'text'},
+              {key: 'backgroundImg', name: '图片', type: 'img-selector',props:{
+                  title:'背景设置',
+                  source:[
+                    {
+                      title:'图片',
+                      imgsUrl:'/api/img/list?bigType=containerBody&smallType=title'
+                    }
+                  ]
+                }},
               {key: 'backgroundSize', name: '大小', type: 'text'},
               {key: 'backgroundRepeat', name: '重复模式', type: 'select', data: commonData.repeat}
             ]
@@ -107,7 +115,7 @@ const container = {
                   source:[
                     {
                       title:'图片',
-                      imgsUrl:'/api/img/list?bigType=container-body'
+                      imgsUrl:'/api/img/list?bigType=containerBody&smallType=body'
                     }
                   ]
                 }},
@@ -181,4 +189,4 @@ const container = {
     ]
   }
 }
-export default container
+export default containerBody

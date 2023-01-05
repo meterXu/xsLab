@@ -15,7 +15,7 @@ import table from './dom/table'
 import img from './dom/img'
 import text from './dom/text'
 import iframe from './dom/iframe'
-import container from './dom/container'
+import containerBody from './dom/container-body'
 import slide from './dom/slide'
 import placeholderBox from './dev/placeholderBox'
 import gauge from './eCharts/gauge'
@@ -40,7 +40,7 @@ export default {
       img: img.resource,
       text: text.resource,
       iframe: iframe.resource,
-      container: container.resource,
+      container: containerBody.resource,
       slide: slide.resource,
       header:header.resource
     },
@@ -67,7 +67,7 @@ export default {
       img: img.option,
       text: text.option,
       iframe: iframe.option,
-      container: container.option,
+      container: containerBody.option,
       slide: slide.option,
       header:header.option
     },

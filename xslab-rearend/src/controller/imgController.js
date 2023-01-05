@@ -47,31 +47,31 @@ export default class ImgController{
         }))
     }
 
-    // @request('get', '/img/init')
-    // @summary('初始化图片资源')
-    // @testTag
-    // async initList(ctx){
-    //     let types = fs.readdirSync(path.resolve('web/material')).filter(c=>c!=='.DS_Store')
-    //     types.forEach(type=>{
-    //         let imgs = fs.readdirSync(path.resolve(`web/material/${type}`))
-    //         imgs.forEach(async (img)=>{
-    //             const url = `/material/${type}/${img}`
-    //             const dimensions = sizeOf(path.join('web',url))
-    //             try{
-    //                 await prisma.xs_img.create({
-    //                     data:{
-    //                         name:img,
-    //                         bigType:type,
-    //                         smallType:'',
-    //                         url:url,
-    //                         size:`${dimensions.width}x${dimensions.height}`
-    //                     }
-    //                 })
-    //                 console.log(`初始化成功-${img}`)
-    //             }catch (ex){
-    //                 console.error(`初始化失败-${img}`)
-    //             }
-    //         })
-    //     })
-    // }
+    @request('get', '/img/init')
+    @summary('初始化图片资源')
+    @testTag
+    async initList(ctx){
+        let types = fs.readdirSync(path.resolve('web/material')).filter(c=>c!=='.DS_Store')
+        types.forEach(type=>{
+            let imgs = fs.readdirSync(path.resolve(`web/material/${type}`))
+            imgs.forEach(async (img)=>{
+                const url = `/material/${type}/${img}`
+                const dimensions = sizeOf(path.join('web',url))
+                try{
+                    await prisma.xs_img.create({
+                        data:{
+                            name:img,
+                            bigType:type,
+                            smallType:'',
+                            url:url,
+                            size:`${dimensions.width}x${dimensions.height}`
+                        }
+                    })
+                    console.log(`初始化成功-${img}`)
+                }catch (ex){
+                    console.error(`初始化失败-${img}`)
+                }
+            })
+        })
+    }
 }

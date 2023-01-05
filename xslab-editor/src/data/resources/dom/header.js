@@ -10,7 +10,7 @@ const header = {
     type: 'img',
     theme: 'default',
     options: {
-      src: './img/header/2.png'
+      src: window.config.baseUrl+'/material/header/2.png'
     }
   },
   option: {
