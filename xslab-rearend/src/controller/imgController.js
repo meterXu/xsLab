@@ -34,7 +34,7 @@ export default class ImgController{
                 smallType:imgPagination.smallType
             },
             orderBy: {
-                createTime: 'desc',
+                id: 'desc',
             },
             skip: (imgPagination.pageNumber - 1) * imgPagination.pageSize,
             take: imgPagination.pageSize
@@ -55,7 +55,7 @@ export default class ImgController{
     //     types.forEach(type=>{
     //         let imgs = fs.readdirSync(path.resolve(`web/material/${type}`))
     //         imgs.forEach(async (img)=>{
-    //             const url = `./material/${type}/${img}`
+    //             const url = `/material/${type}/${img}`
     //             const dimensions = sizeOf(path.join('web',url))
     //             try{
     //                 await prisma.xs_img.create({

@@ -1,5 +1,3 @@
-import imgData from "@/data/resources/imgData";
-
 const header = {
   resource: {
     box: {
@@ -39,7 +37,7 @@ const header = {
                 source:[
                   {
                     title:'图片',
-                    imgs:imgData.header
+                    imgsUrl:'/api/img/list?bigType=header'
                   }
                 ]
               }},

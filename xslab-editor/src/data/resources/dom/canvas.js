@@ -1,5 +1,4 @@
 import commonData from '../commonData'
-import imgData from '../imgData'
 const canvas = {
   resource: {
     type: 'canvas',
@@ -46,10 +45,10 @@ const canvas = {
                 title:'背景设置',
                 source:[{
                   title:'正常图片',
-                  imgsUrl:'/api/img/list?type=bg'
+                  imgsUrl:'/api/img/list?bigType=bg&smallType=normal'
                 },{
                   title:'长屏图片',
-                  imgs:'/api/img/list?type=bg'
+                  imgsUrl:'/api/img/list?bigType=bg&smallType=long'
                 }]
               }},
             {key: 'backgroundSize', name: '大小', type: 'text'},

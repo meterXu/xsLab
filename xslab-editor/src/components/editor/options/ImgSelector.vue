@@ -8,15 +8,17 @@
            :footer-hide="true"
            :title="title">
       <Tabs>
-        <Tab-pane :label="item.title" v-for="item in source">
+        <Tab-pane :label="item.title" v-for="item in tmpSource">
           <div class="content-container">
-            <Page style="margin-bottom: 3px" :total="pagination.total" :current.sync="pagination.pageNumber" :page-size="pagination.pageSize" size="small" @on-change="" show-total></Page>
             <ul class="img-ul">
               <li :class="{'img-li':true,'img-active':img.url===value}" v-for="img in item.imgs" @click="setBg(img.url)">
                 <img class="image" :src="img.url"/>
                 <span>{{img.size}}</span>
               </li>
             </ul>
+            <Page style="margin-top: 3px" :total="item.pagination.total" :current.sync="item.pagination.pageNumber" :page-size="item.pagination.pageSize"
+                  size="small"
+                  @on-change="pageChange(item)" show-total></Page>
           </div>
         </Tab-pane>
         <Tab-pane label="图片地址" icon="social-windows">
@@ -30,6 +32,8 @@
 </template>
 
 <script>
+import {getAction} from "@/request";
+
 export default {
   name: "ImgSelector",
   props:['value','title','source'],
@@ -40,6 +44,7 @@ export default {
   data(){
     return {
       show:false,
+      tmpSource:null,
       pagination:{
         total:null,
         pageSize:12,
@@ -56,7 +61,35 @@ export default {
     },
     inputUpdate(value){
       this.$emit('update',value)
+    },
+    pageChange(item){
+      getAction(item.imgsUrl,{
+        pageSize:item.pagination.pageSize,
+        pageNumber:item.pagination.pageNumber,
+      }).then(res=>{
+        item.imgs = res.data.rows.map(c=>{
+          c.url=this.$config.baseUrl+c.url
+          return c
+        })
+        this.tmpSource  = JSON.parse(JSON.stringify(this.tmpSource))
+      })
     }
+  },
+  created() {
+    this.tmpSource = this.source
+    this.tmpSource.forEach(item=>{
+      item.pagination = Object.assign({},this.pagination)
+      getAction(item.imgsUrl,{
+        pageSize:item.pagination.pageSize,
+        pageNumber:item.pagination.pageNumber,
+      }).then(res=>{
+        item.imgs = res.data.rows.map(c=>{
+          c.url=this.$config.baseUrl+c.url
+          return c
+        })
+        item.pagination.total = res.data.total
+      })
+    })
   }
 }
 </script>

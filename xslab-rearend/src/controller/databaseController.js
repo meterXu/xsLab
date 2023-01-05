@@ -38,7 +38,7 @@ export default class DatabaseController {
                 state: 1,
             },
             orderBy: {
-                createTime: 'asc',
+                id: 'desc',
             },
             skip: (pagination.pageNumber - 1) * pagination.pageSize,
             take: pagination.pageSize

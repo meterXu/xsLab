@@ -1,5 +1,4 @@
 import commonData from '../commonData'
-import imgData from "@/data/resources/imgData";
 const container = {
   resource: {
     box: {
@@ -108,7 +107,7 @@ const container = {
                   source:[
                     {
                       title:'图片',
-                      imgs:imgData.container_body
+                      imgsUrl:'/api/img/list?bigType=container-body'
                     }
                   ]
                 }},
