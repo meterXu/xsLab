@@ -40,8 +40,8 @@ export default {
       icon: 'big-screen',
       sub:[
         {title: '大标题', icon: 'chartsIcon/dom_header.png', type: 'bigScreen', chart: 'header'},
-        {title: '容器头', icon: 'chartsIcon/dom_container.png', type: 'bigScreen', chart: 'containerHead'},
-        {title: '容器体', icon: 'chartsIcon/dom_container.png', type: 'bigScreen', chart: 'containerBody'},
+        {title: '容器头', icon: 'chartsIcon/dom_container_head.png', type: 'bigScreen', chart: 'containerHead'},
+        {title: '容器体', icon: 'chartsIcon/dom_container_body.png', type: 'bigScreen', chart: 'containerBody'},
       ]
     },
     { title: '经典素材',
