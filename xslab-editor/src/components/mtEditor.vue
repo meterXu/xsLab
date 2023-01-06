@@ -25,7 +25,8 @@
              :view="false"
              @drop="drop"
              @contextmenu="contextmenu"
-             @nodeActive="nodeActive">
+             @nodeActive="nodeActive"
+             @loaded="xscLoaded">
           <mtContextMenu v-if="showMenu" :point="mtMenuPoint" @menuClick="menuClick"></mtContextMenu>
         </Xsc>
       </mtScale>
@@ -449,7 +450,9 @@ export default {
       this.cavRowClick({
         id: this.canvasObj.id
       })
-
+    },
+    xscLoaded(){
+      this.$refs.mtScale.fitCanvas()
     }
   },
   mounted () {

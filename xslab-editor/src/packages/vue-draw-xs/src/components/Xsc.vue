@@ -59,6 +59,16 @@ export default {
       startDrag: false
     }
   },
+  watch:{
+    charts:{
+      immediate:true,
+      handler(){
+        this.$nextTick(()=>{
+          this.$emit('loaded')
+        })
+      }
+    }
+  },
   computed: {
     themeStyle () {
       if (this.commonData.themeData) {
@@ -294,7 +304,7 @@ export default {
   },
   updated () {
     this.$emit('updated', this.$el)
-  },
+  }
 }
 </script>
 

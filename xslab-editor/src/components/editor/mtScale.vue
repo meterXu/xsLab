@@ -15,9 +15,9 @@
           {{percentage}}
         </a>
         <Dropdown-menu slot="list">
-          <Dropdown-item v-for="item in scaleList" :name="item">{{`${item*100}%`}}</Dropdown-item>
-          <Dropdown-item divided :name="-1">适应选区</Dropdown-item>
-          <Dropdown-item :name="-2">适应画布</Dropdown-item>
+          <Dropdown-item v-for="item in scaleList" :name="item" :key="item">{{`${item*100}%`}}</Dropdown-item>
+          <Dropdown-item divided name="fitCanvas">适应画布</Dropdown-item>
+          <Dropdown-item name="fitSelect">适应选区</Dropdown-item>
         </Dropdown-menu>
       </Dropdown>
       <Icon @click="zoomIn" style="position: relative;top: -1px;margin-left: 3px" color="#67C23A" :size="14" type="ios-add-circle"></Icon>
@@ -36,6 +36,8 @@
 </template>
 
 <script>
+import {mapGetters} from "vuex";
+
 export default {
   name: 'mtScale',
   data(){
@@ -54,20 +56,39 @@ export default {
     }
   },
   computed:{
+    ...mapGetters(['activeNode']),
     percentage(){
       return `${this.scale*100}%`
     }
   },
   methods:{
     percentageChange(nv){
-      this.scale = nv
-      this.zoomLevel = this.getZoomLevel()
+      switch (nv){
+        case 'fitCanvas':{
+          this.fitCanvas()
+        }break;
+        case 'fitSelect':{
+          this.fitSelect()
+        }break;
+        default:{
+          this.scale = nv
+          this.zoomLevel = this.getZoomLevel()
+        }break;
+      }
     },
     fitCanvas(){
       const mtScaleContainer = document.getElementsByClassName('mtScale-container')[0]
       const mtCanvas = document.getElementsByClassName('mt_canvas')[0]
-      this.scale = parseFloat((mtScaleContainer.clientWidth/(mtCanvas.clientWidth+100)).toFixed(2))
+      this.scale = parseFloat((mtScaleContainer.clientWidth/(mtCanvas.clientWidth+60)).toFixed(2))
       this.scale =this.scale>1?1:this.scale
+      this.zoomLevel = this.getZoomLevel()
+      this.resetLocation()
+    },
+    fitSelect(){
+      const mtCanvas = document.getElementsByClassName('mt_canvas')[0]
+      this.scale = parseFloat((mtCanvas.clientWidth/this.activeNode.config.box.width+60).toFixed(2))
+      this.zoomLevel = this.getZoomLevel()
+      this.resetLocation()
     },
     mousedown(){
       this.draggable = true
@@ -121,6 +142,12 @@ export default {
         this.scale = this.scale>=4?4:this.scale
         this.zoomLevel = this.zoomLevel>=11?11:this.zoomLevel
       }
+    },
+    resetLocation(){
+      const mtScaleContainer = document.getElementsByClassName('mtScale-container')[0]
+      const mtCanvas = document.getElementsByClassName('mt_canvas')[0]
+      this.location.x=(mtScaleContainer.clientWidth-mtCanvas.clientWidth*this.scale)/2
+      this.location.y=this.location.x>30?30:this.location.x
     }
   }
 }
