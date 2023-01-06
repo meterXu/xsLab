@@ -10,8 +10,8 @@ const canvas = {
       height: 0,
       backgroundColor: null,
       backgroundImage: null,
-      backgroundSize: '100%',
-      backgroundRepeat:'round',
+      backgroundSize: 'cover',
+      backgroundRepeat:'no-repeat',
       baseUrl: null
     }
 

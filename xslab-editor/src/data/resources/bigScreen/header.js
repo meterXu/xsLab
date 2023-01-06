@@ -1,3 +1,5 @@
+import commonData from "@/data/resources/commonData";
+
 const header = {
   resource: {
     box: {
@@ -7,10 +9,12 @@ const header = {
       y: 0,
       zIndex: 100
     },
-    type: 'img',
-    theme: 'default',
+    type: 'div',
     options: {
-      src: window.config.baseUrl+'/material/header/2.png'
+      backgroundColor: 'transparent',
+      backgroundImg: window.config.baseUrl+'/material/header/2.png',
+      backgroundSize: 'contain',
+      backgroundRepeat: 'no-repeat'
     }
   },
   option: {
@@ -30,9 +34,9 @@ const header = {
         },
         {
           key: 'options',
-          name: '图片',
+          name: '背景',
           sub: [
-            {key: 'src', name: '图片', type: 'img-selector',props:{
+            {key: 'backgroundImg', name: '图片', type: 'img-selector',props:{
                 title:'背景设置',
                 source:[
                   {
@@ -41,11 +45,26 @@ const header = {
                   }
                 ]
               }},
-            { key: '', type: 'div', style: { height: 200 } }
+            {key: 'backgroundSize', name: '大小', type: 'text'},
+            {key: 'backgroundRepeat', name: '重复模式', type: 'select', data: commonData.repeat}
           ]
         }
       ]
-    }
+    },
+      {
+        type: '样式',
+        icon: 'md-brush',
+        con: [
+          {
+            key: 'options',
+            name: '背景',
+            sub: [
+              {key: 'backgroundColor', name: '背景色', type: 'color'},
+              { key: '', type: 'div', style: { height: 200 } }
+            ]
+          }
+        ]
+      }
     ]
   }
 }

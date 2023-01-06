@@ -8,7 +8,6 @@ const img = {
       zIndex: 100
     },
     type: 'img',
-    theme: 'default',
     options: {
       src: ''
     }

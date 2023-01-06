@@ -2,6 +2,12 @@
 * 画布元素默认配置
 **/
 import canvas from './dom/canvas'
+import table from './dom/table'
+import img from './dom/img'
+import text from './dom/text'
+import iframe from './dom/iframe'
+import card from './dom/card'
+import slide from './dom/slide'
 import bar from './eCharts/bar'
 import barStack from './eCharts/barStack'
 import barNegative from './eCharts/barNegative'
@@ -11,15 +17,11 @@ import pie from './eCharts/pie'
 import pieRose from './eCharts/pieRose'
 import barLabelRotation from './eCharts/barLabelRotation'
 import lineBar from './eCharts/lineBar'
-import table from './dom/table'
-import img from './dom/img'
-import text from './dom/text'
-import iframe from './dom/iframe'
-import containerBody from './dom/container-body'
-import slide from './dom/slide'
-import placeholderBox from './dev/placeholderBox'
 import gauge from './eCharts/gauge'
-import header from './dom/header'
+import header from './bigScreen/header'
+import containerHead from './bigScreen/container-head'
+import containerBody from './bigScreen/container-body'
+import placeholderBox from './dev/placeholderBox'
 export default {
   initOptions: { // 初始化配置
     eCharts: {
@@ -40,9 +42,13 @@ export default {
       img: img.resource,
       text: text.resource,
       iframe: iframe.resource,
-      container: containerBody.resource,
-      slide: slide.resource,
-      header:header.resource
+      card: card.resource,
+      slide: slide.resource
+    },
+    bigScreen:{
+      header:header.resource,
+      containerHead:containerHead.resource,
+      containerBody:containerBody.resource,
     },
     dev: {
       placeholderBox: placeholderBox.resource
@@ -67,9 +73,13 @@ export default {
       img: img.option,
       text: text.option,
       iframe: iframe.option,
-      container: containerBody.option,
+      card: card.option,
       slide: slide.option,
-      header:header.option
+    },
+    bigScreen:{
+      header:header.option,
+      containerHead:containerHead.option,
+      containerBody:containerBody.option,
     },
     dev: {
       placeholderBox: placeholderBox.option

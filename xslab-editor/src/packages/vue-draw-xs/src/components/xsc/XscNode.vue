@@ -18,7 +18,7 @@
           :options="node.config.options"
           :theme="node.config.theme"
           :type="node.config.type"
-          v-else-if="node.type==='dom'"
+          v-else-if="node.type==='dom'||node.type==='bigScreen'"
           :view="this.view"></XscDom>
       <XscDev :id="node.id" :options="node.config.options"
       :type="node.config.type"

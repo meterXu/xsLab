@@ -114,8 +114,8 @@ export default {
       resources: resources,
       addFrom:{
         name:'',
-        width:1366,
-        height:768
+        width:1920,
+        height:1080
       },
       pagination:{
         total:null,

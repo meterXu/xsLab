@@ -39,9 +39,9 @@ export default {
       title: '大屏素材',
       icon: 'big-screen',
       sub:[
-        {title: '大标题', icon: 'chartsIcon/dom_header.png', type: 'dom', chart: 'header'},
-        {title: '容器头', icon: 'chartsIcon/dom_container.png', type: 'dom', chart: 'containerBody-head'},
-        {title: '容器体', icon: 'chartsIcon/dom_container.png', type: 'dom', chart: 'containerBody-body'},
+        {title: '大标题', icon: 'chartsIcon/dom_header.png', type: 'bigScreen', chart: 'header'},
+        {title: '容器头', icon: 'chartsIcon/dom_container.png', type: 'bigScreen', chart: 'containerHead'},
+        {title: '容器体', icon: 'chartsIcon/dom_container.png', type: 'bigScreen', chart: 'containerBody'},
       ]
     },
     { title: '经典素材',
@@ -50,7 +50,7 @@ export default {
         {title: '表格', icon: 'chartsIcon/dom_table.png', type: 'dom', chart: 'table'},
         {title: '图片', icon: 'chartsIcon/dom_img.png', type: 'dom', chart: 'img'},
         {title: '文字', icon: 'chartsIcon/dom_text.png', type: 'dom', chart: 'text'},
-        {title: '卡片', icon: 'chartsIcon/dom_img.png', type: 'dom', chart: 'card'},
+        {title: '卡片', icon: 'chartsIcon/dom_container.png', type: 'dom', chart: 'card'},
         {title: 'iframe', icon: 'chartsIcon/dom_iframe.png', type: 'dom', chart: 'iframe'},
         {title: '幻灯片', icon: 'chartsIcon/dom_slide.png', type: 'dom', chart: 'slide'}
       ]

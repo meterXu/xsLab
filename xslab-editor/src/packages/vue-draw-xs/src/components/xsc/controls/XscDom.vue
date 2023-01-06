@@ -4,8 +4,9 @@
     <XscImg v-else-if="type==='img'" :id="id" :options="options"></XscImg>
     <XscText v-else-if="type==='text'" :id="id" :options="options" :themeData="themeData" :theme="theme"></XscText>
     <XscIframe v-else-if="type==='iframe'" :id="id" :options="options" :themeData="themeData" :theme="theme" :view="this.view"></XscIframe>
-    <XscContainer v-else-if="type==='container'" :id="id" :options="options" :themeData="themeData" :theme="theme"></XscContainer>
+    <XscCard v-else-if="type==='card'" :id="id" :options="options" :themeData="themeData" :theme="theme"></XscCard>
     <XscSlide v-else-if="type==='slide'" :id="id" :options="options" :themeData="themeData" :theme="theme"></XscSlide>
+    <XscDiv v-else-if="type==='div'" :id="id" :options="options" :themeData="themeData" :theme="theme"></XscDiv>
   </div>
 </template>
 
@@ -14,17 +15,19 @@ import XscImg from './basedom/XscImg'
 import XscTable from './basedom/XscTable'
 import XscText from './basedom/XscText'
 import XscIframe from './basedom/XscIframe'
-import XscContainer from './basedom/XscContainer'
+import XscCard from './basedom/XscCard'
 import XscSlide from './basedom/XscSlide'
+import XscDiv from "./basedom/XscDiv";
 import commData from '../../../data/commonData'
 export default {
   name: 'XscDom',
   components: {
+    XscDiv,
     XscImg,
     XscTable,
     XscText,
     XscIframe,
-    XscContainer,
+    XscCard,
     XscSlide
   },
   props: {

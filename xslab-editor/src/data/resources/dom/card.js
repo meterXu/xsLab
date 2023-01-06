@@ -11,17 +11,6 @@ const containerBody = {
     type: 'card',
     theme: 'default',
     options: {
-      background: {
-        backgroundColor: 'transparent',
-        backgroundImg: null,
-        backgroundSize: '100%',
-        backgroundRepeat: 'round'
-      },
-      border: {
-        borderWidth: 0,
-        borderColor: 'transparent',
-        borderStyle: 'solid'
-      },
       title: {
         text: '卡片',
         color: null,
@@ -32,16 +21,28 @@ const containerBody = {
         lineHeight: 32,
         textAlign:'left',
         background: {
-          backgroundColor: 'transparent',
+          backgroundColor: null,
           backgroundImg: null,
           backgroundSize: '100%',
           backgroundRepeat: 'round'
         },
         border: {
           borderBottomWidth: 0,
-          borderBottomColor: 'transparent',
+          borderBottomColor: null,
           borderBottomStyle: 'solid'
         }
+      },
+      background: {
+        backgroundColor: null,
+        backgroundImg: null,
+        backgroundSize: '100%',
+        backgroundRepeat: 'round'
+      },
+      border: {
+        borderWidth: 0,
+        borderRadius:3,
+        borderColor: null,
+        borderStyle: 'solid'
       }
     }
   },
@@ -128,6 +129,7 @@ const containerBody = {
             name: '边框',
             sub: [
               {key: 'borderWidth', name: '粗细', type: 'number'},
+              {key: 'borderRadius', name: '圆角', type: 'number'},
               {key: 'borderStyle', name: '类型', type: 'select', data: commonData.border},
               { key: '', type: 'div', style: { height: 200 } }
             ]

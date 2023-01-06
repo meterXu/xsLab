@@ -1,13 +1,13 @@
 <template>
-  <div class="d_mtContainer" :style="containerStyle">
-    <div class="d_mtContainer_title" :style="titleStyle">{{options.title.text}}</div>
-    <div class="d_mtContainer_content"></div>
+  <div class="d_mtCard" :style="containerStyle">
+    <div class="d_mtCard_title" :style="titleStyle">{{options.title.text}}</div>
+    <div class="d_mtCard_content"></div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'XscContainer',
+  name: 'XscCard',
   props: {
     options: Object,
     themeData: Object,
@@ -45,7 +45,8 @@ export default {
         'background-image': 'url(\'' + this.options.background.backgroundImg + '\')',
         'background-size': this.options.background.backgroundSize,
         'background-repeat': this.options.background.backgroundRepeat,
-        'border': this.options.border.borderWidth + 'px ' + this.options.border.borderStyle + ' ' + (this.options.border.borderColor || this.themeStyle.container.border.borderColor)
+        'border': this.options.border.borderWidth + 'px ' + this.options.border.borderStyle + ' ' + (this.options.border.borderColor || this.themeStyle.container.border.borderColor),
+        'border-radius': this.options.border.borderRadius+'px',
       }
     }
   }
@@ -53,11 +54,11 @@ export default {
 </script>
 
 <style scoped>
-  .d_mtContainer{
+  .d_mtCard{
     width: 100%;
     height: 100%;
   }
-  .d_mtContainer_title{
+  .d_mtCard_title{
     width: 100%;
     text-indent: 10px;
   }
