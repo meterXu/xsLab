@@ -112,6 +112,7 @@ export default {
   grid-gap: 20px 20px;
 }
 .img-li{
+  background-color: #000;
   cursor: pointer;
   position: relative;
   min-height: 60px;

@@ -146,6 +146,7 @@ export default {
     drop () {
       if (!this.view) {
         event.preventDefault()
+        event.stopPropagation()
         this.$emit('drop')
         this.activeNode = this.charts[this.charts.length - 1]
         this.$emit('nodeActive')
@@ -154,6 +155,7 @@ export default {
     dragover () {
       if (!this.view) {
         event.preventDefault()
+        event.stopPropagation()
         if (this.activeNode) {
           this.startDrag = false
           let dragNode = this.charts.find(c => c.id === this.activeNode.id)

@@ -1,27 +1,169 @@
 <template>
-<div id="mtScale" ref="mtScale">
-    <slot/>
+<div class="mtScale" ref="mtScale">
+  <div class="mtScale-container" @mousemove="mousemove">
+    <div @mousedown="mousedown" @mouseup="onmouseup" :style="'transform: translate('+location.x+'px, '+location.y+'px)'">
+      <div @dragstart="()=>{return false}" :style="'transform-origin: 0px 0px;transform: scale('+scale+')'">
+        <slot/>
+      </div>
+    </div>
+  </div>
+  <div class="mtScale-control">
+    <div class="mtScale-control-item" style="text-align: center">
+      <Icon @click="zoomOut" style="position: relative;top: -1px;margin-right: 3px" :size="14" color="#F56C6C" type="ios-remove-circle"></Icon>
+      <Dropdown placement="top" @on-click="percentageChange">
+        <a href="javascript:void(0)">
+          {{percentage}}
+        </a>
+        <Dropdown-menu slot="list">
+          <Dropdown-item v-for="item in scaleList" :name="item">{{`${item*100}%`}}</Dropdown-item>
+          <Dropdown-item divided :name="-1">适应选区</Dropdown-item>
+          <Dropdown-item :name="-2">适应画布</Dropdown-item>
+        </Dropdown-menu>
+      </Dropdown>
+      <Icon @click="zoomIn" style="position: relative;top: -1px;margin-left: 3px" color="#67C23A" :size="14" type="ios-add-circle"></Icon>
+    </div>
+    <div class="mtScale-control-item">
+      <Icon :size="18" type="md-contract" title="适应画布" @click="fitCanvas"></Icon>
+    </div>
+    <div class="mtScale-control-item">
+      <Icon :size="18" type="md-expand" title="100%" @click="fullCanvas"></Icon>
+    </div>
+    <div class="mtScale-control-item">
+      <Icon :size="18" type="ios-navigate" title="导航"></Icon>
+    </div>
+  </div>
 </div>
 </template>
 
 <script>
 export default {
   name: 'mtScale',
+  data(){
+    return {
+      scale:1,
+      scaleList:[0.1, 0.25, 0.33, 0.5, 0.75, 1, 2, 3, 4],
+      zoomLevel:5,
+      location:{
+        x:0,
+        y:0
+      },
+      mouseLayer:{
+        x:0,
+        y:0
+      }
+    }
+  },
+  computed:{
+    percentage(){
+      return `${this.scale*100}%`
+    }
+  },
+  methods:{
+    percentageChange(nv){
+      this.scale = nv
+      this.zoomLevel = this.getZoomLevel()
+    },
+    fitCanvas(){
+      const mtScaleContainer = document.getElementsByClassName('mtScale-container')[0]
+      const mtCanvas = document.getElementsByClassName('mt_canvas')[0]
+      this.scale = parseFloat((mtScaleContainer.clientWidth/(mtCanvas.clientWidth+100)).toFixed(2))
+      this.scale =this.scale>1?1:this.scale
+    },
+    mousedown(){
+      this.draggable = true
+      this.mouseLayer.x= parseInt(event.offsetX*this.scale)
+      this.mouseLayer.y= parseInt(event.offsetY*this.scale)
+    },
+    mousemove(){
+      if(this.draggable){
+        this.location.x = event.layerX-this.mouseLayer.x
+        this.location.y = event.layerY-this.mouseLayer.y
+      }
+    },
+    onmouseup(){
+      this.draggable = false
+    },
+    dragover(){
+      this.location.x = event.pageX
+      this.location.y = event.pageY
+    },
+    fullCanvas(){
+      this.scale = 1
+      this.zoomLevel = 5
+    },
+    getZoomLevel(){
+      let level = 0
+      this.scaleList.forEach((n,i)=>{
+        if(this.scale>=n){
+          level = i
+          return;
+        }
+      })
+      return level
+    },
+    zoomOut(){
+      this.zoomLevel--
+      if(this.zoomLevel<5){
+        this.scale = (this.zoomLevel-1)*0.25
+        this.scale = this.scale<=0.25?0.25:this.scale
+        this.zoomLevel = this.zoomLevel<=0?0:this.zoomLevel
+      }else{
+        this.scale = 4*0.25+(this.zoomLevel-5)*0.5
+      }
+    },
+    zoomIn(){
+      this.zoomLevel++
+      if(this.zoomLevel<5){
+        this.scale = (this.zoomLevel-1)*0.25
+        this.scale = this.scale<=0.25?0.25:this.scale
+      }else{
+        this.scale = 4*0.25+(this.zoomLevel-5)*0.5
+        this.scale = this.scale>=4?4:this.scale
+        this.zoomLevel = this.zoomLevel>=11?11:this.zoomLevel
+      }
+    }
+  }
 }
 </script>
 
 <style scoped>
-  #mtScale{
+  .mtScale{
     position: relative;
+    overflow: hidden;
     flex: 1;
-    height: auto;
+    display: inline-flex;
+    flex-flow: column;
+    justify-content: flex-start;
     background: url("../../assets/scaleBg.png") repeat repeat;
-    overflow: auto;
+  }
+  .mtScale-container{
+    flex: 1;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+  .mtScale-control{
+    width: 100%;
+    padding: 0 10px;
+    height: 30px;
+    line-height: 30px;
+    z-index: 2;
+    box-shadow: 0 -2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
+    border-top: 1px solid #d7dae2;
+    background-color: #fff;
+    text-align: right;
+  }
+  .mtScale-control-item{
+    display: inline-block;
+    cursor: pointer;
+  }
+  .mtScale-control-item+.mtScale-control-item{
+    margin-left: 10px;
   }
   /* 设置滚动条的样式 */
   ::-webkit-scrollbar {
-    width:11px;
-    height:11px;
+    width:6px;
+    height:6px;
   }
   /* 滚动槽 */
   ::-webkit-scrollbar-track {

@@ -22,8 +22,8 @@ const mutations = {
 }
 
 const actions = {
-    setActiveNode({ commit }){
-        commit('setActiveNode')
+    setActiveNode({ commit },activeNode){
+        commit('setActiveNode',activeNode)
     }
 }
 

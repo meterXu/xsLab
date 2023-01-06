@@ -29,7 +29,7 @@
           <mtContextMenu v-if="showMenu" :point="mtMenuPoint" @menuClick="menuClick"></mtContextMenu>
         </Xsc>
       </mtScale>
-      <mtOptions ref="mtOptions" v-if="opNode" :opNode="opNode" @postSaveOption="postSaveOption" @changeOption="changeOption"></mtOptions>
+      <mtOptions ref="mtOptions" :opNode="opNode" @postSaveOption="postSaveOption" @changeOption="changeOption"></mtOptions>
     </div>
     <Modal :width="400"
            v-model="showAddCanvasModal"
