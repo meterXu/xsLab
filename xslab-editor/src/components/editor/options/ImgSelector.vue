@@ -8,7 +8,7 @@
            :footer-hide="true"
            :title="title">
       <Tabs>
-        <Tab-pane :label="item.title" v-for="item in tmpSource">
+        <Tab-pane :label="item.title" v-for="item in tmpSource" :key="item.title">
           <div class="content-container">
             <ul class="img-ul">
               <li :class="{'img-li':true,'img-active':img.url===value}" v-for="img in item.imgs" @click="setBg(img.url)">
