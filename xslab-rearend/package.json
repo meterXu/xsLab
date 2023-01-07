@@ -1,17 +1,17 @@
 {
   "name": "xscollect",
   "version": "1.0.2",
-  "description": "xslab后端，有问题提issues，不要发邮件！",
+  "description": "xslab后端，有问题提issues！",
   "main": "dist/index.js",
   "license": "MIT",
   "scripts": {
     "initDB:dev": "dotenv -e .env.development -- npx prisma migrate dev --name init",
-    "initDB:prod": "dotenv -e .env.production -- npx prisma migrate deploy --name init",
+    "initDB:prod": "dotenv -e .env.production -- npx prisma migrate deploy",
     "initDB:proxy": "dotenv -e .env.proxy -- npx prisma migrate dev --name init",
     "db-studio": "dotenv -e .env.proxy -- npx prisma studio",
     "dev": "export NODE_ENV=development && nodemon --exec babel-node src/index.js",
     "proxy": "export NODE_ENV=proxy && nodemon --exec babel-node src/index.js",
-    "build": "babel src -d bin",
+    "build": "babel src -d bin && npm run initDB:prod",
     "prod": "npm run build && export NODE_ENV=production && node bin/index.js"
   },
   "repository": {
