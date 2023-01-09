@@ -3,36 +3,48 @@
 
 说明：生产环境请使用mysql数据库，不要使用sqlite
 
-## 版本要求
-node >= 14
+## 一、环境要求
+* node >= 14
+* dotenv-cli
+```shell
+npm i -g dotenv-cli
+```
 
-## 开发模式
-```bash
+## 二、开发
+### 1、初始化数据库
+```shell
+npm run initDB:dev
+```
+其他环境的数据库初始化请指定环境变量
+
+### 2、运行程序
+```shell
 npm run dev
 ```
 
-## 部署模式
-```bash
-npm run build
-NODE_ENV=production node dist/index.js
-```
-
-## 配置文件
-```bash
-.env.production
-```
-
-## 初始化数据库
-```bash
-npm run initDB:prod
-```
-
-## swagger地址
-```bash
+### 3、swagger地址
+```shell
 http://localhost:11525/api/swagger-html
 ```
 
+## 三、部署
 
 
-## oracle数据库支持
+### 1、修改配置文件.env.production
+```shell
+NODE_ENV = production
+port=11525
+enableSsl=false
+ssl_key=''
+ssl_cert=''
+database_url="mysql://user:password@ip:port/database"
+```
+
+### 2、运行程序
+```shell
+npm run prod
+```
+
+
+## 四、oracle数据库支持说明
 需要拷贝oracle客户端文件至`oracledb\oracledb\build\Release`

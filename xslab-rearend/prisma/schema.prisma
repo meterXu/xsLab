@@ -4,10 +4,8 @@ generator client {
 
 datasource db {
   provider = "mysql"
-  url      = "mysql://root:123456@192.168.75.101:3307/xslab"
+  url      = env("database_url")
 }
-
-// env("database_url")
 
 model xs_canvas {
   id         Int      @id @default(autoincrement())

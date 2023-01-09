@@ -6,13 +6,10 @@
   "license": "MIT",
   "scripts": {
     "initDB:dev": "dotenv -e .env.development -- npx prisma migrate dev --name init",
-    "initDB:prod": "dotenv -e .env.production -- npx prisma migrate deploy",
-    "initDB:proxy": "dotenv -e .env.proxy -- npx prisma migrate dev --name init",
-    "db-studio": "dotenv -e .env.proxy -- npx prisma studio",
     "dev": "export NODE_ENV=development && nodemon --exec babel-node src/index.js",
-    "proxy": "export NODE_ENV=proxy && nodemon --exec babel-node src/index.js",
+    "db-studio": "dotenv -e .env.dev -- npx prisma studio",
     "build": "babel src -d bin && npm run initDB:prod",
-    "prod": "npm run build && export NODE_ENV=production && node bin/index.js"
+    "prod": "npm run build && dotenv -e .env.production -- npx prisma push && dotenv -e .env.production -- npx generate && export NODE_ENV=production && node bin/index.js"
   },
   "repository": {
     "type": "git",
