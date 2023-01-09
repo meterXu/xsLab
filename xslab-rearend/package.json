@@ -8,7 +8,7 @@
     "initDB:dev": "dotenv -e .env.development -- npx prisma migrate dev --name init",
     "dev": "export NODE_ENV=development && nodemon --exec babel-node src/index.js",
     "db-studio": "dotenv -e .env.dev -- npx prisma studio",
-    "build": "babel src -d bin && dotenv -e .env.production -- npx prisma db push && dotenv -e .env.production -- npx prisma generate",
+    "build": "babel src -d bin && dotenv -e .env.production -- npx prisma migrate deploy && dotenv -e .env.production -- npx prisma generate",
     "prod": "npm run build && export NODE_ENV=production && node bin/index.js"
   },
   "repository": {
