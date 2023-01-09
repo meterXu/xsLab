@@ -1,11 +1,11 @@
 <template>
 <div class="mtScale" ref="mtScale">
-  <div style="height: 30px;position:absolute;top: 0px;left: 0;right:0;background: #333">
-  </div>
-  <div style="width: 30px;position:absolute;top: 0px;left: 0;bottom:0;background: #333">
-  </div>
-  <div class="mtScale-container" @mousemove="mousemove">
-    <div @mousedown="mousedown" @mouseup="onmouseup" :style="'transform: translate('+location.x+'px, '+location.y+'px)'">
+<!--  <div style="height: 30px;position:absolute;top: 0px;left: 0;right:0;background: #333">-->
+<!--  </div>-->
+<!--  <div style="width: 30px;position:absolute;top: 0px;left: 0;bottom:0;background: #333">-->
+<!--  </div>-->
+  <div class="mtScale-container" @mousemove="mousemove" @mouseout="mouseout">
+    <div @mousedown="mousedown" @mouseup="mouseup" :style="'transform: translate('+location.x+'px, '+location.y+'px)'">
       <div @dragstart="()=>{return false}" :style="'transform-origin: 0px 0px;transform: scale('+scale+')'">
         <slot/>
       </div>
@@ -53,7 +53,7 @@ export default {
         x:0,
         y:0
       },
-      mouseLayer:{
+      shift:{
         x:0,
         y:0
       }
@@ -96,16 +96,23 @@ export default {
     },
     mousedown(){
       this.draggable = true
-      this.mouseLayer.x= parseInt(event.offsetX*this.scale)
-      this.mouseLayer.y= parseInt(event.offsetY*this.scale)
+      this.shift.x= parseInt(event.offsetX*this.scale)
+      this.shift.y= parseInt(event.offsetY*this.scale)
     },
     mousemove(){
       if(this.draggable){
-        this.location.x = event.layerX-this.mouseLayer.x
-        this.location.y = event.layerY-this.mouseLayer.y
+        this.location.x = event.layerX-this.shift.x
+        this.location.y = event.layerY-this.shift.y
       }
     },
-    onmouseup(){
+    mouseout(){
+      console.log(event.layerX)
+      if(this.draggable){
+        this.location.x = event.layerX-this.shift.x
+        this.location.y = event.layerY-this.shift.y
+      }
+    },
+    mouseup(){
       this.draggable = false
     },
     fullCanvas(){
@@ -165,11 +172,13 @@ export default {
   }
   .mtScale-container{
     flex: 1;
-    width: calc(100% - 30px);
-    height: calc(100% - 30px);
+    /*width: calc(100% - 30px);*/
+    /*height: calc(100% - 30px);*/
+    width: 100%;
+    height: 100%;
     overflow: hidden;
-    margin-left: 30px;
-    margin-top: 30px;
+    /*margin-left: 30px;*/
+    /*margin-top: 30px;*/
   }
   .mtScale-control{
     width: 100%;
