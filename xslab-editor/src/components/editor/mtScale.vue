@@ -1,5 +1,9 @@
 <template>
 <div class="mtScale" ref="mtScale">
+  <div style="height: 30px;position:absolute;top: 0px;left: 0;right:0;background: #333">
+  </div>
+  <div style="width: 30px;position:absolute;top: 0px;left: 0;bottom:0;background: #333">
+  </div>
   <div class="mtScale-container" @mousemove="mousemove">
     <div @mousedown="mousedown" @mouseup="onmouseup" :style="'transform: translate('+location.x+'px, '+location.y+'px)'">
       <div @dragstart="()=>{return false}" :style="'transform-origin: 0px 0px;transform: scale('+scale+')'">
@@ -104,10 +108,6 @@ export default {
     onmouseup(){
       this.draggable = false
     },
-    dragover(){
-      this.location.x = event.pageX
-      this.location.y = event.pageY
-    },
     fullCanvas(){
       this.scale = 1
       this.zoomLevel = 5
@@ -165,9 +165,11 @@ export default {
   }
   .mtScale-container{
     flex: 1;
-    width: 100%;
-    height: 100%;
+    width: calc(100% - 30px);
+    height: calc(100% - 30px);
     overflow: hidden;
+    margin-left: 30px;
+    margin-top: 30px;
   }
   .mtScale-control{
     width: 100%;
