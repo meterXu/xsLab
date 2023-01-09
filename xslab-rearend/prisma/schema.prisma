@@ -12,6 +12,7 @@ model xs_canvas {
   name       String
   data       String @db.Text
   options    String @db.Text
+  ruler      String? @db.Text
   createTime DateTime @default(now())
   delete     Int      @default(1)
   state      Int      @default(1)
