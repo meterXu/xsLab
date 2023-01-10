@@ -1,15 +1,18 @@
 <template>
   <div :style="view?'display: block':'display: inline-block'">
-    <div @drop="drop" @dragover="dragover" @click="canvasClick" :style="canvasStyle" :class="['mt_canvas', {mt_canvas_position:view}]">
+    <div ref="mt_canvas" @drop="drop" @dragover="dragover" @click="canvasClick" :style="canvasStyle" :class="['mt_canvas', {mt_canvas_position:view}]">
       <template v-for="item in charts">
         <XscNode :ref="item.id"
                  :key="item.id"
                  :node="item"
                  :view="view"
                  :class="[view?'mt_node_view':(item===activeNode ? 'mt_node_active': 'mt_node_base'),'dragging']"
-                 @nodeClick="nodeClick"
-                 @contextmenu="contextmenu"
-                 @mousedown="itemMousedown">
+                 @click.native="nodeClick(item)"
+                 @contextmenu.native="contextmenu(item)"
+                 @mousedown.native="itemMousedown(item)"
+                 @mouseup.native="removeMouseMove"
+                 @dragstart="()=>{return false}"
+                 >
           <template v-if="item.type==='dev'" v-slot:[item.config.options.key]>
             <slot :name="item.config.options.key"></slot>
           </template>
@@ -39,6 +42,7 @@ export default {
     Button
   },
   props: {
+    scale:Number,
     charts: {
       type: Array,
       default: null
@@ -56,7 +60,12 @@ export default {
     return {
       commonData: commonData,
       activeNode: null, // 活动的节点
-      startDrag: false
+      startDrag: false,
+      dragNode:null,
+      shift:{
+        x:0,
+        y:0
+      }
     }
   },
   watch:{
@@ -97,17 +106,34 @@ export default {
     }
   },
   methods: {
+    removeMouseMove(){
+      event.stopPropagation()
+      document.removeEventListener('mousemove',this.nodeMousemove)
+    },
     itemMousedown(node){
+      event.stopPropagation()
       if(!this.view){
-        event.stopPropagation()
-        let direction = 'drag';
-        let clickBox = event.currentTarget
-        this.nodeViewChange(clickBox,direction,node);
+        this.activeNode = node
+        let clickBox = event.currentTarget.getBoundingClientRect()
+        this.dragNode = this.charts.find(c => c.id === node.id)
+        this.shift.x = event.clientX-clickBox.left
+        this.shift.y = event.clientY-clickBox.top
+        document.removeEventListener('mousemove',this.nodeMousemove)
+        document.addEventListener('mousemove',this.nodeMousemove)
+      }
+    },
+    nodeMousemove(event){
+      event.stopPropagation()
+      if(!this.view){
+        const ownerRect = this.$refs.mt_canvas.getBoundingClientRect()
+        this.dragNode.config.box.x = parseInt((event.pageX-ownerRect.left-this.shift.x)/this.scale)
+        this.dragNode.config.box.y = parseInt((event.pageY-ownerRect.top-this.shift.y)/this.scale)
       }
     },
     reSizeMousedown(node,type){
+      event.stopPropagation()
       if(!this.view){
-        event.stopPropagation()
+        const dragNode = node
         let direction = 'rightBottomCorner';
         let clickBox = event.currentTarget.parentElement
         this.nodeViewChange(clickBox,direction,node,type);
@@ -116,41 +142,21 @@ export default {
     nodeViewChange(clickBox,direction,node,type){
       if(node){
         let dragNode = null
-        if(type==='chart'){
-          dragNode = this.charts.find(c => c.id === node.id)
-        }else{
-          dragNode = node
-        }
         let mouseDownX = event.pageX;
         let mouseDownY = event.pageY;
-        let clickBoxLeft = clickBox.offsetLeft;
-        let clickBoxTop = clickBox.offsetTop;
         let clickBoxWeight = clickBox.offsetWidth;
         let clickBoxHeight = clickBox.offsetHeight;
-        document.onmousemove = function(e) {
-          e =e||event;
-          let xx = e.clientX;
-          let yy = e.clientY;
-          if (direction === 'rightBottomCorner'){
-            if(type==='chart'){
-              dragNode.config.box.width = clickBoxWeight +xx-mouseDownX
-              dragNode.config.box.height = clickBoxHeight +yy-mouseDownY
-            }else{
-              dragNode.width = clickBoxWeight +xx-mouseDownX
-              dragNode.height = clickBoxHeight +yy-mouseDownY
-            }
-          }else if(direction === "drag"){
-            dragNode.config.box.x = xx-mouseDownX+clickBoxLeft
-            dragNode.config.box.y = yy-mouseDownY+clickBoxTop
-          }
-        };
-        document.onmouseup = function() {
-          document.onmousemove = null;
-          document.onmouseup = null;
-        };
       }
-      if (event.preventDefault){
-        event.preventDefault();
+    },
+    reSizeMousemove(){
+      let xx = event.clientX;
+      let yy = event.clientY;
+      if(type==='chart'){
+        this.dragNode.config.box.width = clickBoxWeight +xx-mouseDownX
+        this.dragNode.config.box.height = clickBoxHeight +yy-mouseDownY
+      }else{
+        this.dragNode.width = clickBoxWeight +xx-mouseDownX
+        this.dragNode.height = clickBoxHeight +yy-mouseDownY
       }
     },
     drop () {
@@ -183,27 +189,36 @@ export default {
         }
       }
     },
-    dragStart (node) {
-      this.activeNode = node
-      this.$emit('nodeActive')
-      this.startDrag = true
-    },
     canvasClick () {
-      this.activeNode = {
-        type: 'dom',
-        chart: 'canvas',
-        config: {
-          options: this.options
+      event.stopPropagation()
+      if(!this.view){
+        this.activeNode = {
+          type: 'dom',
+          chart: 'canvas',
+          config: {
+            options: this.options
+          }
         }
+        this.$emit('nodeActive')
       }
-      this.$emit('nodeActive')
     },
     nodeClick (node) {
+      event.stopPropagation()
       this.activeNode = node
-      this.$emit('nodeActive')
+      if(!this.view){
+        this.$emit('nodeActive')
+      }
     },
-    contextmenu (obj) {
-      this.$emit('contextmenu', obj)
+    contextmenu (node) {
+      event.preventDefault()
+      event.stopPropagation()
+      if (!this.view) {
+        this.$emit('contextmenu', {
+          x: node.config.box.x + event.offsetX,
+          y: node.config.box.y + event.offsetY,
+          id: node.id
+        })
+      }
     },
     getDataConf (id) {
       if (id) {

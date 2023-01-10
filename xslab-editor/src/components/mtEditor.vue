@@ -19,16 +19,19 @@
       <mtDbManager v-if="showDbManager"></mtDbManager>
       <mtSetting v-if="showDbSetting"></mtSetting>
       <mtScale ref="mtScale">
-        <Xsc ref="xsc" v-show="showCanvas"
-             :charts="canvasObj.data"
-             :options="canvasObj.options"
-             :view="false"
-             @drop="drop"
-             @contextmenu="contextmenu"
-             @nodeActive="nodeActive"
-             @loaded="xscLoaded">
-          <mtContextMenu v-if="showMenu" :point="mtMenuPoint" @menuClick="menuClick"></mtContextMenu>
-        </Xsc>
+        <template v-slot="{scale}">
+          <Xsc ref="xsc" v-show="showCanvas"
+               :charts="canvasObj.data"
+               :options="canvasObj.options"
+               :view="false"
+               :scale="scale"
+               @drop="drop"
+               @contextmenu="contextmenu"
+               @nodeActive="nodeActive"
+               @loaded="xscLoaded">
+            <mtContextMenu v-if="showMenu" :point="mtMenuPoint" @menuClick="menuClick"></mtContextMenu>
+          </Xsc>
+        </template>
       </mtScale>
       <mtOptions ref="mtOptions" :opNode="opNode" @postSaveOption="postSaveOption" @changeOption="changeOption"></mtOptions>
     </div>

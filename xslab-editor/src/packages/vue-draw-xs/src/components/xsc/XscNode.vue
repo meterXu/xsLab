@@ -1,10 +1,9 @@
 <template>
   <div tabindex="-1" :id="node.id" class="mt_node"
        :style="nodeStyle"
-       @click="nodeClick"
        @contextmenu="contextmenu"
        @keydown="keydown"
-       @mousedown="mousedown">
+  >
     <template>
       <eCharts ref='echarts'
                :id="node.id"
@@ -201,14 +200,7 @@ export default {
       }
     },
     contextmenu: function () {
-      if (!this.view) {
-        event.preventDefault()
-        this.$emit('contextmenu', {
-          x: this.node.config.box.x + event.offsetX,
-          y: this.node.config.box.y + event.offsetY,
-          id: this.node.id
-        })
-      }
+
     },
     loopUpdate () {
       let that = this
@@ -507,9 +499,6 @@ export default {
           break
         }
       }
-    },
-    mousedown(){
-      this.$emit('mousedown',this.node)
     },
     setChartOption () {
       if (this.node.type === 'eCharts' && this.node.config.data.source) {

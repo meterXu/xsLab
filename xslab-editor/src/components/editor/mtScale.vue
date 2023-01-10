@@ -1,19 +1,19 @@
 <template>
 <div class="mtScale" ref="mtScale">
-<!--  <div style="height: 30px;position:absolute;top: 0px;left: 0;right:0;background: #333">-->
-<!--  </div>-->
-<!--  <div style="width: 30px;position:absolute;top: 0px;left: 0;bottom:0;background: #333">-->
-<!--  </div>-->
-  <div class="mtScale-container" @mousemove="mousemove" @mouseout="mouseout">
-    <div @mousedown="mousedown" @mouseup="mouseup" :style="'transform: translate('+location.x+'px, '+location.y+'px)'">
-      <div @dragstart="()=>{return false}" :style="'transform-origin: 0px 0px;transform: scale('+scale+')'">
-        <slot/>
+  <div class="ruler-container-top">
+  </div>
+  <div class="ruler-container-right">
+  </div>
+  <div ref="mtScale-container" class="mtScale-container">
+    <div ref="mtScale-content" class="mtScale-content" @contextmenu="contextmenu" @mouseup="mouseup" :style="mtScaleContentStyle">
+      <div ref="mtScale-view" @dragstart="()=>{return false}" :style="'transform-origin: 0px 0px;transform: scale('+scale+')'">
+        <slot v-bind:scale="scale"/>
       </div>
     </div>
   </div>
   <div class="mtScale-control">
     <div class="mtScale-control-item" style="text-align: center">
-      <Icon @click="zoomOut" style="position: relative;top: -1px;margin-right: 3px" :size="14" color="#F56C6C" type="ios-remove-circle"></Icon>
+      <Icon @click="zoomOut" style="position: relative;top: -1px;margin-right: 3px" :size="14" color="#E6A23C" type="ios-remove-circle"></Icon>
       <Dropdown placement="top" @on-click="percentageChange">
         <a href="javascript:void(0)">
           {{percentage}}
@@ -21,19 +21,19 @@
         <Dropdown-menu slot="list">
           <Dropdown-item v-for="item in scaleList" :name="item" :key="item">{{`${item*100}%`}}</Dropdown-item>
           <Dropdown-item divided name="fitCanvas">适应画布</Dropdown-item>
-          <Dropdown-item name="fitSelect">适应选区</Dropdown-item>
+<!--          <Dropdown-item name="fitSelect">适应选区</Dropdown-item>-->
         </Dropdown-menu>
       </Dropdown>
       <Icon @click="zoomIn" style="position: relative;top: -1px;margin-left: 3px" color="#67C23A" :size="14" type="ios-add-circle"></Icon>
     </div>
     <div class="mtScale-control-item">
-      <Icon :size="18" type="md-contract" title="适应画布" @click="fitCanvas"></Icon>
+      <Icon :size="18" color="#909399" type="md-contract" title="适应画布" @click="fitCanvas"></Icon>
     </div>
     <div class="mtScale-control-item">
-      <Icon :size="18" type="md-expand" title="100%" @click="fullCanvas"></Icon>
+      <Icon :size="18" color="#909399" type="md-expand" title="100%" @click="fullCanvas"></Icon>
     </div>
     <div class="mtScale-control-item">
-      <Icon :size="18" type="ios-navigate" title="导航"></Icon>
+      <Icon :size="18" color="#909399" type="ios-navigate" title="导航"></Icon>
     </div>
   </div>
 </div>
@@ -63,6 +63,11 @@ export default {
     ...mapGetters(['activeNode']),
     percentage(){
       return `${this.scale*100}%`
+    },
+    mtScaleContentStyle(){
+      return {
+        transform:`translate(${this.location.x}px, ${this.location.y}px)`
+      }
     }
   },
   methods:{
@@ -81,39 +86,40 @@ export default {
       }
     },
     fitCanvas(){
-      const mtScaleContainer = document.getElementsByClassName('mtScale-container')[0]
-      const mtCanvas = document.getElementsByClassName('mt_canvas')[0]
-      this.scale = parseFloat((mtScaleContainer.clientWidth/(mtCanvas.clientWidth+60)).toFixed(2))
-      this.scale =this.scale>1?1:this.scale
-      this.zoomLevel = this.getZoomLevel()
-      this.resetLocation()
+      const mtScaleContainer = this.$refs['mtScale-container']
+      const mtCanvas = this.$refs['mtScale-view'].children[0]
+      if(mtCanvas){
+        this.scale = parseFloat((mtScaleContainer.clientWidth/(mtCanvas.clientWidth+60)).toFixed(2))
+        this.scale =this.scale>1?1:this.scale
+        this.zoomLevel = this.getZoomLevel()
+        this.resetLocation()
+      }
     },
     fitSelect(){
-      const mtCanvas = document.getElementsByClassName('mt_canvas')[0]
-      this.scale = parseFloat((mtCanvas.clientWidth/this.activeNode.config.box.width+60).toFixed(2))
-      this.zoomLevel = this.getZoomLevel()
-      this.resetLocation()
-    },
-    mousedown(){
-      this.draggable = true
-      this.shift.x= parseInt(event.offsetX*this.scale)
-      this.shift.y= parseInt(event.offsetY*this.scale)
-    },
-    mousemove(){
-      if(this.draggable){
-        this.location.x = event.layerX-this.shift.x
-        this.location.y = event.layerY-this.shift.y
+      const mtCanvas = this.$refs['mtScale-view'].children[0]
+      if(mtCanvas){
+        this.scale = parseFloat((mtCanvas.clientWidth/this.activeNode.config.box.width+60).toFixed(2))
+        this.zoomLevel = this.getZoomLevel()
+        this.resetLocation()
       }
     },
-    mouseout(){
-      console.log(event.layerX)
-      if(this.draggable){
-        this.location.x = event.layerX-this.shift.x
-        this.location.y = event.layerY-this.shift.y
-      }
+    contextmenu(){
+      event.preventDefault()
+      this.$refs['mtScale-view'].classList.add('cursor-move')
+      const ownerRect = this.$refs['mtScale-content'].getBoundingClientRect()
+      this.shift.x= event.clientX-ownerRect.left
+      this.shift.y= event.clientY-ownerRect.top
+      document.removeEventListener('mousemove',this.mousemove)
+      document.addEventListener('mousemove',this.mousemove)
+    },
+    mousemove(event){
+      const ownerRect = this.$refs['mtScale-container'].getBoundingClientRect()
+      this.location.x = event.pageX-ownerRect.left-this.shift.x
+      this.location.y = event.pageY-ownerRect.top-this.shift.y
     },
     mouseup(){
-      this.draggable = false
+      this.$refs['mtScale-view'].classList.remove('cursor-move')
+      document.removeEventListener('mousemove',this.mousemove)
     },
     fullCanvas(){
       this.scale = 1
@@ -151,10 +157,12 @@ export default {
       }
     },
     resetLocation(){
-      const mtScaleContainer = document.getElementsByClassName('mtScale-container')[0]
-      const mtCanvas = document.getElementsByClassName('mt_canvas')[0]
-      this.location.x=(mtScaleContainer.clientWidth-mtCanvas.clientWidth*this.scale)/2
-      this.location.y=this.location.x>30?30:this.location.x
+      const mtScaleContainer = this.$refs['mtScale-container']
+      const mtCanvas = this.$refs['mtScale-view'].children[0]
+      if(mtCanvas){
+        this.location.x=(mtScaleContainer.clientWidth-mtCanvas.clientWidth*this.scale)/2
+        this.location.y=this.location.x>30?30:this.location.x
+      }
     }
   }
 }
@@ -172,13 +180,11 @@ export default {
   }
   .mtScale-container{
     flex: 1;
-    /*width: calc(100% - 30px);*/
-    /*height: calc(100% - 30px);*/
-    width: 100%;
-    height: 100%;
+    width: calc(100% - 20px);
+    height: calc(100% - 20px);
     overflow: hidden;
-    /*margin-left: 30px;*/
-    /*margin-top: 30px;*/
+    margin-left: 20px;
+    margin-top: 20px;
   }
   .mtScale-control{
     width: 100%;
@@ -198,24 +204,25 @@ export default {
   .mtScale-control-item+.mtScale-control-item{
     margin-left: 10px;
   }
-  /* 设置滚动条的样式 */
-  ::-webkit-scrollbar {
-    width:6px;
-    height:6px;
+  .ruler-container-top{
+    height: 20px;
+    position:absolute;
+    top: 0;
+    left: 20px;
+    right:0;
+    background: #909399;
+    z-index: 2;
   }
-  /* 滚动槽 */
-  ::-webkit-scrollbar-track {
-    border-radius:0px;
+  .ruler-container-right{
+    width: 20px;
+    position:absolute;
+    top: 20px;
+    left: 0;
+    bottom:0;
+    background: #909399;
+    z-index: 2;
   }
-  /* 滚动条滑块 */
-  ::-webkit-scrollbar-thumb {
-    border-radius:0px;
-    background:#939393;
-  }
-  ::-webkit-scrollbar-thumb:window-inactive {
-    background:#fd5f5f;
-  }
-  ::-webkit-scrollbar-corner{
-    background: none
+  .cursor-move{
+    cursor: move;
   }
 </style>
