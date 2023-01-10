@@ -17,7 +17,7 @@
             <slot :name="item.config.options.key"></slot>
           </template>
           <template v-slot:resize>
-          <span  @mousedown="reSizeMousedown(item,'chart')">
+          <span @dragstart="()=>{return false}" @mousedown="changeSizeSizeMousedown(item,'chart')" @mouseup="removeChangeSizeMouseMove">
             <Button ref="resize" v-if="!view&&item===activeNode" class="node_resize" shape="circle" icon="ios-resize"></Button>
           </span>
           </template>
@@ -25,9 +25,9 @@
       </template>
       <slot></slot>
     </div>
-    <span  @mousedown="reSizeMousedown(options,'canvas')">
+    <span @dragstart="()=>{return false}" @mousedown="changeSizeSizeMousedown(options,'canvas')" @mouseup="removeChangeSizeMouseMove">
       <Button ref="resize" v-if="!view&&activeNode&&activeNode.chart==='canvas'" class="node_resize" shape="circle" icon="ios-resize"></Button>
-  </span>
+    </span>
   </div>
 </template>
 <script>
@@ -64,7 +64,8 @@ export default {
       dragNode:null,
       shift:{
         x:0,
-        y:0
+        y:0,
+        type:null
       }
     }
   },
@@ -110,6 +111,10 @@ export default {
       event.stopPropagation()
       document.removeEventListener('mousemove',this.nodeMousemove)
     },
+    removeChangeSizeMouseMove(){
+      event.stopPropagation()
+      document.removeEventListener('mousemove',this.changeSizeMousemove)
+    },
     itemMousedown(node){
       event.stopPropagation()
       if(!this.view){
@@ -130,33 +135,44 @@ export default {
         this.dragNode.config.box.y = parseInt((event.pageY-ownerRect.top-this.shift.y)/this.scale)
       }
     },
-    reSizeMousedown(node,type){
+    changeSizeSizeMousedown(node,type){
       event.stopPropagation()
       if(!this.view){
-        const dragNode = node
-        let direction = 'rightBottomCorner';
-        let clickBox = event.currentTarget.parentElement
-        this.nodeViewChange(clickBox,direction,node,type);
+        this.dragNode = node
+        this.shift.type=type
+        switch (type){
+          case 'chart':{
+            let clickBoxWeight = event.currentTarget.parentElement.offsetWidth;
+            let clickBoxHeight = event.currentTarget.parentElement.offsetHeight;
+            this.shift.x = parseInt(clickBoxWeight*this.scale)-event.clientX
+            this.shift.y = parseInt(clickBoxHeight*this.scale)-event.clientY
+            document.removeEventListener('mousemove',this.changeSizeMousemove)
+            document.addEventListener('mousemove',this.changeSizeMousemove)
+          }break
+          case 'canvas':{
+            let clickBoxWeight = event.currentTarget.previousSibling.offsetWidth;
+            let clickBoxHeight = event.currentTarget.previousSibling.offsetHeight;
+            this.shift.x = parseInt(clickBoxWeight*this.scale)-event.clientX
+            this.shift.y = parseInt(clickBoxHeight*this.scale)-event.clientY
+            document.removeEventListener('mousemove',this.changeSizeMousemove)
+            document.addEventListener('mousemove',this.changeSizeMousemove)
+          }break
+        }
       }
     },
-    nodeViewChange(clickBox,direction,node,type){
-      if(node){
-        let dragNode = null
-        let mouseDownX = event.pageX;
-        let mouseDownY = event.pageY;
-        let clickBoxWeight = clickBox.offsetWidth;
-        let clickBoxHeight = clickBox.offsetHeight;
-      }
-    },
-    reSizeMousemove(){
-      let xx = event.clientX;
-      let yy = event.clientY;
-      if(type==='chart'){
-        this.dragNode.config.box.width = clickBoxWeight +xx-mouseDownX
-        this.dragNode.config.box.height = clickBoxHeight +yy-mouseDownY
-      }else{
-        this.dragNode.width = clickBoxWeight +xx-mouseDownX
-        this.dragNode.height = clickBoxHeight +yy-mouseDownY
+    changeSizeMousemove(event){
+      switch (this.shift.type){
+        case 'chart':{
+          this.dragNode.config.box.width = parseInt((event.pageX+this.shift.x)/this.scale)
+          this.dragNode.config.box.height = parseInt((event.pageY+this.shift.y)/this.scale)
+        }break
+        case 'canvas':{
+          console.log(event.pageX)
+          console.log(this.shift.x)
+          console.log(this.shift.y)
+          this.dragNode.width = parseInt((event.pageX+this.shift.x)/this.scale)
+          this.dragNode.height = parseInt((event.pageY+this.shift.y)/this.scale)
+        }break
       }
     },
     drop () {
@@ -172,21 +188,6 @@ export default {
       if (!this.view) {
         event.preventDefault()
         event.stopPropagation()
-        if (this.activeNode) {
-          this.startDrag = false
-          let dragNode = this.charts.find(c => c.id === this.activeNode.id)
-          if (dragNode) {
-            let rbpars = {scrollx: 0, scrolly: 0, offsetx: 0, offsety: 0}
-            if (event.currentTarget.parentElement) {
-              rbpars.scrollx = event.currentTarget.parentElement.scrollLeft
-              rbpars.scrolly = event.currentTarget.parentElement.scrollTop
-              rbpars.offsetx = event.currentTarget.parentElement.offsetLeft
-              rbpars.offsety = event.currentTarget.parentElement.offsetTop
-            }
-            dragNode.config.box.x = event.pageX - dragNode.config.box.width / 2 - rbpars.offsetx + rbpars.scrollx
-            dragNode.config.box.y = event.pageY - dragNode.config.box.height / 2 - rbpars.offsety + rbpars.scrolly
-          }
-        }
       }
     },
     canvasClick () {
@@ -349,7 +350,7 @@ export default {
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
   }
   .node_resize{
-    cursor: se-resize;
+    cursor: nwse-resize;
     float: right;
     width: 24px;
     height: 24px;

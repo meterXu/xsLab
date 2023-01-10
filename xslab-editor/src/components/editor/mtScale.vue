@@ -4,7 +4,7 @@
   </div>
   <div class="ruler-container-right">
   </div>
-  <div ref="mtScale-container" class="mtScale-container">
+  <div ref="mtScale-container" class="mtScale-container" @contextmenu="(event)=>{event.preventDefault()}">
     <div ref="mtScale-content" class="mtScale-content" @contextmenu="contextmenu" @mouseup="mouseup" :style="mtScaleContentStyle">
       <div ref="mtScale-view" @dragstart="()=>{return false}" :style="'transform-origin: 0px 0px;transform: scale('+scale+')'">
         <slot v-bind:scale="scale"/>
@@ -21,16 +21,15 @@
         <Dropdown-menu slot="list">
           <Dropdown-item v-for="item in scaleList" :name="item" :key="item">{{`${item*100}%`}}</Dropdown-item>
           <Dropdown-item divided name="fitCanvas">适应画布</Dropdown-item>
-<!--          <Dropdown-item name="fitSelect">适应选区</Dropdown-item>-->
         </Dropdown-menu>
       </Dropdown>
       <Icon @click="zoomIn" style="position: relative;top: -1px;margin-left: 3px" color="#67C23A" :size="14" type="ios-add-circle"></Icon>
     </div>
     <div class="mtScale-control-item">
-      <Icon :size="18" color="#909399" type="md-contract" title="适应画布" @click="fitCanvas"></Icon>
+      <Icon :size="18" color="#909399" type="md-expand" title="100%" @click="fullCanvas"></Icon>
     </div>
     <div class="mtScale-control-item">
-      <Icon :size="18" color="#909399" type="md-expand" title="100%" @click="fullCanvas"></Icon>
+      <Icon :size="18" color="#909399" type="md-contract" title="适应画布" @click="fitCanvas"></Icon>
     </div>
     <div class="mtScale-control-item">
       <Icon :size="18" color="#909399" type="ios-navigate" title="导航"></Icon>
@@ -91,14 +90,6 @@ export default {
       if(mtCanvas){
         this.scale = parseFloat((mtScaleContainer.clientWidth/(mtCanvas.clientWidth+60)).toFixed(2))
         this.scale =this.scale>1?1:this.scale
-        this.zoomLevel = this.getZoomLevel()
-        this.resetLocation()
-      }
-    },
-    fitSelect(){
-      const mtCanvas = this.$refs['mtScale-view'].children[0]
-      if(mtCanvas){
-        this.scale = parseFloat((mtCanvas.clientWidth/this.activeNode.config.box.width+60).toFixed(2))
         this.zoomLevel = this.getZoomLevel()
         this.resetLocation()
       }
@@ -176,9 +167,10 @@ export default {
     display: inline-flex;
     flex-flow: column;
     justify-content: flex-start;
-    background: url("../../assets/scaleBg.png") repeat repeat;
+    background-color: #909399;
   }
   .mtScale-container{
+    background: url("../../assets/scaleBg.png") repeat repeat;
     flex: 1;
     width: calc(100% - 20px);
     height: calc(100% - 20px);
@@ -204,6 +196,10 @@ export default {
   .mtScale-control-item+.mtScale-control-item{
     margin-left: 10px;
   }
+  .ruler-container-top,.ruler-container-right{
+    box-sizing: border-box;
+    border-color: #333333;
+  }
   .ruler-container-top{
     height: 20px;
     position:absolute;
@@ -212,6 +208,7 @@ export default {
     right:0;
     background: #909399;
     z-index: 2;
+    border-left: 1px solid;
   }
   .ruler-container-right{
     width: 20px;
@@ -221,6 +218,7 @@ export default {
     bottom:0;
     background: #909399;
     z-index: 2;
+    border-top: 1px solid;
   }
   .cursor-move{
     cursor: move;

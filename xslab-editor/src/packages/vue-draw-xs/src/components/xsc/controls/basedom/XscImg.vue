@@ -1,5 +1,5 @@
 <template>
-  <img class="d_img" :src="src"/>
+  <img draggable="false" @dragstart="()=>{return false}" class="d_img" :src="src"/>
 </template>
 
 <script>

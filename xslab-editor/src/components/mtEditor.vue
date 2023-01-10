@@ -198,13 +198,13 @@ export default {
     drop () {
       if (!this.view) {
         if (this.editorData.dragMenuNode) {
-          let scrollLeft = this.$refs.mtScale.$el.scrollLeft
-          let scrollTop = this.$refs.mtScale.$el.scrollTop
+          const ownerRect = this.$refs.xsc.$el.getBoundingClientRect()
+          const scale =  this.$refs.mtScale.scale
           let cloneConfig = JSON.parse(JSON.stringify(this.editorData.resources.initOptions[this.editorData.dragMenuNode.type][this.editorData.dragMenuNode.chart] || {}))
-          cloneConfig.box.x = event.x -
-            this.editorData.resources.initOptions[this.editorData.dragMenuNode.type][this.editorData.dragMenuNode.chart].box.width / 2 - 200 + scrollLeft
-          cloneConfig.box.y = event.y -
-            this.editorData.resources.initOptions[this.editorData.dragMenuNode.type][this.editorData.dragMenuNode.chart].box.height / 2 - 50 + scrollTop
+          const width = this.editorData.resources.initOptions[this.editorData.dragMenuNode.type][this.editorData.dragMenuNode.chart].box.width
+          const height = this.editorData.resources.initOptions[this.editorData.dragMenuNode.type][this.editorData.dragMenuNode.chart].box.height
+          cloneConfig.box.x = parseInt((event.pageX - ownerRect.left)/scale)-width/2
+          cloneConfig.box.y = parseInt((event.pageY - ownerRect.top)/scale)-height/2
           cloneConfig.theme = this.$config.defaultChartTheme||'light'
           let addChart = {
             id: (new Date()).valueOf(),
