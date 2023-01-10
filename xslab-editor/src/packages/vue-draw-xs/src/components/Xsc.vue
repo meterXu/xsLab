@@ -8,7 +8,6 @@
                  :view="view"
                  :class="[view?'mt_node_view':(item===activeNode ? 'mt_node_active': 'mt_node_base'),'dragging']"
                  @click.native="nodeClick(item)"
-                 @contextmenu.native="contextmenu(item)"
                  @mousedown.native="itemMousedown(item)"
                  @mouseup.native="removeMouseMove"
                  @dragstart="()=>{return false}"
@@ -116,16 +115,23 @@ export default {
       document.removeEventListener('mousemove',this.changeSizeMousemove)
     },
     itemMousedown(node){
+      event.preventDefault()
       event.stopPropagation()
-      if(!this.view){
-        this.activeNode = node
-        let clickBox = event.currentTarget.getBoundingClientRect()
-        this.dragNode = this.charts.find(c => c.id === node.id)
-        this.shift.x = event.clientX-clickBox.left
-        this.shift.y = event.clientY-clickBox.top
-        document.removeEventListener('mousemove',this.nodeMousemove)
-        document.addEventListener('mousemove',this.nodeMousemove)
+      const mouseEvent = {
+        0: () => {
+          if(!this.view){
+            this.activeNode = node
+            let clickBox = event.currentTarget.getBoundingClientRect()
+            this.dragNode = this.charts.find(c => c.id === node.id)
+            this.shift.x = event.clientX-clickBox.left
+            this.shift.y = event.clientY-clickBox.top
+            document.removeEventListener('mousemove',this.nodeMousemove)
+            document.addEventListener('mousemove',this.nodeMousemove)
+          }
+        },
+        2: () => this.contextmenu(node)
       }
+      mouseEvent[ event.button ]();
     },
     nodeMousemove(event){
       event.stopPropagation()

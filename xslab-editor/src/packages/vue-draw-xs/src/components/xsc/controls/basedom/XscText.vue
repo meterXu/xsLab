@@ -25,7 +25,8 @@ export default {
         'font-size': this.options.text.fontSize + 'px',
         'font-family': this.options.text.fontFamily,
         'font-weight': this.options.text.fontWeight,
-        'color': this.options.text.color || this.themeStyle.text.text.color
+        'color': this.options.text.color || this.themeStyle.text.text.color,
+        'user-select':'none'
       }
     },
     boxStyle () {
