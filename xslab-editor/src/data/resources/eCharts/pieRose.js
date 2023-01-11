@@ -88,7 +88,7 @@ const pieRose = {
     },
     data: {
       coordinate: 'pie', // 饼图，无坐标系
-      loop: true,
+      loop: false,
       interval: 30,
       source: [
         {type: 2,

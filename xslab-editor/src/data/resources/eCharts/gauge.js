@@ -84,7 +84,7 @@ const gauge = { // 简单仪表盘
     },
     data: {
       coordinate: 'pie', // 量规，无坐标系
-      loop: true,
+      loop: false,
       interval: 30,
       source: [
         {type: 2,

@@ -2,7 +2,6 @@ import commonData from '../commonData'
 const canvas = {
   resource: {
     type: 'canvas',
-    theme: 'default',
     options:{
       id: null,
       name: null,
@@ -41,7 +40,8 @@ const canvas = {
           key: 'options',
           name: '背景',
           sub: [
-            {key: 'backgroundImage', name: '图片', type: 'img-selector',props:{
+            {key: 'backgroundColor', name: '背景色', type: 'color'},
+            {key: 'backgroundImage', name: '背景图', type: 'img-selector',props:{
                 title:'背景设置',
                 source:[{
                   title:'正常图片',
@@ -51,33 +51,9 @@ const canvas = {
                   imgsUrl:'/api/img/list?bigType=bg&smallType=long'
                 }]
               }},
-            {key: 'backgroundSize', name: '大小', type: 'text'},
+            {key: 'backgroundSize', name: '图片大小', type: 'select',data:commonData.backgroundSize},
             {key: 'backgroundRepeat', name: '重复模式', type: 'select', data: commonData.repeat},
             { key: '', type: 'div', style: { height: 200 } }
-          ]
-        }
-      ]
-    },
-      {
-      type: '样式',
-      icon: 'md-brush',
-      con: [
-        {
-          key: 'options',
-          name: '全局',
-          sub: [
-            {key: 'theme',
-              name: '主题',
-              type: 'select',
-              data: commonData.theme}
-          ]
-        },
-        {
-          key: 'options',
-          name: '背景',
-          sub: [
-            {key: 'backgroundColor', name: '颜色', type: 'color'},
-            { key: '', type: 'div', style: { height: 300 } }
           ]
         }
       ]

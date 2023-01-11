@@ -8,7 +8,7 @@ export default
     '#c4ebad',
     '#96dee8'
   ],
-  'backgroundColor': 'rgba(252,252,252,0)',
+  'backgroundColor': 'transparent',
   'textStyle': {},
   'title': {
     'textStyle': {

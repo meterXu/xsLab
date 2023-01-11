@@ -77,7 +77,7 @@ const table = {
     },
     data: {
       coordinate: 'table', // 无坐标系
-      loop: true,
+      loop: false,
       interval: 30,
       source: [
         {type: 2,

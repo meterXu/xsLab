@@ -10,7 +10,7 @@ export default
     '#d2f5a6',
     '#76f2f2'
   ],
-  'backgroundColor': '#293441',
+  'backgroundColor': 'transparent',
   'textStyle': {},
   'title': {
     'textStyle': {

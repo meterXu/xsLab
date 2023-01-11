@@ -43,7 +43,8 @@ const axisCommon = function () {
     }
   }
 }
-const darkblue = {
+const yyjk = {
+  backgroundColor: 'transparent',
   color: colorPalette,
   tooltip: {
     axisPointer: {
@@ -137,4 +138,4 @@ const darkblue = {
     }
   }
 }
-export default darkblue
+export default yyjk

@@ -18,7 +18,22 @@ import XscIframe from './basedom/XscIframe'
 import XscCard from './basedom/XscCard'
 import XscSlide from './basedom/XscSlide'
 import XscDiv from "./basedom/XscDiv";
-import commData from '../../../data/commonData'
+import darkblue from '../../../data/theme/basedom/dark-blue'
+import light from '../../../data/theme/basedom/light'
+import normal from '../../../data/theme/basedom/normal'
+import dark from '../../../data/theme/basedom/dark'
+import chalk from '../../../data/theme/basedom/chalk'
+import essos from '../../../data/theme/basedom/essos'
+import halloween from '../../../data/theme/basedom/halloween'
+import infographic from '../../../data/theme/basedom/infographic'
+import macarons from '../../../data/theme/basedom/macarons'
+import purplePassion from '../../../data/theme/basedom/purple-passion'
+import roma from '../../../data/theme/basedom/roma'
+import shine from '../../../data/theme/basedom/shine'
+import vintage from '../../../data/theme/basedom/vintage'
+import walden from '../../../data/theme/basedom/walden'
+import westeros from '../../../data/theme/basedom/westeros'
+import wonderland from '../../../data/theme/basedom/wonderland'
 export default {
   name: 'XscDom',
   components: {
@@ -39,7 +54,24 @@ export default {
   },
   data () {
     return {
-      'themeData': commData.themeData
+      themeData: {
+        'dark-blue':darkblue,
+        'purple-passion':purplePassion,
+        light,
+        normal,
+        dark,
+        chalk,
+        essos,
+        halloween,
+        infographic,
+        macarons,
+        roma,
+        shine,
+        vintage,
+        walden,
+        westeros,
+        wonderland
+      }
     }
   }
 }

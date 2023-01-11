@@ -1,17 +1,15 @@
 export default {
   generateTheme: function (colorPalette) {
-    if (!colorPalette) {
-      colorPalette = {
-        background: '#fff',
-        color: '#fff',
-        theme: [
-          '#fff',
-          '#BC3333',
-          '#333',
-          '#ddd'
-        ],
-        border: '#CCCCCC' }
-    }
+    colorPalette = colorPalette||{
+      background: '#fff',
+      color: '#fff',
+      theme: [
+        '#fff',
+        '#BC3333',
+        '#333',
+        '#ddd'
+      ],
+      border: '#CCCCCC' }
     return {
       canvas: {
         backgroundColor: colorPalette.background

@@ -1,12 +1,12 @@
 import themefactory from '../domThemefactory'
 let colorPalette = {
-  background: '#fff',
-  color: '#333333',
+  background: '#333333',
+  color: '#eee',
   theme: [
-    '#e01f54',
-    '#001852',
-    '#f5e8c8',
-    '#b8d2c7'
+    '#00305a',
+    '#004b8d',
+    '#0074d9',
+    '#4192d9',
   ],
-  border: '#CCCCCC' }
+  border: '#222' }
 export default themefactory.generateTheme(colorPalette)

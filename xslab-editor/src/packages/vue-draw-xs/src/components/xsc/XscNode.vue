@@ -49,30 +49,16 @@ import 'echarts/lib/component/dataset'
 import 'echarts/map/js/world'
 import 'zrender/lib/svg/svg'
 import 'echarts-liquidfill'
-import 'echarts/theme/infographic'
-import 'echarts/theme/macarons'
-import 'echarts/theme/roma'
-import 'echarts/theme/shine'
-import 'echarts/theme/vintage'
-import darkblue from '../../data/theme/echarts/darkblue'
-import halloween from '../../data/theme/echarts/halloween'
-import chalk from '../../data/theme/echarts/chalk'
-import westeros from '../../data/theme/echarts/westeros'
-import essos from '../../data/theme/echarts/essos'
-import wonderland from '../../data/theme/echarts/wonderland'
-import walden from '../../data/theme/echarts/walden'
-import purplePassion from '../../data/theme/echarts/purple-passion'
+
 import XscDom from './controls/XscDom'
 import XscDev from './controls/XscDev'
 import axios from 'axios'
-eCharts.registerTheme('darkblue', darkblue)
-eCharts.registerTheme('halloween', halloween)
-eCharts.registerTheme('chalk', chalk)
-eCharts.registerTheme('westeros', westeros)
-eCharts.registerTheme('essos', essos)
-eCharts.registerTheme('wonderland', wonderland)
-eCharts.registerTheme('walden', walden)
-eCharts.registerTheme('purple-passion', purplePassion)
+
+import echartsThemes from "../../data/theme/echartsThemes";
+Object.keys(echartsThemes).forEach(theme=>{
+  eCharts.registerTheme(theme, echartsThemes[theme])
+})
+
 function getDbData (that, dbs, sqls) {
   return new Promise((resolve, reject) => {
     if (dbs.length > 0 && sqls.length > 0) {

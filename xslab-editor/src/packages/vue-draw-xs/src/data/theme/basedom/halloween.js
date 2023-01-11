@@ -1,4 +1,4 @@
-import themefactory from './themefactory'
+import themefactory from '../domThemefactory'
 let colorPalette = {
   background: 'rgba(64,64,64,0.5)',
   color: '#ffaf51',

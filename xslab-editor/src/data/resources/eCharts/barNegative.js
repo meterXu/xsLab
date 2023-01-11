@@ -121,7 +121,7 @@ const barNegative = {
     },
     data: {
       coordinate: 'rightAngle', // 直角坐标系
-      loop: true,
+      loop: false,
       interval: 30,
       source: [
         {type: 2,

@@ -1,3 +1,5 @@
+import blue from "@/packages/vue-draw-xs/src/data/theme/echarts/blue";
+
 let commonData = {
   dataSourceType: [
     {text: 'mysql', value: "3"},
@@ -8,11 +10,18 @@ let commonData = {
     {text: '明亮', value: 'light'},
     {text: '暗黑', value: 'dark'}
   ],
+  backgroundSize:[
+    {text: 'cover', value: 'cover'},
+    {text: 'contain', value: 'contain'},
+    {text: '100%', value: '100%'},
+  ],
   theme: [
     {text: 'normal', value: 'normal'},
-    {text: 'darkblue', value: 'darkblue'},
     {text: 'light', value: 'light'},
+    {text: 'blue', value: 'blue'},
     {text: 'dark', value: 'dark'},
+    {text: 'dark-blue', value: 'dark-blue'},
+    {text: 'yyjk', value: 'yyjk'},
     {text: 'chalk', value: 'chalk'},
     {text: 'essos', value: 'essos'},
     {text: 'halloween', value: 'halloween'},

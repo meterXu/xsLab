@@ -32,7 +32,6 @@
 <script>
 import 'iview/dist/styles/iview.css'
 import XscNode from './xsc/XscNode'
-import commonData from '../data/commonData'
 import {Button} from 'iview'
 export default {
   name: 'Xsc',
@@ -57,7 +56,6 @@ export default {
   },
   data () {
     return {
-      commonData: commonData,
       activeNode: null, // 活动的节点
       startDrag: false,
       dragNode:null,
@@ -79,19 +77,12 @@ export default {
     }
   },
   computed: {
-    themeStyle () {
-      if (this.commonData.themeData) {
-        return this.commonData.themeData[(this.options === undefined || this.options === null) ? 'light' : this.options.theme || 'light']
-      } else {
-        return null
-      }
-    },
     canvasStyle () { // 画布样式
       if (this.options) {
         return {
           width: this.options.width + 'px',
           height: this.options.height + 'px',
-          'background-color': this.options.backgroundColor || this.themeStyle.canvas.backgroundColor,
+          'background-color': this.options.backgroundColor,
           'background-image': 'url(\'' + this.options.backgroundImage + '\')',
           'background-size': this.options.backgroundSize,
           'background-repeat': this.options.backgroundRepeat

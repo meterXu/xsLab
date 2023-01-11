@@ -6,7 +6,7 @@ let halloween = {
     '#8c6ac4',
     '#715c87'
   ],
-  'backgroundColor': 'rgba(64,64,64,0.5)',
+  'backgroundColor': 'transparent',
   'textStyle': {},
   'title': {
     'textStyle': {
