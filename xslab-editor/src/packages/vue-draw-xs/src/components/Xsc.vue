@@ -173,9 +173,6 @@ export default {
           this.dragNode.config.box.height = parseInt((event.pageY+this.shift.y)/this.scale)
         }break
         case 'canvas':{
-          console.log(event.pageX)
-          console.log(this.shift.x)
-          console.log(this.shift.y)
           this.dragNode.width = parseInt((event.pageX+this.shift.x)/this.scale)
           this.dragNode.height = parseInt((event.pageY+this.shift.y)/this.scale)
         }break
@@ -197,6 +194,7 @@ export default {
       }
     },
     canvasClick () {
+      event.preventDefault()
       event.stopPropagation()
       if(!this.view){
         this.activeNode = {
@@ -210,6 +208,7 @@ export default {
       }
     },
     nodeClick (node) {
+      event.preventDefault()
       event.stopPropagation()
       this.activeNode = node
       if(!this.view){

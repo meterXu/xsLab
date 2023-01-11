@@ -1,7 +1,6 @@
 <template>
   <div tabindex="-1" :id="node.id" class="mt_node"
        :style="nodeStyle"
-       @contextmenu="contextmenu"
        @keydown="keydown"
   >
     <template>
@@ -198,9 +197,6 @@ export default {
       if (!this.view) {
         this.$emit('dragStart', this.node)
       }
-    },
-    contextmenu: function () {
-
     },
     loopUpdate () {
       let that = this

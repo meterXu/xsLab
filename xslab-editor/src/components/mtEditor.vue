@@ -18,7 +18,7 @@
       <mtMenu @dragStart="menuDragStart"></mtMenu>
       <mtDbManager v-if="showDbManager"></mtDbManager>
       <mtSetting v-if="showDbSetting"></mtSetting>
-      <mtScale ref="mtScale" :is-scale="true" :is-drag="true" :is-ruler="true">
+      <mtScale ref="mtScale" :is-scale="true" :is-drag="true" :is-ruler="false">
         <template v-slot="{scale}">
           <Xsc ref="xsc" v-show="showCanvas"
                :charts="canvasObj.data"

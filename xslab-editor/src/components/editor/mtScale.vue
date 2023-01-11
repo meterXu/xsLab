@@ -9,7 +9,7 @@
     </div>
   </template>
   <div ref="mtScale-container" :class="{'mtScale-container':true, 'mtScale-has-ruler':this.isRuler}"  @contextmenu="(event)=>{event.preventDefault()}">
-    <div ref="mtScale-content" class="mtScale-content" @contextmenu="contextmenu" @mouseup="mouseup" :style="mtScaleContentStyle">
+    <div ref="mtScale-content" class="mtScale-content" @mousedown="contextmenu" @mouseup="mouseup" :style="mtScaleContentStyle">
       <div ref="mtScale-view" @dragstart="()=>{return false}" class="mtScale-view" :style="'transform-origin: 0px 0px;transform: scale('+scale+')'">
         <slot v-bind:scale="scale"/>
       </div>
@@ -108,14 +108,20 @@ export default {
     },
     contextmenu(){
       event.preventDefault()
-      if(this.isDrag){
-        this.$refs['mtScale-view'].classList.add('cursor-move')
-        const ownerRect = this.$refs['mtScale-content'].getBoundingClientRect()
-        this.shift.x= event.clientX-ownerRect.left
-        this.shift.y= event.clientY-ownerRect.top
-        document.removeEventListener('mousemove',this.mousemove)
-        document.addEventListener('mousemove',this.mousemove)
+      const mouseEvent = {
+        0: ()=>{},
+        2: () => {
+          if(this.isDrag){
+            this.$refs['mtScale-view'].classList.add('cursor-move')
+            const ownerRect = this.$refs['mtScale-content'].getBoundingClientRect()
+            this.shift.x= event.clientX-ownerRect.left
+            this.shift.y= event.clientY-ownerRect.top
+            document.removeEventListener('mousemove',this.mousemove)
+            document.addEventListener('mousemove',this.mousemove)
+          }
+        }
       }
+      mouseEvent[ event.button ]();
     },
     lineMouseDown(line){
       const ownerRect = this.$refs['mtScale-container'].getBoundingClientRect()
