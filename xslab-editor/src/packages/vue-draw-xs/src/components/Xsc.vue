@@ -114,6 +114,30 @@ export default {
       event.stopPropagation()
       document.removeEventListener('mousemove',this.changeSizeMousemove)
     },
+    keydown(){
+      event.preventDefault()
+      event.stopPropagation()
+      if(this.activeNode.chart!=='canvas'){
+        switch (event.keyCode) {
+          case 38: { // 上
+            this.activeNode.config.box.y--
+            break
+          }
+          case 40: { // 下
+            this.activeNode.config.box.y++
+            break
+          }
+          case 37: { // 左
+            this.activeNode.config.box.x--
+            break
+          }
+          case 39: { // 右
+            this.activeNode.config.box.x++
+            break
+          }
+        }
+      }
+    },
     itemMousedown(node){
       event.preventDefault()
       event.stopPropagation()
@@ -325,6 +349,10 @@ export default {
   },
   updated () {
     this.$emit('updated', this.$el)
+  },
+  mounted() {
+    document.removeEventListener('keydown',this.keydown)
+    document.addEventListener('keydown',this.keydown)
   }
 }
 </script>

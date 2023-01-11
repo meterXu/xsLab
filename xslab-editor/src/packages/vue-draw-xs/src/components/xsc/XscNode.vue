@@ -1,8 +1,6 @@
 <template>
   <div tabindex="-1" :id="node.id" class="mt_node"
-       :style="nodeStyle"
-       @keydown="keydown"
-  >
+       :style="nodeStyle">
     <template>
       <eCharts ref='echarts'
                :id="node.id"
@@ -474,27 +472,6 @@ export default {
         })
       }
       return errMsgs.length > 0 ? errMsgs : null
-    },
-    keydown () {
-      event.preventDefault()
-      switch (event.keyCode) {
-        case 38: { // 上
-          this.node.config.box.y--
-          break
-        }
-        case 40: { // 下
-          this.node.config.box.y++
-          break
-        }
-        case 37: { // 左
-          this.node.config.box.x--
-          break
-        }
-        case 39: { // 右
-          this.node.config.box.x++
-          break
-        }
-      }
     },
     setChartOption () {
       if (this.node.type === 'eCharts' && this.node.config.data.source) {
