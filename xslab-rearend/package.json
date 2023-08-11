@@ -5,16 +5,15 @@
   "main": "dist/index.js",
   "license": "MIT",
   "scripts": {
-    "pullDB:dev": "dotenv -e .env.production -- npx prisma db pull",
+    "pullDB:dev": "dotenv -e .env.development -- npx prisma db pull",
     "migration:dev": "dotenv -e .env.development -- npx prisma migrate diff --from-empty --to-schema-datamodel prisma/schema.prisma --script > prisma/migrations/0_init/migration.sql",
     "resolve:dev": "dotenv -e .env.development -- npx prisma migrate resolve --applied 0_init",
     "resolve:prod": "dotenv -e .env.production -- npx prisma migrate resolve --applied 0_init",
-    "generateClient": "npx prisma generate",
-    "initDB:dev": "dotenv -e .env.development -- npx prisma migrate dev --name init",
-    "dev": "export NODE_ENV=development && nodemon --exec babel-node src/index.js",
     "db-studio:dev": "dotenv -e .env.development -- npx prisma studio",
-    "build": "babel src -d bin && dotenv -e .env.production -- npx prisma migrate deploy && npm run generateClient",
-    "prod": "npm run resolve:prod & npm run build && export NODE_ENV=production && node bin/index.js"
+    "generateClient": "npx prisma generate",
+    "build": "babel src -d bin && npm run generateClient",
+    "dev": "set NODE_ENV=development && nodemon --exec babel-node src/index.js",
+    "prod": "set NODE_ENV=production && node bin/index.js"
   },
   "repository": {
     "type": "git",

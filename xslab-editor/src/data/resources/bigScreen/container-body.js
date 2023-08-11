@@ -11,7 +11,7 @@ const containerBody = {
     type: 'div',
     options: {
       backgroundColor: 'transparent',
-      backgroundImg: window.config.baseUrl+'/material/container-body/1模块标题_模块边框.png',
+      backgroundImg: window.config.baseUrl+'/material/container-body/aaa.png',
       backgroundSize: 'contain',
       backgroundRepeat: 'no-repeat'
     }
