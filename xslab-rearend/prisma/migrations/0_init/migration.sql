@@ -1,0 +1,45 @@
+-- CreateTable
+CREATE TABLE `xs_canvas` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `name` VARCHAR(191) NOT NULL,
+    `data` TEXT NOT NULL,
+    `options` TEXT NOT NULL,
+    `createTime` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `delete` INTEGER NOT NULL DEFAULT 1,
+    `state` INTEGER NOT NULL DEFAULT 1,
+
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `xs_database` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `name` VARCHAR(191) NOT NULL,
+    `type` INTEGER NOT NULL,
+    `ipaddress` VARCHAR(191) NOT NULL,
+    `port` INTEGER NOT NULL,
+    `username` VARCHAR(191) NOT NULL,
+    `password` VARCHAR(191) NOT NULL,
+    `schemas` VARCHAR(191) NOT NULL,
+    `createTime` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `delete` INTEGER NOT NULL DEFAULT 1,
+    `state` INTEGER NOT NULL DEFAULT 1,
+
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `xs_img` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `name` VARCHAR(191) NOT NULL,
+    `bigType` VARCHAR(191) NOT NULL,
+    `smallType` VARCHAR(191) NOT NULL,
+    `url` VARCHAR(191) NOT NULL,
+    `size` VARCHAR(191) NOT NULL,
+    `createTime` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `delete` INTEGER NOT NULL DEFAULT 1,
+    `state` INTEGER NOT NULL DEFAULT 1,
+
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
