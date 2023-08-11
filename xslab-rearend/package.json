@@ -2,7 +2,7 @@
   "name": "xscollect",
   "version": "1.0.2",
   "description": "xslab后端，有问题提issues！",
-  "main": "dist/index.js",
+  "main": "bin/index.js",
   "license": "MIT",
   "scripts": {
     "pullDB:dev": "dotenv -e .env.development -- npx prisma db pull",
@@ -37,7 +37,8 @@
     "mssql": "^5.1.0",
     "mysql": "^2.17.1",
     "oracledb": "^5.0.0",
-    "safe-buffer": "^5.2.0"
+    "safe-buffer": "^5.2.0",
+    "xxweb-utils": "^0.0.13"
   },
   "devDependencies": {
     "@babel/cli": "^7.20.7",
