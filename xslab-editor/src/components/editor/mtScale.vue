@@ -208,7 +208,7 @@ export default {
     transition: all ease 0.3s;
   }
   .mtScale-container{
-    background: url("../../assets/scaleBg.png") repeat repeat;
+    background: #fff;
     flex: 1;
     overflow: hidden;
     width: 100%;

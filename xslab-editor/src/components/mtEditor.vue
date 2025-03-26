@@ -150,7 +150,7 @@ export default {
         }},
         {title: '名称', key: 'name'},
         {title: '添加时间', key: 'insertTime', render: (h, params) => {
-            return (<span>{new moment(params.row.insertTime).format('YYYY-MM-DD HH:mm:ss')}</span>);
+            return (<span>{new moment(params.row.createTime).format('YYYY-MM-DD HH:mm:ss')}</span>);
           }
         },
         {title: '操作', key: 'id',render: (h, params) => {

@@ -13,3 +13,7 @@ html{
     overflow-y: auto!important;
     overflow-x: hidden!important;
 }
+
+html[data-darkreader-scheme="dark"] .mtScale-container {
+    background: #000;
+}
