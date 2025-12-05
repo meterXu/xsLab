@@ -7,321 +7,38 @@ datasource db {
   url      = env("database_url")
 }
 
-model ng_assets {
-  id            String  @id @db.VarChar(32)
-  name          String  @db.VarChar(100)
-  type          String  @db.VarChar(32)
-  size          String  @db.VarChar(32)
-  path          String  @db.VarChar(100)
-  sort          Int?
-  creator       String? @db.VarChar(50)
-  editor        String? @db.VarChar(50)
-  status        Int?    @default(1)
-  is_delete     Int?    @default(0)
-  created_time  BigInt?
-  modified_time BigInt?
-
-  @@index([name], map: "ng_assets_name_index")
+model xs_canvas {
+  id         Int      @id @default(autoincrement())
+  name       String
+  data       String   @db.Text
+  options    String   @db.Text
+  createTime DateTime @default(now())
+  delete     Int      @default(1)
+  state      Int      @default(1)
 }
 
-model ng_client {
-  id                String              @id @db.VarChar(32)
-  hostname          String              @db.VarChar(100)
-  osVersion         String              @db.VarChar(200)
-  sort              Int?
-  creator           String?             @db.VarChar(50)
-  editor            String?             @db.VarChar(50)
-  status            Int?                @default(1)
-  is_delete         Int?                @default(0)
-  created_time      BigInt?
-  modified_time     BigInt?
-  ng_tunnel_service ng_tunnel_service[]
-  ng_tunnel_web     ng_tunnel_web[]
-
-  @@index([hostname], map: "ng_client_hostname_index")
+model xs_database {
+  id         Int      @id @default(autoincrement())
+  name       String
+  type       Int
+  ipaddress  String
+  port       Int
+  username   String
+  password   String
+  schemas    String
+  createTime DateTime @default(now())
+  delete     Int      @default(1)
+  state      Int      @default(1)
 }
 
-model ng_email {
-  id            String  @id @db.VarChar(32)
-  email         String? @db.VarChar(100)
-  code          String? @db.VarChar(20)
-  sort          Int?
-  creator       String? @db.VarChar(50)
-  editor        String? @db.VarChar(50)
-  status        Int?    @default(1)
-  is_delete     Int?    @default(0)
-  created_time  BigInt?
-  modified_time BigInt?
-  expire_time   BigInt?
-
-  @@index([email, code], map: "ng_email_email_code_index")
-}
-
-model ng_order {
-  id                      String     @id @db.VarChar(32)
-  trade_no                String     @db.VarChar(100)
-  product_id              String     @db.VarChar(32)
-  remark                  String?    @db.VarChar(100)
-  pay_total_amount        String     @db.VarChar(20)
-  pay_price               String     @db.VarChar(20)
-  pay_num                 Int        @default(1)
-  pay_status              Int?       @default(0)
-  refund_amount           String?    @db.VarChar(20)
-  refund_reason           String?    @db.VarChar(100)
-  out_request_no          String?    @db.VarChar(100)
-  is_notify               Int?       @default(0)
-  is_will_expire_notify   Int?       @default(0)
-  is_expired_notify       Int?       @default(0)
-  alipay_qrCode           String?    @db.VarChar(100)
-  alipay_traceId          String?    @db.VarChar(100)
-  sort                    Int?
-  creator                 String?    @db.VarChar(50)
-  editor                  String?    @db.VarChar(50)
-  status                  Int?       @default(1)
-  is_delete               Int?       @default(0)
-  expired_time            BigInt?
-  payed_time              BigInt?
-  notify_time             BigInt?
-  will_expire_notify_time BigInt?
-  expired_notify_time     BigInt?
-  created_time            BigInt?
-  refund_time             BigInt?
-  modified_time           BigInt?
-  ng_product              ng_product @relation(fields: [product_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "ng_order_ng_product_id_fk")
-
-  @@index([pay_status, is_delete, created_time], map: "idx_ng_order_pay_status")
-  @@index([product_id], map: "ng_order_ng_product_id_fk")
-  @@index([trade_no, alipay_traceId], map: "ng_order_trade_no_alipay_traceId_index")
-}
-
-model ng_permission {
-  id            String    @id @db.VarChar(32)
-  product_id    String    @db.VarChar(32)
-  code          String?   @db.VarChar(20)
-  value         String?   @db.VarChar(20)
-  remark        String?   @db.VarChar(20)
-  sort          Int?
-  creator       String?   @db.VarChar(50)
-  editor        String?   @db.VarChar(50)
-  created_time  DateTime? @default(dbgenerated("(now())")) @db.DateTime(0)
-  modified_time DateTime? @db.DateTime(0)
-  status        Int?      @default(1)
-  is_delete     Int?      @default(0)
-}
-
-/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
-model ng_port_range {
-  id            String    @id @db.VarChar(32)
-  server_id     String    @db.VarChar(32)
-  min_port      Int
-  max_port      Int
-  sort          Int?
-  creator       String?   @db.VarChar(50)
-  editor        String?   @db.VarChar(50)
-  status        Int?      @default(1)
-  is_delete     Int?      @default(0)
-  type          Int?      @default(1)
-  created_time  BigInt?
-  modified_time BigInt?
-  ng_server     ng_server @relation(fields: [server_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "ng_port_range_ng_server_id_fk")
-
-  @@index([server_id], map: "ng_port_range_ng_server_id_fk")
-}
-
-model ng_product {
-  id            String     @id @db.VarChar(32)
-  name          String     @db.VarChar(100)
-  type          Int?
-  price         String     @db.VarChar(20)
-  remark        String?    @db.VarChar(100)
-  sort          Int?
-  creator       String?    @db.VarChar(50)
-  editor        String?    @db.VarChar(50)
-  status        Int?       @default(1)
-  is_delete     Int?       @default(0)
-  created_time  BigInt?
-  modified_time BigInt?
-  ng_order      ng_order[]
-}
-
-/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
-model ng_server {
-  id                  String              @id @db.VarChar(32)
-  name                String              @db.VarChar(100)
-  domain              String              @db.VarChar(50)
-  port                Int
-  http_port           Int?
-  https_port          Int?
-  has_ssl             Int
-  up_speed            String              @db.VarChar(50)
-  down_speed          String              @db.VarChar(50)
-  sort                Int?
-  is_vip              Int
-  creator             String?             @db.VarChar(50)
-  editor              String?             @db.VarChar(50)
-  status              Int?                @default(1)
-  is_delete           Int?                @default(0)
-  is_online           Int                 @default(1)
-  region              String?             @db.VarChar(50)
-  operator            String?             @db.VarChar(50)
-  month_total_traffic Int?                @default(0)
-  month_used_traffic  Int?                @default(0)
-  type                Int                 @default(1)
-  created_time        BigInt?
-  modified_time       BigInt?
-  ssl_expired_time    BigInt?
-  ng_port_range       ng_port_range[]
-  ng_tunnel_service   ng_tunnel_service[]
-  ng_tunnel_web       ng_tunnel_web[]
-
-  @@index([domain, port], map: "ng_server_domain_port_index")
-}
-
-model ng_sys_dict {
-  id            String  @id @db.VarChar(32)
-  key           String  @db.VarChar(50)
-  code          String  @db.VarChar(50)
-  chn_value     String? @db.VarChar(100)
-  eng_value     String? @db.VarChar(100)
-  sort          Int?
-  creator       String? @db.VarChar(50)
-  editor        String? @db.VarChar(50)
-  status        Int?    @default(1)
-  is_delete     Int?    @default(0)
-  created_time  BigInt?
-  modified_time BigInt?
-
-  @@index([key, code], map: "ng_sys_dict_key_code_index")
-}
-
-/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
-model ng_tunnel_service {
-  id            String    @id @db.VarChar(32)
-  server_id     String    @db.VarChar(32)
-  client_id     String    @db.VarChar(32)
-  name          String    @db.VarChar(50)
-  host          String    @db.VarChar(200)
-  type          Int
-  port          Int
-  remote_port   Int
-  remark        String?   @db.VarChar(100)
-  sort          Int?
-  creator       String?   @db.VarChar(50)
-  editor        String?   @db.VarChar(50)
-  status        Int?      @default(1)
-  is_delete     Int?      @default(0)
-  is_remote     Int?      @default(0)
-  created_time  BigInt?
-  modified_time BigInt?
-  is_online     Int?
-  ng_client     ng_client @relation(fields: [client_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "ng_tunnel_service_ng_client_id_fk")
-  ng_server     ng_server @relation(fields: [server_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "ng_tunnel_service_ng_server_id_fk")
-
-  @@index([client_id], map: "ng_tunnel_service_ng_client_id_fk")
-  @@index([server_id], map: "ng_tunnel_service_ng_server_id_fk")
-}
-
-/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
-model ng_tunnel_web {
-  id            String    @id @db.VarChar(32)
-  server_id     String    @db.VarChar(32)
-  client_id     String    @db.VarChar(32)
-  name          String?   @db.VarChar(50)
-  host          String    @db.VarChar(200)
-  type          Int
-  port          Int
-  remark        String?   @db.VarChar(100)
-  sort          Int?
-  creator       String?   @db.VarChar(50)
-  editor        String?   @db.VarChar(50)
-  status        Int?      @default(1)
-  is_delete     Int?      @default(0)
-  is_remote     Int?      @default(0)
-  created_time  BigInt?
-  modified_time BigInt?
-  is_online     Int?
-  ng_client     ng_client @relation(fields: [client_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "ng_tunnel_web_ng_client_id_fk")
-  ng_server     ng_server @relation(fields: [server_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "ng_tunnel_web_ng_server_id_fk")
-
-  @@index([client_id], map: "ng_tunnel_web_ng_client_id_fk")
-  @@index([server_id], map: "ng_tunnel_web_ng_server_id_fk")
-}
-
-model oauth_clients {
-  id            String         @id @db.VarChar(32)
-  client_id     String         @db.VarChar(50)
-  client_secret String         @db.VarChar(200)
-  redirect_uri  String         @db.VarChar(200)
-  status        Int?           @default(1)
-  is_delete     Int?           @default(0)
-  created_time  BigInt?
-  oauth_tokens  oauth_tokens[]
-
-  @@index([client_id, client_secret], map: "oauth_clients_client_id_client_secret_index")
-}
-
-model oauth_role {
-  id              String            @id @db.VarChar(32)
-  name            String            @db.VarChar(50)
-  type            Int
-  creator         String?           @db.VarChar(50)
-  editor          String?           @db.VarChar(50)
-  status          Int?              @default(1)
-  is_delete       Int?              @default(0)
-  sort            Int?
-  created_time    BigInt?
-  modified_time   BigInt?
-  oauth_user_role oauth_user_role[]
-}
-
-model oauth_tokens {
-  id                       String        @id @db.VarChar(32)
-  access_token             String        @db.VarChar(300)
-  client_id                String        @db.VarChar(50)
-  refresh_token            String        @db.VarChar(300)
-  user_id                  String        @db.VarChar(32)
-  created_time             BigInt?
-  modified_time            BigInt?
-  access_token_expires_at  BigInt?
-  refresh_token_expires_at BigInt?
-  oauth_clients            oauth_clients @relation(fields: [client_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "oauth_tokens_oauth_clients_id_fk")
-
-  @@index([access_token], map: "oauth_tokens_access_token_index")
-  @@index([client_id, user_id], map: "oauth_tokens_client_id_user_id_index")
-}
-
-model oauth_user_role {
-  id            String      @id @db.VarChar(32)
-  user_id       String      @db.VarChar(32)
-  role_id       String      @db.VarChar(32)
-  creator       String?     @db.VarChar(50)
-  editor        String?     @db.VarChar(50)
-  sort          Int?
-  status        Int?        @default(1)
-  is_delete     Int?        @default(0)
-  created_time  BigInt?
-  modified_time BigInt?
-  oauth_role    oauth_role  @relation(fields: [role_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "oauth_user_role_oauth_role_id_fk")
-  oauth_users   oauth_users @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "oauth_user_role_oauth_users_id_fk")
-
-  @@index([role_id], map: "oauth_user_role_oauth_role_id_fk")
-  @@index([user_id], map: "oauth_user_role_user_id_index")
-}
-
-model oauth_users {
-  id              String            @id @db.VarChar(32)
-  username        String            @unique(map: "oauth_users_pk") @db.VarChar(100)
-  password        String            @db.VarChar(100)
-  nickname        String?           @db.VarChar(50)
-  creator         String?           @db.VarChar(50)
-  editor          String?           @db.VarChar(50)
-  sort            Int?
-  status          Int?              @default(1)
-  is_delete       Int?              @default(0)
-  created_time    BigInt?
-  modified_time   BigInt?
-  oauth_user_role oauth_user_role[]
-
-  @@index([status, is_delete, created_time], map: "idx_oauth_users_status")
-  @@index([username, password], map: "users_username_password")
+model xs_img {
+  id         Int      @id @default(autoincrement())
+  name       String
+  bigType    String
+  smallType  String
+  url        String
+  size       String
+  createTime DateTime @default(now())
+  delete     Int      @default(1)
+  state      Int      @default(1)
 }

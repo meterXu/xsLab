@@ -76,7 +76,7 @@ export default {
   computed:{
     ...mapGetters(['activeNode']),
     percentage(){
-      return `${this.scale*100}%`
+      return `${(this.scale*100).toFixed(2)}%`
     },
     mtScaleContentStyle(){
       return {
@@ -101,6 +101,7 @@ export default {
       const mtCanvas = this.$refs['mtScale-view'].children[0]
       if(mtCanvas){
         this.scale = parseFloat((mtScaleContainer.clientWidth/(mtCanvas.clientWidth+60)).toFixed(2))
+        this.scale = Math.round(this.scale*100)/100
         this.scale =this.scale>1?1:this.scale
         this.zoomLevel = this.getZoomLevel()
         this.resetLocation()
@@ -208,7 +209,6 @@ export default {
     transition: all ease 0.3s;
   }
   .mtScale-container{
-    background: #fff;
     flex: 1;
     overflow: hidden;
     width: 100%;

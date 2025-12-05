@@ -106,9 +106,9 @@ export default {
       document.removeEventListener('mousemove',this.changeSizeMousemove)
     },
     keydown(){
-      event.preventDefault()
+      // event.preventDefault()
       event.stopPropagation()
-      if(this.activeNode.chart!=='canvas'){
+      if(this.activeNode&&this.activeNode.chart!=='canvas'){
         switch (event.keyCode) {
           case 38: { // 上
             this.activeNode.config.box.y--
@@ -353,7 +353,6 @@ export default {
     position: relative;
     width: 500px;
     height: 500px;
-    background: #fff;
     background-size: auto;
     background-repeat: repeat;
   }

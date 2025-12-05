@@ -33,7 +33,6 @@ export default {
 
 <style scoped>
   .d_mtIframeDiv{
-    background: #fff;
     width: 100%;
     height: 100%;
   }
