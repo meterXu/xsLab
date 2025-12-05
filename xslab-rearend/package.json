@@ -6,6 +6,7 @@
   "license": "MIT",
   "scripts": {
     "pullDB:dev": "dotenv -e .env.development -- npx prisma db pull",
+    "pullDB:prod": "dotenv -e .env.production -- npx prisma db pull",
     "migration:dev": "dotenv -e .env.development -- npx prisma migrate diff --from-empty --to-schema-datamodel prisma/schema.prisma --script > prisma/migrations/0_init/migration.sql",
     "resolve:dev": "dotenv -e .env.development -- npx prisma migrate resolve --applied 0_init",
     "resolve:prod": "dotenv -e .env.production -- npx prisma migrate resolve --applied 0_init",
