@@ -11,10 +11,10 @@
     "resolve:prod": "dotenv -e .env.production -- npx prisma migrate resolve --applied 0_init",
     "db-studio:dev": "dotenv -e .env.development -- npx prisma studio",
     "generateClient": "npx prisma generate",
-    "build": "babel src -d bin && npm run generateClient",
+    "build": "babel src -d dist && npm run generateClient",
     "start": "rm -rf dist && babel src -d dist && node dist/index.js",
     "dev": "set NODE_ENV=development&&nodemon --watch './src/**/*.js' --exec npm run start",
-    "prod": "set NODE_ENV=production && node bin/index.js"
+    "prod": "export NODE_ENV=production && node dist/index.js"
   },
   "repository": {
     "type": "git",
