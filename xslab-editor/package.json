@@ -18,6 +18,7 @@
     "darkreader": "^4.9.58",
     "echarts": "^4.5.0",
     "echarts-liquidfill": "^2.0.4",
+    "gsap": "^3.13.0",
     "iview": "^3.5.3",
     "less": "^3.12.2",
     "less-loader": "^7.1.0",

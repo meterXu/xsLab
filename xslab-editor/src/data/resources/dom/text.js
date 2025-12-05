@@ -17,7 +17,12 @@ const text = {
         content: 'Ta',
         fontSize: 30,
         color: null,
-        fontWeight: 'normal'
+        fontWeight: 'normal',
+        fontStyle:'',
+        animation:false,
+        background:'',
+        'background-clip':'',
+        'text-fill-color':''
       },
       boxSpace: {
         lineHeight: 40,
@@ -78,7 +83,8 @@ const text = {
                   {text: 'revert-layer', value: 'revert-layer'},
                   {text: 'unset', value: 'unset'},
                 ]
-              }
+              },
+              {key: 'animation', name: '数值动画', type: 'boolean'},
             ]
           },
           {

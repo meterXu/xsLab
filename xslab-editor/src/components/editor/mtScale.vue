@@ -207,6 +207,7 @@ export default {
   }
   .mtScale-view{
     transition: all ease 0.3s;
+    width: fit-content;
   }
   .mtScale-container{
     flex: 1;

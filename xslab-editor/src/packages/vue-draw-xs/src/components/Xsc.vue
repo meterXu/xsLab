@@ -1,5 +1,5 @@
 <template>
-  <div :style="[view?'display: block':'display: inline-block']">
+  <div class="xsc-container" :style="[view?'display: block':'display: inline-block']">
     <div ref="mt_canvas" @drop="drop" @dragover="dragover" @click="canvasClick" :style="canvasStyle" :class="['mt_canvas', {mt_canvas_position:view}]">
       <XscNode v-for="item in charts" :ref="item.id"
                :key="item.id"
@@ -127,6 +127,22 @@ export default {
             this.activeNode.config.box.x++
             break
           }
+          default:{
+            if (event.ctrlKey) {
+              if(event.key === 'c'){
+                event.preventDefault();
+              }else if(event.key === 'v'){
+                event.preventDefault();
+              }
+            } else if(event.metaKey){
+              if(event.key === 'c'){
+                console.log('复制')
+                event.preventDefault();
+              }else if(event.key === 'v'){
+                event.preventDefault();
+              }
+            }
+          }break;
         }
       }
     },
@@ -359,6 +375,9 @@ export default {
 </style>
 
 <style scoped>
+  .xsc-container{
+    width: fit-content;
+  }
   .mt_canvas{
     position: relative;
     width: 500px;
