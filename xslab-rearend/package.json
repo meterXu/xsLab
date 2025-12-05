@@ -12,7 +12,8 @@
     "db-studio:dev": "dotenv -e .env.development -- npx prisma studio",
     "generateClient": "npx prisma generate",
     "build": "babel src -d bin && npm run generateClient",
-    "dev": "set NODE_ENV=development && nodemon --exec babel-node src/index.js",
+    "start": "rm -rf dist && babel src -d dist && node dist/index.js",
+    "dev": "set NODE_ENV=development&&nodemon --watch './src/**/*.js' --exec npm run start",
     "prod": "set NODE_ENV=production && node bin/index.js"
   },
   "repository": {
@@ -21,7 +22,7 @@
   },
   "author": "isaac <xhgainxq@qq.com>",
   "dependencies": {
-    "@prisma/client": "4.8.0",
+    "@prisma/client": "^4.15.0",
     "art-template": "^4.13.2",
     "commander": "^3.0.1",
     "compressing": "^1.5.1",
@@ -36,7 +37,7 @@
     "koa2-cors": "^2.0.6",
     "mssql": "^5.1.0",
     "mysql": "^2.17.1",
-    "oracledb": "^5.0.0",
+    "oracledb": "^6.10.0",
     "safe-buffer": "^5.2.0",
     "xxweb-utils": "^0.0.13"
   },
@@ -46,10 +47,14 @@
     "@babel/node": "^7.20.7",
     "@babel/plugin-proposal-class-properties": "^7.18.6",
     "@babel/plugin-proposal-decorators": "^7.20.7",
+    "@babel/plugin-proposal-private-methods": "^7.18.6",
     "@babel/plugin-transform-runtime": "^7.19.6",
     "@babel/preset-env": "^7.20.2",
     "dotenv-cli": "^6.0.0",
     "nodemon": "^2.0.20",
     "prisma": "^4.8.0"
+  },
+  "volta": {
+    "node": "22.21.1"
   }
 }

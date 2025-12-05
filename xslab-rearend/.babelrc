@@ -9,6 +9,7 @@
     "plugins": [
         ["@babel/plugin-transform-runtime"],
         ["@babel/plugin-proposal-decorators", { "legacy": true }],
-        ["@babel/proposal-class-properties"]
+        ["@babel/proposal-class-properties"],
+        ["@babel/plugin-proposal-private-methods"]
     ]
 }
