@@ -25,7 +25,8 @@ const canvas = {
           key: 'options',
           name: '基础',
           sub: [
-            {key: 'name', name: '名称', type: 'text'}
+            {key: 'name', name: '名称', type: 'text'},
+            {key: 'font', name: '字体', type: 'text'}
           ]
         },
         {

@@ -25,7 +25,11 @@ export default {
         'font-size': this.options.text.fontSize + 'px',
         'font-family': this.options.text.fontFamily,
         'font-weight': this.options.text.fontWeight,
+        'font-style': this.options.text.fontStyle,
         'color': this.options.text.color || this.themeStyle.text.text.color,
+        'background':this.options.text['background'],
+        'background-clip':this.options.text['background-clip'],
+        'text-fill-color':this.options.text['text-fill-color'],
         'user-select':'none'
       }
     },

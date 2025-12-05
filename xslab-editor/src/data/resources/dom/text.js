@@ -64,6 +64,20 @@ const text = {
                   {text: '加粗', value: 'bold'},
                   {text: '细化', value: 'lighter'}
                 ]
+              },
+              {
+                key: 'fontStyle',
+                name: '风格',
+                type: 'select',
+                data: [
+                  {text: 'italic', value: 'italic'},
+                  {text: 'normal', value: 'normal'},
+                  {text: 'oblique', value: 'oblique'},
+                  {text: 'inherit', value: 'inherit'},
+                  {text: 'revert', value: 'revert'},
+                  {text: 'revert-layer', value: 'revert-layer'},
+                  {text: 'unset', value: 'unset'},
+                ]
               }
             ]
           },
@@ -119,7 +133,10 @@ const text = {
             key: 'options/text',
             name: '文字',
             sub: [
-              {key: 'color', name: '颜色', type: 'color'}
+              {key: 'color', name: '颜色', type: 'color'},
+              {key: 'background', name: 'background', type: 'text'},
+              {key: 'background-clip', name: 'background-clip', type: 'text'},
+              {key: 'text-fill-color', name: 'text-fill-color', type: 'text'}
             ]
           },
           {

@@ -1,5 +1,5 @@
 <template>
-  <div :style="view?'display: block':'display: inline-block'">
+  <div :style="[view?'display: block':'display: inline-block']">
     <div ref="mt_canvas" @drop="drop" @dragover="dragover" @click="canvasClick" :style="canvasStyle" :class="['mt_canvas', {mt_canvas_position:view}]">
       <XscNode v-for="item in charts" :ref="item.id"
                :key="item.id"
@@ -348,6 +348,15 @@ export default {
   }
 }
 </script>
+<style>
+@font-face {
+  font-family: '优设标题黑';
+  font-style: normal;
+  font-weight: 400;
+  src: url('http://220.154.128.228:9000/dkkj/kxsjkj/优设标题黑.ttf');
+  font-display: fallback;
+}
+</style>
 
 <style scoped>
   .mt_canvas{
@@ -357,6 +366,7 @@ export default {
     background-size: auto;
     background-repeat: repeat;
     transform-origin: 0 0;
+
   }
   .mt_canvas_position {
     margin: 0 auto;
