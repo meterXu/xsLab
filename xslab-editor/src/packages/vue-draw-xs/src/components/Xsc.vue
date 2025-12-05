@@ -1,27 +1,25 @@
 <template>
   <div :style="view?'display: block':'display: inline-block'">
     <div ref="mt_canvas" @drop="drop" @dragover="dragover" @click="canvasClick" :style="canvasStyle" :class="['mt_canvas', {mt_canvas_position:view}]">
-      <template v-for="item in charts">
-        <XscNode :ref="item.id"
-                 :key="item.id"
-                 :node="item"
-                 :view="view"
-                 :class="[view?'mt_node_view':(item===activeNode ? 'mt_node_active': 'mt_node_base'),'dragging']"
-                 @click.native="nodeClick(item)"
-                 @mousedown.native="itemMousedown(item)"
-                 @mouseup.native="removeMouseMove"
-                 @dragstart="()=>{return false}"
-                 >
-          <template v-if="item.type==='dev'" v-slot:[item.config.options.key]>
-            <slot :name="item.config.options.key"></slot>
-          </template>
-          <template v-slot:resize>
+      <XscNode v-for="item in charts" :ref="item.id"
+               :key="item.id"
+               :node="item"
+               :view="view"
+               :class="[view?'mt_node_view':(item===activeNode ? 'mt_node_active': 'mt_node_base'),'dragging']"
+               @click.native="nodeClick(item)"
+               @mousedown.native="itemMousedown(item)"
+               @mouseup.native="removeMouseMove"
+               @dragstart="()=>{return false}"
+      >
+        <template v-if="item.type==='dev'" v-slot:[item.config.options.key]>
+          <slot :name="item.config.options.key"></slot>
+        </template>
+        <template v-slot:resize>
           <span @dragstart="()=>{return false}" @mousedown="changeSizeSizeMousedown(item,'chart')" @mouseup="removeChangeSizeMouseMove">
             <Button ref="resize" v-if="!view&&item===activeNode" class="node_resize" shape="circle" icon="ios-resize"></Button>
           </span>
-          </template>
-        </XscNode>
-      </template>
+        </template>
+      </XscNode>
       <slot></slot>
     </div>
     <span @dragstart="()=>{return false}" @mousedown="changeSizeSizeMousedown(options,'canvas')" @mouseup="removeChangeSizeMouseMove">
@@ -79,13 +77,16 @@ export default {
   computed: {
     canvasStyle () { // 画布样式
       if (this.options) {
+        let scaleX = this.view?Math.round(window.innerWidth*100/this.options.width)/100:1
+        let scaleY = this.view?Math.round(window.innerHeight*100/this.options.height)/100:1
         return {
           width: this.options.width + 'px',
           height: this.options.height + 'px',
           'background-color': this.options.backgroundColor,
           'background-image': 'url(\'' + this.options.backgroundImage + '\')',
           'background-size': this.options.backgroundSize,
-          'background-repeat': this.options.backgroundRepeat
+          'background-repeat': this.options.backgroundRepeat,
+          'transform':`scaleX(${scaleX}) scaleY(${scaleY})`
         }
       } else {
         return {
@@ -355,6 +356,7 @@ export default {
     height: 500px;
     background-size: auto;
     background-repeat: repeat;
+    transform-origin: 0 0;
   }
   .mt_canvas_position {
     margin: 0 auto;
