@@ -31,6 +31,7 @@ export default {
       if (c.data) {
         that.options = JSON.parse(c.data.options)
         that.charts = JSON.parse(c.data.data)
+        document.title=this.options.name
       }
     })
   }
