@@ -44,6 +44,7 @@ export default {
     padding: 0;
     left: 0;
     top: 0;
+    color-scheme:none;
   }
   .d_mtIframe_show{
     width: 100%;
