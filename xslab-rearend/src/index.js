@@ -9,6 +9,7 @@ import http from 'http'
 import https from 'https'
 import routerResponse from "./middleware/routerResponse";
 import path from "path";
+const historyApiFallback = require('koa2-history-api-fallback');
 
 const app = new Koa();
 app.use(koaBody());
@@ -29,6 +30,7 @@ app.use(async (ctx, next) => {
     ctx.set('Access-Control-Allow-Credentials', true) // 允许带上 cookie
     await next();
 })
+    .use(historyApiFallback())
     .use(koastatic(path.resolve('web')))
     .use(routerResponse())
     .use(api.routes())

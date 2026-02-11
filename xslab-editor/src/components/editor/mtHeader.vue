@@ -37,6 +37,11 @@
                   icon="ios-construct"
                   @click="dbSetting"
                   shape="circle" class="header-icon-btn"></Button>
+          <Button size="small"
+                  title="退出系统"
+                  icon="md-exit"
+                  @click="onExit"
+                  shape="circle" class="header-icon-btn"></Button>
         </div>
       </div>
       <div class="header-con">
@@ -102,6 +107,7 @@ import '../../assets/mtIcon/style.css'
 import mtFormItemCode from '../../components/editor/options/mtFormItemCode'
 import {mapGetters} from "vuex";
 import {downloadAction} from "@/request";
+import {types} from "xxweb-utils";
 export default {
   name: 'mtHeader',
   props: {
@@ -263,6 +269,10 @@ export default {
       this.$parent.showCanvasUrlModal = false
       this.$parent.tmpCanvasState = 1
       this.$parent.opNode = null
+    },
+    onExit(){
+      this.$ls.remove(types.ACCESS_TOKEN);
+      this.$router.replace({name:'Login'})
     }
   },
   filters: {
@@ -344,6 +354,9 @@ export default {
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
+  }
+  .logout{
+    font-size: 16px;
   }
   .viewJson{
     position: relative;

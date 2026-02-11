@@ -99,6 +99,7 @@ import mtContextMenu from './editor/mtContextMenu'
 import resources from '../data/resources/resources'
 import moment from 'moment'
 import {getAction, postAction} from "@/request";
+import {types} from "xxweb-utils";
 export default {
   name: 'mtEditor',
   components: {
@@ -181,9 +182,9 @@ export default {
   computed: {
     canvasUrl: function () {
       if(this.$route.query.hasOwnProperty('X-Access-Token')){
-        return `${window.location.origin}${window.location.pathname}#/view/${this.canvasObj.id}?X-Access-Token=${this.$route.query['X-Access-Token']}`
+        return `${window.location.origin}${window.location.pathname}view/${this.canvasObj.id}?X-Access-Token=${this.$route.query['X-Access-Token']}`
       }else{
-        return `${window.location.origin}${window.location.pathname}#/view/${this.canvasObj.id}`
+        return `${window.location.origin}${window.location.pathname}view/${this.canvasObj.id}`
       }
 
     }

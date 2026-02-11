@@ -369,7 +369,7 @@ export default {
   font-family: '优设标题黑';
   font-style: normal;
   font-weight: 400;
-  src: url('http://220.154.128.228:9000/dkkj/kxsjkj/优设标题黑.ttf');
+  src: url('https://aiweb.fangxinfei.com/oss/dkkj/kxsjkj/优设标题黑.ttf');
   font-display: fallback;
 }
 </style>

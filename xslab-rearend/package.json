@@ -36,6 +36,7 @@
     "koa-static": "^5.0.0",
     "koa-swagger-decorator": "^1.8.6",
     "koa2-cors": "^2.0.6",
+    "koa2-history-api-fallback": "^0.1.0",
     "mssql": "^5.1.0",
     "mysql": "^2.17.1",
     "oracledb": "^6.10.0",

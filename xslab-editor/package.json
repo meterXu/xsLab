@@ -29,7 +29,8 @@
     "vue-axios": "^2.1.4",
     "vue-echarts": "^4.0.1",
     "vue-qriously": "^1.1.1",
-    "vue-router": "^3.0.1"
+    "vue-router": "^3.0.1",
+    "xxweb-utils": "^0.0.13"
   },
   "devDependencies": {
     "@vue/babel-helper-vue-jsx-merge-props": "^1.4.0",

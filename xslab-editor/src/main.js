@@ -18,6 +18,7 @@ import store from './store'
 import vuex from 'vuex'
 import myMixin from "./config/myMixin";
 import {disable, enable} from "darkreader";
+import {filter,util} from 'xxweb-utils'
 Vue.use(iView, VueAxios, axios)
 Vue.use(vuex)
 Vue.use(VueQr)
@@ -26,8 +27,23 @@ Vue.mixin(myMixin)
 Vue.prototype.$clipboard=clipboard
 Vue.prototype.$config = window.config
 Vue.prototype.$codeMirror = CodeMirror
+Vue.prototype.$ls = new util.ls({
+  nameSpace: "xslab"
+})
 let theme = store.getters.editorTheme||window.config.editorTheme
 store.commit('setEditorTheme',theme)
+filter(router,{
+  nameSpace: "xslab",
+  variable: {
+    mode: "production",
+    tokenKey: "Authorization",
+  },
+  "redirect": {
+    "404": "/error/404",
+    index: "/index",
+    login: "/login"
+  },
+})
 switch (theme){
   case 'dark':{
     enable({

@@ -23,6 +23,7 @@ export default {
     }
   },
   mounted () {
+    debugger
     let that = this
     let id = this.$route.params.id
     getAction(this.action.getCanvasData, {
