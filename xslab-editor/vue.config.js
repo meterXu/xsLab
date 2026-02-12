@@ -4,6 +4,6 @@ fs.writeFileSync('./public/config.js','window.config='+JSON.stringify(config,nul
 
 module.exports = {
   lintOnSave: undefined,
-  productionSourceMap: true,
+  productionSourceMap: process.env.NODE_ENV==='development',
   publicPath: process.env.VUE_APP_BASE_URL
 }
